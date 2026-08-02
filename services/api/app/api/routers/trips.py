@@ -8,6 +8,7 @@ from app.models.service import ServiceTrip, TripPassenger
 from app.schemas.common import MessageResponse
 from app.schemas.entities import BoardingUpdate, TripOut, TripPassengerOut
 from app.services import trip_service
+from app.services.trip_enrich import build_trip_out, build_trip_passengers_out, build_trips_out
 
 router = APIRouter(prefix="/trips", tags=["trips"])
 
@@ -44,50 +45,55 @@ async def list_trips(db: DbSession, current: CurrentUser) -> list[TripOut]:
     else:
         stmt = stmt.where(ServiceTrip.tenant_id == current.tenant_id)
     result = await db.execute(stmt.order_by(ServiceTrip.service_date.desc()))
-    return [TripOut.model_validate(t) for t in result.scalars().all()]
+    return await build_trips_out(db, list(result.scalars().all()))
+
+
+@router.get("/{trip_id}", response_model=TripOut)
+async def get_trip(trip_id: str, db: DbSession, current: CurrentUser) -> TripOut:
+    trip = await _get_accessible_trip(db, current, trip_id)
+    return await build_trip_out(db, trip)
 
 
 @router.post("/{trip_id}/prepare", response_model=TripOut)
 async def prepare(trip_id: str, db: DbSession, current: CurrentUser) -> TripOut:
     await _get_accessible_trip(db, current, trip_id)
-    return TripOut.model_validate(await trip_service.prepare_trip(db, trip_id))
+    return await build_trip_out(db, await trip_service.prepare_trip(db, trip_id))
 
 
 @router.post("/{trip_id}/start", response_model=TripOut)
 async def start(trip_id: str, db: DbSession, current: CurrentUser) -> TripOut:
     await _get_accessible_trip(db, current, trip_id)
-    return TripOut.model_validate(await trip_service.start_trip(db, trip_id))
+    return await build_trip_out(db, await trip_service.start_trip(db, trip_id))
 
 
 @router.post("/{trip_id}/arrive-stop", response_model=TripOut)
 async def arrive_stop(trip_id: str, db: DbSession, current: CurrentUser, stop_id: str | None = None) -> TripOut:
     await _get_accessible_trip(db, current, trip_id)
-    return TripOut.model_validate(await trip_service.arrive_stop(db, trip_id, stop_id))
+    return await build_trip_out(db, await trip_service.arrive_stop(db, trip_id, stop_id))
 
 
 @router.post("/{trip_id}/depart-stop", response_model=TripOut)
 async def depart_stop(trip_id: str, db: DbSession, current: CurrentUser) -> TripOut:
     await _get_accessible_trip(db, current, trip_id)
-    return TripOut.model_validate(await trip_service.depart_stop(db, trip_id))
+    return await build_trip_out(db, await trip_service.depart_stop(db, trip_id))
 
 
 @router.post("/{trip_id}/complete", response_model=TripOut)
 async def complete(trip_id: str, db: DbSession, current: CurrentUser) -> TripOut:
     await _get_accessible_trip(db, current, trip_id)
-    return TripOut.model_validate(await trip_service.complete_trip(db, trip_id))
+    return await build_trip_out(db, await trip_service.complete_trip(db, trip_id))
 
 
 @router.post("/{trip_id}/cancel", response_model=TripOut)
 async def cancel(trip_id: str, db: DbSession, current: CurrentUser) -> TripOut:
     await _get_accessible_trip(db, current, trip_id)
-    return TripOut.model_validate(await trip_service.cancel_trip(db, trip_id))
+    return await build_trip_out(db, await trip_service.cancel_trip(db, trip_id))
 
 
 @router.get("/{trip_id}/passengers", response_model=list[TripPassengerOut])
 async def trip_passengers(trip_id: str, db: DbSession, current: CurrentUser) -> list[TripPassengerOut]:
     await _get_accessible_trip(db, current, trip_id)
-    result = await db.execute(select(TripPassenger).where(TripPassenger.service_trip_id == trip_id))
-    return [TripPassengerOut.model_validate(p) for p in result.scalars().all()]
+    return await build_trip_passengers_out(db, trip_id)
 
 
 @router.patch("/{trip_id}/passengers/{passenger_id}", response_model=TripPassengerOut)

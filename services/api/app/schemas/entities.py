@@ -132,6 +132,15 @@ class TripOut(ORMModel):
     status: str
     delay_minutes: int
     total_distance: float
+    # Zenginleştirilmiş alanlar (join'lerle doldurulur; ham ORM'de varsayılan).
+    service_name: str = ""
+    direction: str = "morning"
+    route_id: str = ""
+    route_name: str = ""
+    driver_name: str = ""
+    vehicle_plate: str = ""
+    passenger_count: int = 0
+    stop_count: int = 0
 
 
 class TripPassengerOut(ORMModel):
@@ -142,6 +151,9 @@ class TripPassengerOut(ORMModel):
     boarding_status: str
     boarded_at: datetime | None
     driver_note: str | None
+    # Zenginleştirilmiş alanlar.
+    passenger_name: str = ""
+    stop_name: str = ""
 
 
 class BoardingUpdate(BaseModel):

@@ -12,6 +12,7 @@ from app.models.service import ServiceTrip, TripPassenger, VehicleLocation
 from app.schemas.common import MessageResponse
 from app.schemas.entities import EtaOut, TripOut
 from app.services.eta_service import EtaInput, get_eta_provider
+from app.services.trip_enrich import build_trip_out, build_trips_out
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/passenger", tags=["passenger"])
@@ -35,7 +36,7 @@ async def today(db: DbSession, current: CurrentUser) -> list[TripOut]:
     result = await db.execute(
         select(ServiceTrip).where(ServiceTrip.id.in_(ids), ServiceTrip.service_date == today_str)
     )
-    return [TripOut.model_validate(t) for t in result.scalars().all()]
+    return await build_trips_out(db, list(result.scalars().all()))
 
 
 @router.get("/current-trip", response_model=TripOut)
@@ -52,7 +53,7 @@ async def current_trip(db: DbSession, current: CurrentUser) -> TripOut:
     trip = result.scalar_one_or_none()
     if trip is None:
         raise HTTPException(status_code=404, detail="Aktif servis bulunamadı.")
-    return TripOut.model_validate(trip)
+    return await build_trip_out(db, trip)
 
 
 @router.get("/current-trip/eta", response_model=EtaOut)
@@ -140,7 +141,7 @@ async def trip_history(db: DbSession, current: CurrentUser) -> list[TripOut]:
         .where(ServiceTrip.id.in_(ids), ServiceTrip.status == "completed")
         .order_by(ServiceTrip.service_date.desc())
     )
-    return [TripOut.model_validate(t) for t in result.scalars().all()]
+    return await build_trips_out(db, list(result.scalars().all()))
 
 
 @router.get("/notifications")
