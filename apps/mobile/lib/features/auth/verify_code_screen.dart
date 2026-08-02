@@ -44,7 +44,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               setState(() => _error = 'Kod 6 haneli olmalı');
               return;
             }
-            context.go('/login');
+            context.go('/new-password');
           },
         ),
         Text('Demo modunda herhangi 6 haneli kod kabul edilir.', style: AppText.tiny),
