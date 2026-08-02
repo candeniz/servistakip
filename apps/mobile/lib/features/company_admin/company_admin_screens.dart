@@ -471,12 +471,26 @@ class AdminManagementScreen extends ConsumerWidget {
         Align(alignment: Alignment.centerLeft, child: Text('GÜZERGÂH', style: AppText.monoLabel)),
         route.maybeWhen(
           data: (r) => AppCard(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(r.name, style: AppText.h3),
-              Text('${r.startLocation} → ${r.endLocation} · ${r.stopCount} durak', style: AppText.caption),
+            onTap: () => context.push('/routes'),
+            child: Row(children: [
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(r.name, style: AppText.h3),
+                Text('${r.startLocation} → ${r.endLocation} · ${r.stopCount} durak', style: AppText.caption),
+                Text('Tüm güzergâhları görüntüle', style: AppText.monoTiny.copyWith(color: AppColors.primary)),
+              ])),
+              const Icon(Icons.chevron_right, color: AppColors.textMuted),
             ]),
           ),
           orElse: () => const SizedBox.shrink(),
+        ),
+        AppCard(
+          onTap: () => context.push('/users'),
+          child: Row(children: [
+            const Icon(Icons.manage_accounts_outlined, color: AppColors.primary),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(child: Text('Kullanıcı & Yetki Yönetimi', style: AppText.bodyStrong)),
+            const Icon(Icons.chevron_right, color: AppColors.textMuted),
+          ]),
         ),
         AppCard(
           onTap: () => context.push('/announcement'),
