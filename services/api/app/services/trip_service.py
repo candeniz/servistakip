@@ -8,7 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.constants import WS_EVENTS, ws_trip_location, ws_tenant_operations
 from app.core.redis import publish
 from app.models.fleet import Stop
-from app.models.service import ServiceTrip
+from app.models.service import ServiceTrip, TripPassenger
+from app.services.push_service import push_to_users
 
 
 async def _get_trip(db: AsyncSession, trip_id: str) -> ServiceTrip:
@@ -16,6 +17,17 @@ async def _get_trip(db: AsyncSession, trip_id: str) -> ServiceTrip:
     if trip is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Servis bulunamadı.")
     return trip
+
+
+async def _notify_passengers(
+    db: AsyncSession, trip: ServiceTrip, title: str, body: str, notif_type: str
+) -> None:
+    """Yolculuğun yolcularına push bildirimi gönderir (FCM kapalıysa no-op)."""
+    result = await db.execute(
+        select(TripPassenger.passenger_id).where(TripPassenger.service_trip_id == trip.id)
+    )
+    user_ids = [row[0] for row in result.all()]
+    await push_to_users(db, user_ids, title, body, {"trip_id": trip.id, "type": notif_type})
 
 
 async def _ordered_stops(db: AsyncSession, trip: ServiceTrip) -> list[Stop]:
@@ -39,6 +51,7 @@ async def start_trip(db: AsyncSession, trip_id: str) -> ServiceTrip:
     trip.status = "active"
     trip.actual_start_at = datetime.now(timezone.utc)
     await publish(ws_tenant_operations(trip.tenant_id), WS_EVENTS["TRIP_STATUS"], {"trip_id": trip.id, "status": "active"})
+    await _notify_passengers(db, trip, "Servis başladı", "Servisiniz yola çıktı.", "trip_started")
     return trip
 
 
@@ -68,6 +81,7 @@ async def complete_trip(db: AsyncSession, trip_id: str) -> ServiceTrip:
     trip.status = "completed"
     trip.actual_end_at = datetime.now(timezone.utc)
     await publish(ws_tenant_operations(trip.tenant_id), WS_EVENTS["TRIP_STATUS"], {"trip_id": trip.id, "status": "completed"})
+    await _notify_passengers(db, trip, "Servis tamamlandı", "Servisiniz güzergâhını tamamladı.", "trip_completed")
     return trip
 
 
@@ -75,4 +89,5 @@ async def cancel_trip(db: AsyncSession, trip_id: str) -> ServiceTrip:
     trip = await _get_trip(db, trip_id)
     trip.status = "cancelled"
     await publish(ws_tenant_operations(trip.tenant_id), WS_EVENTS["TRIP_STATUS"], {"trip_id": trip.id, "status": "cancelled"})
+    await _notify_passengers(db, trip, "Servis iptal edildi", "Bugünkü servisiniz iptal edildi.", "trip_cancelled")
     return trip

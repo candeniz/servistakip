@@ -13,6 +13,13 @@ yarn-error.*
 .env.local
 .env.*.local
 
+# Secrets (asla commit'lenmez)
+secrets/
+**/secrets/
+*firebase-adminsdk*.json
+firebase-service-account.json
+services/api/secrets/
+
 # Native
 *.orig.*
 *.jks

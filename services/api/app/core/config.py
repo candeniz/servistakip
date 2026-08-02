@@ -28,6 +28,10 @@ class Settings(BaseSettings):
     # ETA sağlayıcı
     eta_provider: str = "mock"
 
+    # Firebase Cloud Messaging (push). Servis hesabı JSON yolu; dosya yoksa
+    # push gönderimi sessizce devre dışı kalır.
+    firebase_credentials: str = "secrets/firebase-service-account.json"
+
     # Demo veri
     seed_demo_data: bool = True
 

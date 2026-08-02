@@ -49,6 +49,11 @@ services:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-servis}:${POSTGRES_PASSWORD:-servis_dev_pw}@db:5432/${POSTGRES_DB:-servis_takip}
       ALEMBIC_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-servis}:${POSTGRES_PASSWORD:-servis_dev_pw}@db:5432/${POSTGRES_DB:-servis_takip}
       REDIS_URL: redis://redis:6379/0
+      # FCM servis hesabı konteyner içine mount edilir (aşağıdaki volume)
+      FIREBASE_CREDENTIALS: /app/secrets/firebase-service-account.json
+    volumes:
+      # Gizli anahtar imaja gömülmez; salt-okunur mount edilir (dosya yoksa push pasif)
+      - ./services/api/secrets:/app/secrets:ro
     ports:
       - "8000:8000"
     depends_on:

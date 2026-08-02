@@ -7,3 +7,8 @@ venv/
 .ruff_cache/
 tests/
 .env
+
+# Gizli anahtarlar imaja KOPYALANMAZ (volume ile mount edilir)
+secrets/
+*firebase-adminsdk*.json
+firebase-service-account.json
