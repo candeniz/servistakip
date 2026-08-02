@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "552768293663",
+    "project_id": "servis-takip-d1efd",
+    "storage_bucket": "servis-takip-d1efd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552768293663:android:31e953b129f91ae0d7fe2a",
+        "android_client_info": {
+          "package_name": "com.servistakip.servis_takip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2EbGl9qg5FZeEEZdqqHIwg86z9VLgC20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -71,6 +71,15 @@ class DataService {
     return res.data!.map((e) => TripPassenger.fromJson(e as Map<String, dynamic>)).toList();
   }
 
+  /// FCM cihaz token'ını backend'e kaydeder (DeviceToken). Mock modda atlanır.
+  Future<void> registerDeviceToken(String token, String platform) async {
+    if (Env.useMock) return;
+    await _dio.post<void>('/notifications/device-tokens', data: {
+      'token': token,
+      'platform': platform,
+    });
+  }
+
   Future<List<AppNotification>> listNotifications() async {
     if (Env.useMock) {
       await _delay();

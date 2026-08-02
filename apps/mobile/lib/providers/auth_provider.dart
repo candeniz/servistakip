@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/models/auth_models.dart';
@@ -79,6 +80,7 @@ class AuthController extends Notifier<AuthState> {
       await _store.write(TokenKeys.refreshToken, result.tokens.refreshToken);
       await _store.write(TokenKeys.user, jsonEncode(result.user.toJson()));
       state = AuthState(status: AuthStatus.authenticated, user: result.user);
+      _registerDeviceToken(); // FCM token'ını backend'e kaydet (best-effort)
     } catch (e) {
       state = AuthState(
         status: AuthStatus.unauthenticated,
@@ -99,6 +101,13 @@ class AuthController extends Notifier<AuthState> {
     await _store.delete(TokenKeys.refreshToken);
     await _store.delete(TokenKeys.user);
     state = const AuthState(status: AuthStatus.unauthenticated);
+  }
+
+  /// Giriş sonrası FCM cihaz token'ını backend'e kaydeder (mock modda no-op).
+  void _registerDeviceToken() {
+    final token = ref.read(notificationServiceProvider).token;
+    if (token == null) return;
+    ref.read(dataServiceProvider).registerDeviceToken(token, defaultTargetPlatform.name).catchError((_) {});
   }
 
   void clearError() => state = state.copyWith(error: null);
