@@ -200,7 +200,7 @@ class _CustomersScreenState extends ConsumerState<CustomersScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => context.push('/new-customer'),
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.add, color: AppColors.textInverse),
       ),

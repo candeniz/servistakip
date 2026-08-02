@@ -283,7 +283,14 @@ class AdminServicesScreen extends ConsumerWidget {
     final trips = ref.watch(tripsProvider);
     return AppScaffold(
       title: 'Servisler',
-      action: TextButton(onPressed: () => context.push('/new-trip'), child: const Text('+ Yeni')),
+      action: Row(mainAxisSize: MainAxisSize.min, children: [
+        IconButton(
+          onPressed: () => context.push('/schedule'),
+          icon: const Icon(Icons.calendar_month_outlined, color: AppColors.primary),
+          tooltip: 'Haftalık Takvim',
+        ),
+        TextButton(onPressed: () => context.push('/new-trip'), child: const Text('+ Yeni')),
+      ]),
       onRefresh: () async => ref.refresh(tripsProvider.future),
       children: [
         trips.when(

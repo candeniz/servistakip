@@ -12,14 +12,17 @@ import '../features/company_admin/announcement_screen.dart';
 import '../features/company_admin/company_admin_screens.dart';
 import '../features/company_admin/new_trip_screen.dart';
 import '../features/company_admin/reports_screen.dart';
+import '../features/company_admin/route_builder_screen.dart';
 import '../features/company_admin/route_list_screen.dart';
 import '../features/company_admin/trip_detail_screen.dart';
 import '../features/company_admin/user_management_screen.dart';
+import '../features/company_admin/weekly_schedule_screen.dart';
 import '../features/driver/driver_screens.dart';
 import '../features/driver/incident_screen.dart';
 import '../features/passenger/passenger_screens.dart';
 import '../features/shell/role_shell.dart';
 import '../features/super_admin/customer_detail_screen.dart';
+import '../features/super_admin/new_customer_wizard_screen.dart';
 import '../features/super_admin/package_management_screen.dart';
 import '../features/super_admin/super_admin_screens.dart';
 import '../providers/auth_provider.dart';
@@ -83,7 +86,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/new-trip', builder: (_, _) => const NewTripScreen()),
       GoRoute(path: '/reports', builder: (_, _) => const ReportsScreen()),
       GoRoute(path: '/routes', builder: (_, _) => const RouteListScreen()),
+      GoRoute(path: '/route-builder', builder: (_, _) => const RouteBuilderScreen()),
       GoRoute(path: '/users', builder: (_, _) => const UserManagementScreen()),
+      GoRoute(path: '/schedule', builder: (_, _) => const WeeklyScheduleScreen()),
+      GoRoute(path: '/new-customer', builder: (_, _) => const NewCustomerWizardScreen()),
       GoRoute(path: '/announcement', builder: (_, _) => const AnnouncementScreen()),
       GoRoute(path: '/incident', builder: (_, _) => const IncidentScreen()),
 
@@ -97,7 +103,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
 /// Konumun kullanıcının rolü için izinli olup olmadığı.
 bool _allowedForRole(String loc, AuthUser user) {
-  const detailPrefixes = ['/trip', '/customer', '/new-trip', '/reports', '/routes', '/users', '/announcement', '/incident', '/permissions'];
+  const detailPrefixes = ['/trip', '/customer', '/new-trip', '/reports', '/routes', '/route-builder', '/users', '/schedule', '/new-customer', '/announcement', '/incident', '/permissions'];
   if (detailPrefixes.any(loc.startsWith)) return true; // paylaşılan detay ekranları
 
   final role = user.role;

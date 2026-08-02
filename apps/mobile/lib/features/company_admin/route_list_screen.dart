@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
@@ -52,7 +53,8 @@ class _RouteListScreenState extends State<RouteListScreen> {
       title: 'Güzergâh Listesi',
       subtitle: 'Tanımlanmış servis hatlarını yönetin',
       children: [
-        PrimaryButton(label: 'Yeni Güzergâh', variant: ButtonVariant.primary, icon: Icons.add_road, onPressed: () {}),
+        PrimaryButton(label: 'Yeni Güzergâh', variant: ButtonVariant.primary, icon: Icons.add_road,
+            onPressed: () => context.push('/route-builder')),
         AppCard(
           color: AppColors.surfaceTile,
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
