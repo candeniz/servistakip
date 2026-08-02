@@ -129,13 +129,13 @@ class _MyServiceScreenState extends ConsumerState<MyServiceScreen> {
           child: Column(children: [
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Sabah servisine binmeyeceğim', style: AppText.body),
+              title: Text('Sabah servisine binmeyeceğim', style: AppText.body),
               value: _morning,
               onChanged: (v) => setState(() => _morning = v),
             ),
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Akşam servisine binmeyeceğim', style: AppText.body),
+              title: Text('Akşam servisine binmeyeceğim', style: AppText.body),
               value: _evening,
               onChanged: (v) => setState(() => _evening = v),
             ),

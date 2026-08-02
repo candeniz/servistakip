@@ -21,43 +21,65 @@ _ToneColors _tone(BadgeTone tone) => switch (tone) {
       BadgeTone.paused => const _ToneColors(Color(0xFFEEEAFF), AppColors.statusPaused),
     };
 
-/// Durum rozeti — servis, biniş veya özel durum.
-class StatusBadge extends StatelessWidget {
-  const StatusBadge({super.key, required this.label, required this.tone});
-
-  final String label;
-  final BadgeTone tone;
-
-  factory StatusBadge.trip(TripStatus status) {
-    final tone = switch (status) {
-      TripStatus.active => BadgeTone.success,
+BadgeTone _tripTone(TripStatus status) => switch (status) {
+      TripStatus.active => BadgeTone.info,
       TripStatus.delayed => BadgeTone.warning,
       TripStatus.cancelled => BadgeTone.danger,
       TripStatus.preparing => BadgeTone.info,
       TripStatus.paused => BadgeTone.paused,
       TripStatus.scheduled || TripStatus.completed => BadgeTone.neutral,
     };
-    return StatusBadge(label: status.label, tone: tone);
-  }
 
-  factory StatusBadge.boarding(BoardingStatus status) {
-    final tone = switch (status) {
+BadgeTone _boardingTone(BoardingStatus status) => switch (status) {
       BoardingStatus.boarded => BadgeTone.success,
       BoardingStatus.noShow => BadgeTone.danger,
       BoardingStatus.absent => BadgeTone.warning,
       BoardingStatus.wrongStop => BadgeTone.info,
       BoardingStatus.expected || BoardingStatus.cancelled => BadgeTone.neutral,
     };
-    return StatusBadge(label: status.label, tone: tone);
-  }
+
+/// Dolgulu durum rozeti (pill) — mono, büyük harf.
+class StatusBadge extends StatelessWidget {
+  const StatusBadge({super.key, required this.label, required this.tone});
+
+  final String label;
+  final BadgeTone tone;
+
+  factory StatusBadge.trip(TripStatus status) => StatusBadge(label: status.label, tone: _tripTone(status));
+  factory StatusBadge.boarding(BoardingStatus status) =>
+      StatusBadge(label: status.label, tone: _boardingTone(status));
 
   @override
   Widget build(BuildContext context) {
     final c = _tone(tone);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(color: c.bg, borderRadius: BorderRadius.circular(999)),
-      child: Text(label, style: AppText.label.copyWith(color: c.fg, fontWeight: FontWeight.w700)),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(color: c.bg, borderRadius: BorderRadius.circular(8)),
+      child: Text(label.toUpperCase(),
+          style: AppText.monoTiny.copyWith(color: c.fg, fontWeight: FontWeight.w700)),
+    );
+  }
+}
+
+/// Renkli nokta + mono büyük-harf metin (tablo/list durum göstergesi: YOLDA, VARDI…).
+class StatusDot extends StatelessWidget {
+  const StatusDot({super.key, required this.label, required this.tone});
+  final String label;
+  final BadgeTone tone;
+
+  factory StatusDot.trip(TripStatus status) => StatusDot(label: status.label, tone: _tripTone(status));
+
+  @override
+  Widget build(BuildContext context) {
+    final c = _tone(tone);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(width: 8, height: 8, decoration: BoxDecoration(color: c.fg, shape: BoxShape.circle)),
+        const SizedBox(width: 6),
+        Text(label.toUpperCase(),
+            style: AppText.monoTiny.copyWith(color: c.fg, fontWeight: FontWeight.w700)),
+      ],
     );
   }
 }

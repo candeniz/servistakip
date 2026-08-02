@@ -31,9 +31,9 @@ class _PermissionsScreenState extends ConsumerState<PermissionsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('📍 Konum İzni', style: AppText.h3),
+              Text('📍 Konum İzni', style: AppText.h3),
               const SizedBox(height: AppSpacing.xs),
-              const Text('Şoförler için canlı konum paylaşımı ve yolcular için harita gösterimi.',
+              Text('Şoförler için canlı konum paylaşımı ve yolcular için harita gösterimi.',
                   style: AppText.caption),
               const SizedBox(height: AppSpacing.sm),
               SecondaryButton(
@@ -50,9 +50,9 @@ class _PermissionsScreenState extends ConsumerState<PermissionsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('🔔 Bildirim İzni', style: AppText.h3),
+              Text('🔔 Bildirim İzni', style: AppText.h3),
               const SizedBox(height: AppSpacing.xs),
-              const Text('Servis yaklaşınca, geciktiğinde ve duyurular için anlık bildirim.',
+              Text('Servis yaklaşınca, geciktiğinde ve duyurular için anlık bildirim.',
                   style: AppText.caption),
               const SizedBox(height: AppSpacing.sm),
               SecondaryButton(

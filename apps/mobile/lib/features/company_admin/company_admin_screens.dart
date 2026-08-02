@@ -235,7 +235,7 @@ class AdminManagementScreen extends ConsumerWidget {
           child: Row(children: [
             const Text('📣', style: TextStyle(fontSize: 22)),
             const SizedBox(width: AppSpacing.md),
-            const Expanded(child: Text('Duyuru Oluştur', style: AppText.bodyStrong)),
+            Expanded(child: Text('Duyuru Oluştur', style: AppText.bodyStrong)),
             const Icon(Icons.chevron_right, color: AppColors.textMuted),
           ]),
         ),

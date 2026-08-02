@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'app_colors.dart';
 
-/// Uygulama genelinde kullanılan Material 3 teması.
+/// Uygulama geneli Material 3 teması — Stitch tasarımına göre.
 class AppTheme {
   const AppTheme._();
 
@@ -10,38 +12,64 @@ class AppTheme {
       seedColor: AppColors.primary,
       primary: AppColors.primary,
       surface: AppColors.surface,
+      error: AppColors.danger,
     );
 
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: colorScheme,
+    final base = ThemeData(useMaterial3: true, colorScheme: colorScheme);
+
+    return base.copyWith(
       scaffoldBackgroundColor: AppColors.background,
-      fontFamily: null, // sistem fontu
-      appBarTheme: const AppBarTheme(
+      // Varsayılan font: Hanken Grotesk (tüm Text'ler miras alır).
+      textTheme: GoogleFonts.hankenGroteskTextTheme(base.textTheme)
+          .apply(bodyColor: AppColors.text, displayColor: AppColors.text),
+      appBarTheme: AppBarTheme(
         backgroundColor: AppColors.background,
+        surfaceTintColor: Colors.transparent,
         foregroundColor: AppColors.text,
         elevation: 0,
+        scrolledUnderElevation: 0,
         centerTitle: false,
+        titleTextStyle: GoogleFonts.hankenGrotesk(
+            fontSize: 20, fontWeight: FontWeight.w800, color: AppColors.text),
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.surface,
-        indicatorColor: AppColors.primaryLight,
-        labelTextStyle: WidgetStateProperty.all(
-          const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-        ),
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: AppColors.primary,
+        elevation: 0,
+        height: 68,
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return GoogleFonts.hankenGrotesk(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: selected ? AppColors.primary : AppColors.textMuted,
+          );
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(color: selected ? AppColors.textInverse : AppColors.textMuted);
+        }),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.border),
-        ),
+        fillColor: AppColors.surfaceTile,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        labelStyle: GoogleFonts.jetBrainsMono(
+            fontSize: 12, fontWeight: FontWeight.w500, letterSpacing: 0.6, color: AppColors.textSecondary),
+        hintStyle: GoogleFonts.hankenGrotesk(color: AppColors.textMuted),
+        border: _inputBorder(AppColors.border),
+        enabledBorder: _inputBorder(AppColors.border),
+        focusedBorder: _inputBorder(AppColors.primary, width: 1.6),
+        errorBorder: _inputBorder(AppColors.danger),
+        focusedErrorBorder: _inputBorder(AppColors.danger, width: 1.6),
       ),
+      dividerTheme: const DividerThemeData(color: AppColors.border, thickness: 1, space: 1),
     );
   }
+
+  static OutlineInputBorder _inputBorder(Color color, {double width = 1.2}) => OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: color, width: width),
+      );
 }
