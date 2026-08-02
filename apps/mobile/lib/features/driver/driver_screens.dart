@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/config/env.dart';
 import '../../core/constants/strings.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
@@ -90,8 +91,20 @@ class _DriverHomeScreenState extends ConsumerState<DriverHomeScreen> {
                     );
                     if (!ok || !context.mounted) return;
                     ref.read(simulationControllerProvider.notifier).start();
-                    // Gerçek konum takibini başlat (native/güvenli).
-                    await ref.read(locationServiceProvider).start((_) {});
+                    // Gerçek modda: GPS akışını başlat ve her konumu backend'e gönder.
+                    // (Backend WS ile yolculara/yöneticiye yayınlar.) Mock modda simülasyon yeter.
+                    if (!Env.useMock) {
+                      await ref.read(locationServiceProvider).start((sample) {
+                        ref.read(dataServiceProvider).postLocation(
+                          demoTrip.id,
+                          latitude: sample.point.latitude,
+                          longitude: sample.point.longitude,
+                          speed: sample.speed,
+                          heading: sample.heading,
+                          accuracy: sample.accuracy,
+                        ).catchError((_) {});
+                      });
+                    }
                     if (context.mounted) context.go('/driver/trip');
                   }
                 : null,

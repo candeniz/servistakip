@@ -8,6 +8,7 @@ import '../models/service_route.dart';
 import '../models/service_trip.dart';
 import '../models/tenant.dart';
 import '../models/vehicle.dart';
+import '../models/vehicle_location.dart';
 
 /// Liste/detay verileri için servis katmanı.
 /// useMock=true iken mock verileri, aksi halde gerçek API'yi kullanır.
@@ -69,6 +70,32 @@ class DataService {
     }
     final res = await _dio.get<List<dynamic>>('/trips/$tripId/passengers');
     return res.data!.map((e) => TripPassenger.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  /// Şoför konum gönderir (POST /trips/{id}/locations). Mock modda atlanır.
+  Future<void> postLocation(
+    String tripId, {
+    required double latitude,
+    required double longitude,
+    required double speed,
+    required double heading,
+    required double accuracy,
+  }) async {
+    if (Env.useMock) return;
+    await _dio.post<void>('/trips/$tripId/locations', data: {
+      'latitude': latitude,
+      'longitude': longitude,
+      'speed': speed,
+      'heading': heading,
+      'accuracy': accuracy,
+    });
+  }
+
+  /// Aktif servisin son konumunu getirir (GET /trips/{id}/latest-location).
+  Future<VehicleLocationDto?> getLatestLocation(String tripId) async {
+    if (Env.useMock) return null;
+    final res = await _dio.get<Map<String, dynamic>?>('/trips/$tripId/latest-location');
+    return res.data == null ? null : VehicleLocationDto.fromJson(res.data!);
   }
 
   /// FCM cihaz token'ını backend'e kaydeder (DeviceToken). Mock modda atlanır.
