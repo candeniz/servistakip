@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/constants/statuses.dart';
 import '../../core/theme/app_colors.dart';
@@ -317,7 +318,7 @@ class _CustomerCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () {},
+              onTap: () => context.push('/customer/${tenant.id}'),
               child: Container(
                 height: 44,
                 alignment: Alignment.center,

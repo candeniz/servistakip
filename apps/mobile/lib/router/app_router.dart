@@ -16,6 +16,7 @@ import '../features/driver/driver_screens.dart';
 import '../features/driver/incident_screen.dart';
 import '../features/passenger/passenger_screens.dart';
 import '../features/shell/role_shell.dart';
+import '../features/super_admin/customer_detail_screen.dart';
 import '../features/super_admin/super_admin_screens.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/state_views.dart';
@@ -74,6 +75,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       // Ortak detay rotaları (kök navigasyonda, kabuğun üstünde açılır)
       GoRoute(path: '/trip/:id', builder: (_, s) => TripDetailScreen(tripId: s.pathParameters['id']!)),
+      GoRoute(path: '/customer/:id', builder: (_, s) => CustomerDetailScreen(tenantId: s.pathParameters['id']!)),
       GoRoute(path: '/new-trip', builder: (_, _) => const NewTripScreen()),
       GoRoute(path: '/announcement', builder: (_, _) => const AnnouncementScreen()),
       GoRoute(path: '/incident', builder: (_, _) => const IncidentScreen()),
@@ -88,7 +90,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
 /// Konumun kullanıcının rolü için izinli olup olmadığı.
 bool _allowedForRole(String loc, AuthUser user) {
-  const detailPrefixes = ['/trip', '/new-trip', '/announcement', '/incident', '/permissions'];
+  const detailPrefixes = ['/trip', '/customer', '/new-trip', '/announcement', '/incident', '/permissions'];
   if (detailPrefixes.any(loc.startsWith)) return true; // paylaşılan detay ekranları
 
   final role = user.role;
