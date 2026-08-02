@@ -487,6 +487,15 @@ class AdminManagementScreen extends ConsumerWidget {
             const Icon(Icons.chevron_right, color: AppColors.textMuted),
           ]),
         ),
+        AppCard(
+          onTap: () => context.push('/reports'),
+          child: Row(children: [
+            const Icon(Icons.bar_chart_rounded, color: AppColors.primary),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(child: Text('Raporlar', style: AppText.bodyStrong)),
+            const Icon(Icons.chevron_right, color: AppColors.textMuted),
+          ]),
+        ),
         const Divider(color: AppColors.border),
         const ProfilePanel(),
       ],
