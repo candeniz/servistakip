@@ -3,44 +3,37 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
-/// Tipografi ölçeği — Stitch tasarımı: Hanken Grotesk (UI) + JetBrains Mono (etiket/plaka).
+/// Tipografi ölçeği — birincil font **Poppins**.
 ///
-/// Getter'lar (const değil) çünkü fontlar GoogleFonts ile runtime'da yüklenir.
+/// Teknik etiketler (mono* getter'ları) Poppins'in büyük-harf + harf aralıklı
+/// varyantıyla verilir; böylece tek font ailesiyle "etiket" hissi korunur.
+/// Getter'lar const değildir çünkü fontlar GoogleFonts ile runtime'da yüklenir.
 class AppText {
   const AppText._();
 
-  // ── Hanken Grotesk (başlık + gövde) ──
-  static TextStyle get display =>
-      GoogleFonts.hankenGrotesk(fontSize: 32, height: 1.15, fontWeight: FontWeight.w800, color: AppColors.text);
-  static TextStyle get h1 =>
-      GoogleFonts.hankenGrotesk(fontSize: 26, height: 1.2, fontWeight: FontWeight.w800, color: AppColors.text);
-  static TextStyle get h2 =>
-      GoogleFonts.hankenGrotesk(fontSize: 21, height: 1.25, fontWeight: FontWeight.w700, color: AppColors.text);
-  static TextStyle get h3 =>
-      GoogleFonts.hankenGrotesk(fontSize: 17, height: 1.3, fontWeight: FontWeight.w700, color: AppColors.text);
-  static TextStyle get body =>
-      GoogleFonts.hankenGrotesk(fontSize: 15, height: 1.45, fontWeight: FontWeight.w400, color: AppColors.text);
-  static TextStyle get bodyStrong =>
-      GoogleFonts.hankenGrotesk(fontSize: 15, height: 1.4, fontWeight: FontWeight.w600, color: AppColors.text);
-  static TextStyle get caption =>
-      GoogleFonts.hankenGrotesk(fontSize: 14, height: 1.4, fontWeight: FontWeight.w400, color: AppColors.textSecondary);
+  static TextStyle _p(double size, FontWeight weight, Color color, {double height = 1.3, double spacing = 0}) =>
+      GoogleFonts.poppins(fontSize: size, height: height, fontWeight: weight, color: color, letterSpacing: spacing);
+
+  // ── Başlık + gövde ──
+  static TextStyle get display => _p(30, FontWeight.w700, AppColors.text, height: 1.15);
+  static TextStyle get h1 => _p(25, FontWeight.w700, AppColors.text, height: 1.2);
+  static TextStyle get h2 => _p(20, FontWeight.w600, AppColors.text, height: 1.25);
+  static TextStyle get h3 => _p(17, FontWeight.w600, AppColors.text, height: 1.3);
+  static TextStyle get body => _p(15, FontWeight.w400, AppColors.text, height: 1.45);
+  static TextStyle get bodyStrong => _p(15, FontWeight.w600, AppColors.text, height: 1.4);
+  static TextStyle get caption => _p(14, FontWeight.w400, AppColors.textSecondary, height: 1.4);
 
   /// Büyük istatistik değerleri (ör. "124", "842").
-  static TextStyle get statValue =>
-      GoogleFonts.hankenGrotesk(fontSize: 40, height: 1.05, fontWeight: FontWeight.w800, color: AppColors.text);
+  static TextStyle get statValue => _p(38, FontWeight.w700, AppColors.text, height: 1.05);
 
-  // ── JetBrains Mono (etiket / buton / plaka / durum) ──
-  /// Küçük büyük-harf mono etiket (BUGÜNKÜ SERVİSLER, PLANLANAN…).
-  static TextStyle get monoLabel => GoogleFonts.jetBrainsMono(
-      fontSize: 12, height: 1.3, fontWeight: FontWeight.w500, letterSpacing: 0.6, color: AppColors.textSecondary);
-  static TextStyle get monoTiny => GoogleFonts.jetBrainsMono(
-      fontSize: 11, height: 1.3, fontWeight: FontWeight.w500, letterSpacing: 0.4, color: AppColors.textMuted);
+  // ── Teknik etiketler (Poppins, büyük-harf + harf aralığı) ──
+  static TextStyle get monoLabel => _p(12, FontWeight.w600, AppColors.textSecondary, height: 1.3, spacing: 0.8);
+  static TextStyle get monoTiny => _p(11, FontWeight.w500, AppColors.textMuted, height: 1.3, spacing: 0.5);
 
-  /// Buton/plaka gibi vurgulu mono yazı.
-  static TextStyle get monoStrong => GoogleFonts.jetBrainsMono(
-      fontSize: 14, height: 1.2, fontWeight: FontWeight.w600, letterSpacing: 0.5, color: AppColors.text);
+  /// Buton/plaka gibi vurgulu etiket.
+  static TextStyle get monoStrong => _p(14, FontWeight.w600, AppColors.text, height: 1.2, spacing: 0.6);
 
-  // Eski kod uyumu için takma adlar (mono etiket ailesine yönlendirir).
+  // Eski kod uyumu için takma adlar.
   static TextStyle get label => monoLabel;
   static TextStyle get tiny => monoTiny;
 }

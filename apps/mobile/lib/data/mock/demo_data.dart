@@ -25,28 +25,35 @@ final demoTenant = Tenant(
 );
 
 final List<Tenant> demoTenants = [
-  demoTenant,
-  Tenant(
-    id: 'tenant-nova',
-    name: 'Nova Lojistik',
-    companyCode: 'NOVA02',
-    primaryColor: '#1DAA6D',
-    status: TenantStatus.active,
-    userLimit: 120,
-    vehicleLimit: 12,
-    activeUserCount: 88,
-    activeTripCount: 3,
+  const Tenant(
+    id: 'tenant-atlas-lojistik', name: 'Atlas Lojistik A.Ş.', companyCode: 'ATL-4820',
+    primaryColor: '#0051D5', status: TenantStatus.active,
+    userLimit: 300, vehicleLimit: 200, activeUserCount: 24, activeTripCount: 42,
+    vehicleCount: 156, managerName: 'Ahmet Yılmaz', packageName: 'Enterprise Plus', endDate: '12.10.2025',
   ),
-  Tenant(
-    id: 'tenant-delta',
-    name: 'Delta Üretim',
-    companyCode: 'DELTA03',
-    primaryColor: '#F2A007',
-    status: TenantStatus.suspended,
-    userLimit: 60,
-    vehicleLimit: 6,
-    activeUserCount: 0,
-    activeTripCount: 0,
+  const Tenant(
+    id: 'tenant-ekspres', name: 'Ekspres Kargo Ltd.', companyCode: 'EXP-9912',
+    primaryColor: '#316BF3', status: TenantStatus.active,
+    userLimit: 50, vehicleLimit: 40, activeUserCount: 8, activeTripCount: 5,
+    vehicleCount: 32, managerName: 'Merve Çelik', packageName: 'Standart Kobi', endDate: '05.08.2024',
+  ),
+  const Tenant(
+    id: 'tenant-global', name: 'Global Rota', companyCode: 'GLO-2150',
+    primaryColor: '#1DAA6D', status: TenantStatus.active,
+    userLimit: 500, vehicleLimit: 500, activeUserCount: 112, activeTripCount: 218,
+    vehicleCount: 450, managerName: 'Bülent Ecevit', packageName: 'Enterprise Premium', endDate: '30.12.2026',
+  ),
+  const Tenant(
+    id: 'tenant-sehir', name: 'Şehir Filosu', companyCode: 'UBN-1004',
+    primaryColor: '#75777E', status: TenantStatus.passive,
+    userLimit: 10, vehicleLimit: 5, activeUserCount: 2, activeTripCount: 0,
+    vehicleCount: 0, managerName: 'Caner Bakır', packageName: 'Ücretsiz Deneme', endDate: 'Süresi Doldu',
+  ),
+  const Tenant(
+    id: 'tenant-veri', name: 'VeriLojistik A.Ş.', companyCode: 'DAT-7721',
+    primaryColor: '#0051D5', status: TenantStatus.active,
+    userLimit: 200, vehicleLimit: 250, activeUserCount: 45, activeTripCount: 88,
+    vehicleCount: 210, managerName: 'Selma Güler', packageName: 'Enterprise Pro', endDate: '14.02.2026',
   ),
 ];
 

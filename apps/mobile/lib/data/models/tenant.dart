@@ -12,6 +12,10 @@ class Tenant {
     required this.vehicleLimit,
     required this.activeUserCount,
     required this.activeTripCount,
+    this.managerName = '',
+    this.packageName = '',
+    this.endDate = '',
+    this.vehicleCount = 0,
   });
 
   final String id;
@@ -23,6 +27,10 @@ class Tenant {
   final int vehicleLimit;
   final int activeUserCount;
   final int activeTripCount;
+  final String managerName;
+  final String packageName;
+  final String endDate; // gg.aa.yyyy veya "Süresi Doldu"
+  final int vehicleCount;
 
   factory Tenant.fromJson(Map<String, dynamic> json) => Tenant(
         id: json['id'] as String,
@@ -34,5 +42,9 @@ class Tenant {
         vehicleLimit: (json['vehicle_limit'] as num?)?.toInt() ?? 0,
         activeUserCount: (json['active_user_count'] as num?)?.toInt() ?? 0,
         activeTripCount: (json['active_trip_count'] as num?)?.toInt() ?? 0,
+        managerName: json['manager_name'] as String? ?? '',
+        packageName: json['package_name'] as String? ?? '',
+        endDate: json['end_date'] as String? ?? '',
+        vehicleCount: (json['vehicle_count'] as num?)?.toInt() ?? 0,
       );
 }

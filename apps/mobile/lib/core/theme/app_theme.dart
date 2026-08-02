@@ -19,8 +19,8 @@ class AppTheme {
 
     return base.copyWith(
       scaffoldBackgroundColor: AppColors.background,
-      // Varsayılan font: Hanken Grotesk (tüm Text'ler miras alır).
-      textTheme: GoogleFonts.hankenGroteskTextTheme(base.textTheme)
+      // Varsayılan font: Poppins (tüm Text'ler miras alır).
+      textTheme: GoogleFonts.poppinsTextTheme(base.textTheme)
           .apply(bodyColor: AppColors.text, displayColor: AppColors.text),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.background,
@@ -29,8 +29,8 @@ class AppTheme {
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
-        titleTextStyle: GoogleFonts.hankenGrotesk(
-            fontSize: 20, fontWeight: FontWeight.w800, color: AppColors.text),
+        titleTextStyle: GoogleFonts.poppins(
+            fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.text),
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.surface,
@@ -40,7 +40,7 @@ class AppTheme {
         height: 68,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
-          return GoogleFonts.hankenGrotesk(
+          return GoogleFonts.poppins(
             fontSize: 11,
             fontWeight: FontWeight.w600,
             color: selected ? AppColors.primary : AppColors.textMuted,
@@ -55,9 +55,9 @@ class AppTheme {
         filled: true,
         fillColor: AppColors.surfaceTile,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        labelStyle: GoogleFonts.jetBrainsMono(
-            fontSize: 12, fontWeight: FontWeight.w500, letterSpacing: 0.6, color: AppColors.textSecondary),
-        hintStyle: GoogleFonts.hankenGrotesk(color: AppColors.textMuted),
+        labelStyle: GoogleFonts.poppins(
+            fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.6, color: AppColors.textSecondary),
+        hintStyle: GoogleFonts.poppins(color: AppColors.textMuted),
         border: _inputBorder(AppColors.border),
         enabledBorder: _inputBorder(AppColors.border),
         focusedBorder: _inputBorder(AppColors.primary, width: 1.6),
