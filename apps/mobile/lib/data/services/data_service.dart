@@ -38,7 +38,7 @@ class DataService {
   Future<List<ServiceTrip>> listTrips() async {
     if (Env.useMock) {
       await _delay();
-      return [demoTrip];
+      return demoTrips;
     }
     final res = await _dio.get<List<dynamic>>('/trips');
     return res.data!.map((e) => ServiceTrip.fromJson(e as Map<String, dynamic>)).toList();

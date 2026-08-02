@@ -164,6 +164,55 @@ final demoTrip = ServiceTrip(
   stopCount: 8,
 );
 
+/// Yönetici liste/tablolarını doldurmak için ek örnek yolculuklar.
+final List<ServiceTrip> demoTrips = [
+  demoTrip,
+  ServiceTrip(
+    id: 'trip-besiktas',
+    tenantId: demoTenantId,
+    serviceName: 'Beşiktaş – Ümraniye',
+    serviceDate: '2026-08-02',
+    direction: RouteDirection.morning,
+    routeId: demoRoute.id,
+    routeName: 'Beşiktaş – Ümraniye Hattı',
+    driverId: 'driver-murat',
+    driverName: 'Murat S.',
+    vehicleId: 'vehicle-34xy1400',
+    vehiclePlate: '34 ABC 456',
+    plannedStartAt: DateTime.parse('2026-08-02T06:45:00Z'),
+    actualStartAt: DateTime.parse('2026-08-02T06:45:00Z'),
+    plannedEndAt: DateTime.parse('2026-08-02T07:30:00Z'),
+    nextStopId: null,
+    status: TripStatus.completed,
+    delayMinutes: 0,
+    totalDistance: 18000,
+    passengerCount: 14,
+    stopCount: 7,
+  ),
+  ServiceTrip(
+    id: 'trip-kartal',
+    tenantId: demoTenantId,
+    serviceName: 'Kartal – Maltepe Ring',
+    serviceDate: '2026-08-02',
+    direction: RouteDirection.morning,
+    routeId: demoRoute.id,
+    routeName: 'Kartal – Maltepe Ring',
+    driverId: 'driver-caner',
+    driverName: 'Caner K.',
+    vehicleId: 'vehicle-34def789',
+    vehiclePlate: '34 DEF 789',
+    plannedStartAt: DateTime.parse('2026-08-02T09:15:00Z'),
+    actualStartAt: null,
+    plannedEndAt: DateTime.parse('2026-08-02T10:00:00Z'),
+    nextStopId: null,
+    status: TripStatus.scheduled,
+    delayMinutes: 0,
+    totalDistance: 12000,
+    passengerCount: 9,
+    stopCount: 5,
+  ),
+];
+
 /// ── Yolcular (17) ───────────────────────────────────────
 final List<TripPassenger> demoTripPassengers = () {
   const seed = [
