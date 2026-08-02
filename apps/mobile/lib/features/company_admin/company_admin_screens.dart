@@ -18,12 +18,10 @@ import '../../widgets/buttons.dart';
 import '../../widgets/dashboard_header.dart';
 import '../../widgets/live_map.dart';
 import '../../widgets/plate_chip.dart';
-import '../../widgets/search_input.dart';
 import '../../widgets/service_card.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/stat_card.dart';
 import '../../widgets/status_badge.dart';
-import '../../widgets/user_avatar.dart';
 import '../../widgets/vehicle_card.dart';
 import '../shared/profile_panel.dart';
 
@@ -306,7 +304,7 @@ class AdminServicesScreen extends ConsumerWidget {
   }
 }
 
-/// Kişiler: personel/yolcu ve şoför listeleri (segment kontrolü).
+/// Personel Yönetimi (Stitch): arama + departman filtresi + personel tablosu.
 class AdminPeopleScreen extends StatefulWidget {
   const AdminPeopleScreen({super.key});
 
@@ -314,65 +312,126 @@ class AdminPeopleScreen extends StatefulWidget {
   State<AdminPeopleScreen> createState() => _AdminPeopleScreenState();
 }
 
-class _AdminPeopleScreenState extends State<AdminPeopleScreen> {
-  int _segment = 0;
-  String _search = '';
+class _Person {
+  const _Person(this.name, this.empNo, this.department, this.color);
+  final String name;
+  final String empNo;
+  final String department;
+  final Color color;
+}
 
-  static const _drivers = [
-    ('Mehmet Yılmaz', '34 ST 2026', true),
-    ('Ali Vural', '34 XY 1400', true),
-    ('Hasan Kaya', '—', false),
+class _AdminPeopleScreenState extends State<AdminPeopleScreen> {
+  String _search = '';
+  String _department = 'Tüm Departmanlar';
+
+  static const _people = [
+    _Person('Ahmet Yılmaz', 'EMP-2309', 'Operasyon', AppColors.primary),
+    _Person('Zeynep Demir', 'EMP-4412', 'Lojistik Planlama', Color(0xFF6B5B2E)),
+    _Person('Murat Caner', 'EMP-1102', 'Bilgi İşlem', AppColors.primaryDark),
+    _Person('Elif Yıldız', 'EMP-3320', 'Operasyon', AppColors.info),
+    _Person('Can Öztürk', 'EMP-5567', 'Lojistik Planlama', Color(0xFF1DAA6D)),
   ];
+
+  List<String> get _departments =>
+      ['Tüm Departmanlar', ...{for (final p in _people) p.department}];
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      title: 'Kişiler',
-      children: [
-        SegmentedButton<int>(
-          segments: const [
-            ButtonSegment(value: 0, label: Text('Personel')),
-            ButtonSegment(value: 1, label: Text('Şoförler')),
-          ],
-          selected: {_segment},
-          onSelectionChanged: (s) => setState(() => _segment = s.first),
-        ),
-        SearchInput(onChanged: (v) => setState(() => _search = v), hint: 'İsim ara…'),
-        if (_segment == 0)
-          for (final p in demoTripPassengers.where((p) => p.passengerName.toLowerCase().contains(_search.toLowerCase())))
-            AppCard(
-              child: Row(children: [
-                UserAvatar(name: p.passengerName, size: 38),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(p.passengerName, style: AppText.bodyStrong),
-                    Text('Durak: ${p.stopName}', style: AppText.tiny),
-                  ]),
-                ),
-              ]),
-            )
-        else
-          for (final (name, vehicle, active) in _drivers.where((d) => d.$1.toLowerCase().contains(_search.toLowerCase())))
-            AppCard(
-              child: Row(children: [
-                UserAvatar(name: name, size: 38),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(name, style: AppText.bodyStrong),
-                    Text('Araç: $vehicle', style: AppText.tiny),
-                  ]),
-                ),
-                StatusBadge(label: active ? 'Aktif' : 'Pasif', tone: active ? BadgeTone.success : BadgeTone.neutral),
-              ]),
+    final filtered = _people.where((p) =>
+        (p.name.toLowerCase().contains(_search.toLowerCase()) ||
+            p.empNo.toLowerCase().contains(_search.toLowerCase())) &&
+        (_department == 'Tüm Departmanlar' || p.department == _department)).toList();
+
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.person_add_alt, color: AppColors.textInverse),
+      ),
+      body: AppScaffold(
+        title: 'Personel Yönetimi',
+        children: [
+          TextField(
+            onChanged: (v) => setState(() => _search = v),
+            decoration: const InputDecoration(
+              hintText: 'Ad Soyad veya Personel No ara…',
+              prefixIcon: Icon(Icons.search, color: AppColors.textMuted),
+              filled: true,
+              fillColor: AppColors.primaryLight,
             ),
-      ],
+          ),
+          _dropdownField(_department, _departments, (v) => setState(() => _department = v)),
+          _dropdownField('Bugün Binecekler', const ['Bugün Binecekler', 'Tümü'], (_) {}),
+          _peopleTable(filtered),
+        ],
+      ),
     );
   }
+
+  Widget _dropdownField(String value, List<String> options, ValueChanged<String> onChanged) {
+    return Container(
+      decoration: BoxDecoration(color: AppColors.primaryLight, borderRadius: BorderRadius.circular(12)),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: value,
+          isExpanded: true,
+          icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
+          borderRadius: BorderRadius.circular(12),
+          style: AppText.body,
+          items: [for (final o in options) DropdownMenuItem(value: o, child: Text(o, style: AppText.body))],
+          onChanged: (v) => onChanged(v ?? value),
+        ),
+      ),
+    );
+  }
+
+  Widget _peopleTable(List<_Person> people) {
+    return AppCard(
+      padding: EdgeInsets.zero,
+      child: Column(children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.md),
+          decoration: const BoxDecoration(
+            color: AppColors.surfaceTile,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Row(children: [
+            Expanded(flex: 4, child: Text('AD SOYAD', style: AppText.monoLabel)),
+            Expanded(flex: 3, child: Text('PERSONEL NO', style: AppText.monoLabel)),
+            Expanded(flex: 3, child: Text('DEPARTMAN', style: AppText.monoLabel)),
+          ]),
+        ),
+        for (var i = 0; i < people.length; i++)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.md),
+            decoration: BoxDecoration(
+              border: i < people.length - 1 ? const Border(bottom: BorderSide(color: AppColors.border)) : null,
+            ),
+            child: Row(children: [
+              Expanded(flex: 4, child: Row(children: [
+                CircleAvatar(radius: 16, backgroundColor: people[i].color,
+                    child: Text(_initials(people[i].name),
+                        style: AppText.monoTiny.copyWith(color: AppColors.textInverse, fontWeight: FontWeight.w700))),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(child: Text(people[i].name, style: AppText.bodyStrong, maxLines: 2, overflow: TextOverflow.ellipsis)),
+              ])),
+              Expanded(flex: 3, child: Align(alignment: Alignment.centerLeft,
+                  child: PlateChip(plate: people[i].empNo, dense: true))),
+              Expanded(flex: 3, child: Text(people[i].department, style: AppText.body,
+                  maxLines: 2, overflow: TextOverflow.ellipsis)),
+            ]),
+          ),
+      ]),
+    );
+  }
+
+  String _initials(String name) => name.split(' ').where((p) => p.isNotEmpty)
+      .take(2).map((p) => p[0].toUpperCase()).join();
 }
 
-/// Yönetim: araçlar, güzergâh, duyuru ve profil.
+/// Yönetim / Araçlar (Stitch): filo istatistikleri + araç listesi + güzergâh + profil.
 class AdminManagementScreen extends ConsumerWidget {
   const AdminManagementScreen({super.key});
 
@@ -381,18 +440,26 @@ class AdminManagementScreen extends ConsumerWidget {
     final vehicles = ref.watch(vehiclesProvider);
     final route = ref.watch(routeProvider('route-avrupa-sabah'));
     return AppScaffold(
-      title: 'Yönetim',
-      children: [
-        AppCard(
-          onTap: () => context.push('/announcement'),
-          child: Row(children: [
-            const Text('📣', style: TextStyle(fontSize: 22)),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(child: Text('Duyuru Oluştur', style: AppText.bodyStrong)),
-            const Icon(Icons.chevron_right, color: AppColors.textMuted),
-          ]),
+      title: 'Yönetim / Araçlar',
+      action: TextButton.icon(
+        onPressed: () {},
+        icon: const Icon(Icons.add, size: 18),
+        label: const Text('Yeni Kayıt'),
+        style: TextButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textInverse,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
-        Align(alignment: Alignment.centerLeft, child: Text('ARAÇLAR', style: AppText.label)),
+      ),
+      children: [
+        const StatCard(label: 'Toplam Filo', value: '124', subLabel: '+2 Bu Ay', subTone: StatTone.success),
+        const StatCard(label: 'Aktif Araçlar', value: '118', accentColor: AppColors.success, hint: '95.2% Kullanım'),
+        const StatCard(label: 'Bakım Zamanı', value: '4', accentColor: AppColors.warning, hint: 'Bu hafta planlı'),
+        const StatCard(label: 'Pasif / Tamir', value: '2', accentColor: AppColors.danger, hint: 'Ort. duruş 4.2 gün'),
+        const SizedBox(height: AppSpacing.xs),
+
+        Align(alignment: Alignment.centerLeft, child: Text('KAYITLI ARAÇLAR', style: AppText.monoLabel)),
         vehicles.when(
           loading: () => const LoadingState(),
           error: (e, _) => const SizedBox.shrink(),
@@ -401,7 +468,7 @@ class AdminManagementScreen extends ConsumerWidget {
               Padding(padding: const EdgeInsets.only(bottom: AppSpacing.md), child: VehicleCard(vehicle: v)),
           ]),
         ),
-        Align(alignment: Alignment.centerLeft, child: Text('GÜZERGÂH', style: AppText.label)),
+        Align(alignment: Alignment.centerLeft, child: Text('GÜZERGÂH', style: AppText.monoLabel)),
         route.maybeWhen(
           data: (r) => AppCard(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -410,6 +477,15 @@ class AdminManagementScreen extends ConsumerWidget {
             ]),
           ),
           orElse: () => const SizedBox.shrink(),
+        ),
+        AppCard(
+          onTap: () => context.push('/announcement'),
+          child: Row(children: [
+            const Icon(Icons.campaign_outlined, color: AppColors.primary),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(child: Text('Duyuru Oluştur', style: AppText.bodyStrong)),
+            const Icon(Icons.chevron_right, color: AppColors.textMuted),
+          ]),
         ),
         const Divider(color: AppColors.border),
         const ProfilePanel(),
