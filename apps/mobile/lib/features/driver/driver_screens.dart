@@ -171,9 +171,8 @@ class _DriverTripScreenState extends ConsumerState<DriverTripScreen> {
               destructive: true,
             );
             if (!ok) return;
-            ref.read(simulationControllerProvider.notifier).stop();
             await ref.read(locationServiceProvider).stop();
-            if (context.mounted) context.go('/driver');
+            if (context.mounted) context.go('/trip-summary');
           },
         ),
       ],

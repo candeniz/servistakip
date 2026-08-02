@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/constants/strings.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/formatters.dart';
@@ -12,18 +13,16 @@ import '../../providers/simulation_provider.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/app_scaffold.dart';
 import '../../widgets/buttons.dart';
-import '../../widgets/eta_widget.dart';
+import '../../widgets/info_tile.dart';
 import '../../widgets/live_map.dart';
-import '../../widgets/remaining_stops_card.dart';
+import '../../widgets/plate_chip.dart';
 import '../../widgets/state_views.dart';
-import '../../widgets/stop_timeline.dart';
-import '../../widgets/status_badge.dart';
-import '../../widgets/trip_status_card.dart';
-import '../../widgets/user_avatar.dart';
+import '../../widgets/trip_progress_stepper.dart';
 import '../shared/notifications_list.dart';
 import '../shared/profile_panel.dart';
 
-/// Yolcu canlı servis ana ekranı: harita + ETA + kalan durak + şoför bilgisi.
+/// Yolcu canlı servis ana ekranı (Stitch): büyük başlık + 2×2 bilgi kutuları +
+/// yolculuk süreci + varışta bildir + şoför kartı.
 class PassengerHomeScreen extends ConsumerStatefulWidget {
   const PassengerHomeScreen({super.key});
 
@@ -46,56 +45,90 @@ class _PassengerHomeScreenState extends ConsumerState<PassengerHomeScreen> {
     final eta = ref.watch(passengerEtaProvider);
 
     if (sim.location == null || eta == null) {
-      return const AppScaffold(
-        title: S.myService,
-        children: [Padding(padding: EdgeInsets.all(40), child: LoadingState(message: 'Servis konumu alınıyor…'))],
-      );
+      return const AppScaffold(title: S.myService, children: [
+        Padding(padding: EdgeInsets.all(40), child: LoadingState(message: 'Servis konumu alınıyor…')),
+      ]);
     }
 
     final nextStop = demoStops[sim.nextStopIndex.clamp(0, demoStops.length - 1)];
     final targetStop = demoStops[passengerStopIndex];
+    final activeStep = sim.finished ? 2 : (sim.running ? 1 : 0);
 
     return AppScaffold(
       title: S.myService,
       subtitle: demoTrip.serviceName,
       children: [
-        if (eta.delayMinutes > 0)
-          OfflineBanner(message: 'Servis ${eta.delayMinutes} dk gecikmeli', tone: BannerTone.warning),
-        if (sim.finished)
-          const OfflineBanner(message: 'Servis durağınıza ulaştı 🎉', tone: BannerTone.warning),
-        EtaWidget(eta: eta),
-        RemainingStopsCard(
-          remainingStops: eta.remainingStops,
-          passengerStopName: targetStop.name,
-          nextStopName: nextStop.name,
-        ),
         LiveMap(
-          vehicleLocation: sim.location,
-          vehicleHeading: sim.heading,
-          stops: demoStops,
-          routePath: demoSimulationPath,
-          highlightStopId: targetStop.id,
+          vehicleLocation: sim.location, vehicleHeading: sim.heading,
+          stops: demoStops, routePath: demoSimulationPath, highlightStopId: targetStop.id, height: 220,
         ),
-        Align(alignment: Alignment.centerLeft, child: Text(S.driverInfo.toUpperCase(), style: AppText.label)),
         AppCard(
-          child: Row(children: [
-            UserAvatar(name: demoTrip.driverName, size: 44),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(demoTrip.driverName, style: AppText.bodyStrong),
-                Text('${demoTrip.vehiclePlate} · ${demoStops.length} durak', style: AppText.caption),
-              ]),
-            ),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(child: Text('Servisiniz ${eta.remainingStops} durak uzakta', style: AppText.h1)),
+              if (eta.delayMinutes > 0) Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(10)),
+                child: Column(children: [
+                  Text('GECİKME', style: AppText.monoTiny.copyWith(color: AppColors.textInverse)),
+                  Text('+${eta.delayMinutes} dk', style: AppText.bodyStrong.copyWith(color: AppColors.dangerBg)),
+                ]),
+              ),
+            ]),
+            const SizedBox(height: 4),
+            Text.rich(TextSpan(style: AppText.body, children: [
+              const TextSpan(text: 'Tahmini varış: '),
+              TextSpan(text: '~${eta.etaMinutes} dakika', style: AppText.bodyStrong.copyWith(color: AppColors.primary)),
+            ])),
+            const Divider(height: AppSpacing.xl),
+            Row(children: [
+              Expanded(child: InfoTile(icon: Icons.schedule, label: 'Planlanan', value: Fmt.time(eta.plannedArrivalAt))),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(child: InfoTile(icon: Icons.update, label: 'Güncel', value: Fmt.time(eta.estimatedArrivalAt), valueColor: AppColors.primary)),
+            ]),
+            const SizedBox(height: AppSpacing.md),
+            Row(children: [
+              Expanded(child: InfoTile(icon: Icons.place_outlined, label: 'Kalan Durak', value: '${eta.remainingStops}')),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(child: InfoTile(icon: Icons.badge_outlined, label: 'Plaka', value: '',
+                  valueWidget: PlateChip(plate: demoTrip.vehiclePlate, dense: true))),
+            ]),
+            const SizedBox(height: AppSpacing.lg),
+            Text('YOLCULUK SÜRECİ', style: AppText.monoLabel),
+            const SizedBox(height: AppSpacing.md),
+            TripProgressStepper(steps: const ['Depo', 'Yolda', 'Durak'], activeIndex: activeStep),
           ]),
         ),
-        SecondaryButton(label: S.absentToday, onPressed: () => context.go('/passenger/my-service')),
+        PrimaryButton(label: 'Varışta Bildir', icon: Icons.notifications_active_outlined, onPressed: () {}),
+        _driverCard(nextStop.name),
+        SecondaryButton(label: S.absentToday, onPressed: () => context.push('/absent')),
       ],
     );
   }
+
+  Widget _driverCard(String nextStopName) => AppCard(
+        child: Row(children: [
+          const CircleAvatar(radius: 22, backgroundColor: AppColors.primaryLight,
+              child: Icon(Icons.person, color: AppColors.primary)),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('SÜRÜCÜ', style: AppText.monoLabel),
+            Text(demoTrip.driverName, style: AppText.bodyStrong),
+          ])),
+          _circleIcon(Icons.call),
+          const SizedBox(width: AppSpacing.sm),
+          _circleIcon(Icons.chat_bubble_outline),
+        ]),
+      );
+
+  Widget _circleIcon(IconData icon) => Container(
+        width: 42, height: 42,
+        decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: AppColors.primary)),
+        child: Icon(icon, size: 18, color: AppColors.primary),
+      );
 }
 
-/// Yolcu servis detayı + durak zaman çizelgesi + "bugün binmeyeceğim".
+/// Servis & Durak Detayları (Stitch): sabah/akşam + harita + şoför + mevcut durak.
 class MyServiceScreen extends ConsumerStatefulWidget {
   const MyServiceScreen({super.key});
 
@@ -104,57 +137,132 @@ class MyServiceScreen extends ConsumerStatefulWidget {
 }
 
 class _MyServiceScreenState extends ConsumerState<MyServiceScreen> {
-  bool _morning = false;
-  bool _evening = false;
-  bool _saved = false;
+  int _segment = 0;
 
   @override
   Widget build(BuildContext context) {
     final sim = ref.watch(simulationControllerProvider);
+    final currentStop = demoStops[sim.nextStopIndex.clamp(0, demoStops.length - 1)];
+
     return AppScaffold(
-      title: S.myService,
-      subtitle: demoTrip.routeName,
+      title: demoTrip.routeName,
+      subtitle: 'Operasyonel Servis Detayı',
       children: [
-        TripStatusCard(trip: demoTrip),
-        Align(alignment: Alignment.centerLeft, child: Text('DURAKLAR', style: AppText.label)),
-        AppCard(
-          child: StopTimeline(
-            stops: demoStops,
-            nextStopIndex: sim.nextStopIndex,
-            highlightStopId: PassengerSnapshot.passengerStopId,
-          ),
+        SegmentedButton<int>(
+          segments: const [
+            ButtonSegment(value: 0, label: Text('Sabah'), icon: Icon(Icons.wb_sunny_outlined)),
+            ButtonSegment(value: 1, label: Text('Akşam'), icon: Icon(Icons.nightlight_outlined)),
+          ],
+          selected: {_segment},
+          onSelectionChanged: (s) => setState(() => _segment = s.first),
         ),
-        Align(alignment: Alignment.centerLeft, child: Text(S.absentToday.toUpperCase(), style: AppText.label)),
-        AppCard(
-          child: Column(children: [
-            SwitchListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text('Sabah servisine binmeyeceğim', style: AppText.body),
-              value: _morning,
-              onChanged: (v) => setState(() => _morning = v),
-            ),
-            SwitchListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text('Akşam servisine binmeyeceğim', style: AppText.body),
-              value: _evening,
-              onChanged: (v) => setState(() => _evening = v),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            PrimaryButton(
-              label: _saved ? 'Kaydedildi ✓' : 'Bildir',
-              onPressed: (_morning || _evening)
-                  ? () {
-                      setState(() => _saved = true);
-                      Future.delayed(const Duration(seconds: 2), () {
-                        if (mounted) setState(() => _saved = false);
-                      });
-                    }
-                  : null,
-            ),
-          ]),
-        ),
+        Stack(children: [
+          LiveMap(vehicleLocation: sim.location, stops: demoStops, routePath: demoSimulationPath, height: 220),
+          Positioned(left: AppSpacing.md, bottom: AppSpacing.md, child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(10)),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              Container(width: 8, height: 8, decoration: const BoxDecoration(color: AppColors.success, shape: BoxShape.circle)),
+              const SizedBox(width: 6),
+              Text('CANLI TAKİP AKTİF', style: AppText.monoTiny.copyWith(color: AppColors.text, fontWeight: FontWeight.w700)),
+            ]),
+          )),
+        ]),
+        _driverInfoCard(),
+        _currentStopCard(currentStop.name, sim),
+        _stopDetailsCard(sim),
       ],
     );
+  }
+
+  Widget _driverInfoCard() => AppCard(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            const Icon(Icons.person_outline, size: 16, color: AppColors.textSecondary),
+            const SizedBox(width: 4),
+            Text('Şoför Bilgisi', style: AppText.bodyStrong),
+          ]),
+          const SizedBox(height: AppSpacing.md),
+          Row(children: [
+            const CircleAvatar(radius: 24, backgroundColor: AppColors.primaryLight,
+                child: Icon(Icons.person, color: AppColors.primary)),
+            const SizedBox(width: AppSpacing.md),
+            Text(demoTrip.driverName, style: AppText.bodyStrong),
+            const SizedBox(width: AppSpacing.sm),
+            PlateChip(plate: demoTrip.vehiclePlate, dense: true),
+          ]),
+          const Divider(height: AppSpacing.xl),
+          Text('ARAÇ MARKA / MODEL', style: AppText.monoLabel),
+          Text('Mercedes-Benz Sprinter 2023', style: AppText.bodyStrong),
+          const SizedBox(height: AppSpacing.md),
+          Row(children: [
+            Expanded(child: PrimaryButton(label: 'Ara', icon: Icons.call, onPressed: () {})),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(child: SecondaryButton(label: 'Mesaj', icon: Icons.chat_bubble_outline, onPressed: () {})),
+          ]),
+        ]),
+      );
+
+  Widget _currentStopCard(String stopName, SimulationState sim) => AppCard(
+        color: AppColors.primary,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('MEVCUT DURAK', style: AppText.monoLabel.copyWith(color: AppColors.primaryLight)),
+          Text(stopName, style: AppText.h2.copyWith(color: AppColors.textInverse)),
+          Divider(height: AppSpacing.xl, color: AppColors.textInverse.withValues(alpha: 0.25)),
+          Row(children: [
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('Gecikme', style: AppText.caption.copyWith(color: AppColors.primaryLight)),
+              Text('+${demoTrip.delayMinutes} dk', style: AppText.h3.copyWith(color: AppColors.textInverse)),
+            ])),
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('Yolcu', style: AppText.caption.copyWith(color: AppColors.primaryLight)),
+              Text('${sim.passengers.where((p) => p.boardingStatus.value == 'boarded').length} / ${sim.passengers.length}',
+                  style: AppText.h3.copyWith(color: AppColors.textInverse)),
+            ])),
+          ]),
+        ]),
+      );
+
+  Widget _stopDetailsCard(SimulationState sim) {
+    final distances = ['500m', '2.4km', '8.1km', '11.2km', '14.0km', '17.5km', '20.1km', '22.4km'];
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Row(children: [
+        Expanded(child: Text('Durak Detayları', style: AppText.h3)),
+        Text('Tümünü Gör →', style: AppText.monoTiny.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700)),
+      ]),
+      const SizedBox(height: AppSpacing.sm),
+      AppCard(padding: EdgeInsets.zero, child: Column(children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+          decoration: const BoxDecoration(color: AppColors.surfaceTile,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+          child: Row(children: [
+            Expanded(flex: 4, child: Text('DURAK ADI', style: AppText.monoLabel)),
+            Expanded(flex: 3, child: Text('MESAFE', style: AppText.monoLabel)),
+            Expanded(flex: 3, child: Text('PLANLANAN', style: AppText.monoLabel)),
+          ]),
+        ),
+        for (var i = 0; i < demoStops.length; i++)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.md),
+            decoration: BoxDecoration(border: i < demoStops.length - 1
+                ? const Border(bottom: BorderSide(color: AppColors.border)) : null),
+            child: Row(children: [
+              Expanded(flex: 4, child: Row(children: [
+                Container(width: 8, height: 8, decoration: BoxDecoration(
+                    color: i < sim.nextStopIndex ? AppColors.success
+                        : (i == sim.nextStopIndex ? AppColors.primary : AppColors.border),
+                    shape: BoxShape.circle)),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(child: Text(demoStops[i].name, style: AppText.body, maxLines: 2, overflow: TextOverflow.ellipsis)),
+              ])),
+              Expanded(flex: 3, child: Text(distances[i % distances.length], style: AppText.body)),
+              Expanded(flex: 3, child: Text('0${6 + (demoStops[i].plannedArrivalOffset ~/ 15)}:${(demoStops[i].plannedArrivalOffset % 60).toString().padLeft(2, '0')}',
+                  style: AppText.monoTiny)),
+            ]),
+          ),
+      ])),
+    ]);
   }
 }
 
@@ -167,41 +275,83 @@ class PassengerNotificationsScreen extends StatelessWidget {
       const AppScaffold(title: 'Bildirimler', children: [NotificationsListView()]);
 }
 
-/// Yolcu geçmiş yolculukları (demo veri).
+/// Yolculuk Geçmişi (Stitch): aylık özet + geçmiş yolculuk kartları.
 class PassengerHistoryScreen extends StatelessWidget {
   const PassengerHistoryScreen({super.key});
 
+  // (tarih, hat, planlanan, gerçekleşen, gecikme, durum) — durum: 0 bindi, 1 binmedi, 2 gecikmeli-bindi
   static const _history = [
-    ('2026-08-01', 'Avrupa Yakası Sabah Servisi', true),
-    ('2026-07-31', 'Avrupa Yakası Akşam Servisi', false),
-    ('2026-07-31', 'Avrupa Yakası Sabah Servisi', true),
-    ('2026-07-30', 'Avrupa Yakası Akşam Servisi', true),
+    ('24 Ekim Perşembe', 'Maslak - Kadıköy Hattı', '18:15', '18:18', '3 DK', 0),
+    ('24 Ekim Perşembe', 'Levent - Beşiktaş Hattı', '08:30', '--:--', '--', 1),
+    ('23 Ekim Çarşamba', 'Kartal - Kurtköy Hattı', '17:45', '17:57', '12 DK', 2),
   ];
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Geçmiş',
-      subtitle: 'Önceki yolculuklarınız',
+      subtitle: 'Yolculuk geçmişiniz',
       children: [
-        for (final (date, name, onTime) in _history)
-          AppCard(
-            child: Row(children: [
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(name, style: AppText.bodyStrong),
-                  Text(Fmt.date(DateTime.parse(date)), style: AppText.tiny),
-                ]),
-              ),
-              StatusBadge(
-                label: onTime ? 'Zamanında' : 'Gecikmeli',
-                tone: onTime ? BadgeTone.success : BadgeTone.warning,
-              ),
-            ]),
-          ),
+        AppCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('Aylık Özet', style: AppText.h2),
+          Text('Bu ay toplam 42 başarılı yolculuk gerçekleştirdiniz.', style: AppText.caption),
+          const SizedBox(height: AppSpacing.md),
+          Row(children: [
+            Expanded(child: _summaryTile('Tamamlanan', '42', AppColors.primary)),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(child: _summaryTile('Kaçırılan', '3', AppColors.danger)),
+          ]),
+        ])),
+        const SizedBox(height: AppSpacing.sm),
+        for (final (date, line, planned, actual, delay, status) in _history)
+          _historyCard(date, line, planned, actual, delay, status),
       ],
     );
   }
+
+  Widget _summaryTile(String label, String value, Color color) => Container(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        decoration: BoxDecoration(color: AppColors.surfaceTile, borderRadius: BorderRadius.circular(12)),
+        child: Column(children: [
+          Text(label.toUpperCase(), style: AppText.monoLabel.copyWith(color: color)),
+          Text(value, style: AppText.statValue.copyWith(fontSize: 28)),
+        ]),
+      );
+
+  Widget _historyCard(String date, String line, String planned, String actual, String delay, int status) {
+    final accent = switch (status) { 0 => AppColors.success, 1 => AppColors.danger, _ => AppColors.warning };
+    final (statusIcon, statusText, statusColor) = switch (status) {
+      0 => (Icons.check_circle, 'BİNDİ', AppColors.success),
+      1 => (Icons.cancel, 'BİNMEDİ', AppColors.danger),
+      _ => (Icons.check_circle, 'BİNDİ', AppColors.success),
+    };
+    return AppCard(
+      accentColor: accent,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(date, style: AppText.bodyStrong),
+        Text(line, style: AppText.caption),
+        const SizedBox(height: AppSpacing.md),
+        Row(children: [
+          Expanded(child: _kv('PLANLANAN', planned)),
+          Expanded(child: _kv('GERÇEKLEŞEN', actual)),
+        ]),
+        const SizedBox(height: AppSpacing.sm),
+        Row(children: [
+          Expanded(child: _kv('GECİKME', delay)),
+          Row(children: [
+            Icon(statusIcon, size: 16, color: statusColor),
+            const SizedBox(width: 4),
+            Text(statusText, style: AppText.monoTiny.copyWith(color: statusColor, fontWeight: FontWeight.w700)),
+          ]),
+        ]),
+      ]),
+    );
+  }
+
+  Widget _kv(String k, String v) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(k, style: AppText.monoLabel),
+        Text(v, style: AppText.bodyStrong),
+      ]);
 }
 
 /// Yolcu profili.
