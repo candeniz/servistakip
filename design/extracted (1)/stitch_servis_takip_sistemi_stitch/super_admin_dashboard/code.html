@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lojistik Operasyon - Super Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "inverse-primary": "#b6c7e8",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary-fixed-variant": "#59431b",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#8293b2",
+                        "on-secondary-fixed": "#00174b",
+                        "on-tertiary-fixed": "#271900",
+                        "outline": "#75777e",
+                        "on-surface-variant": "#44474d",
+                        "outline-variant": "#c5c6ce",
+                        "tertiary-fixed-dim": "#e3c28e",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed": "#dbe1ff",
+                        "primary-container": "#1a2b45",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container": "#e5eeff",
+                        "surface-tint": "#4e5f7c",
+                        "background": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "on-surface": "#0b1c30",
+                        "primary-fixed-dim": "#b6c7e8",
+                        "tertiary-container": "#3a2702",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary-fixed": "#091c35",
+                        "surface-variant": "#d3e4fe",
+                        "primary": "#04162f",
+                        "tertiary-fixed": "#ffdeab",
+                        "secondary": "#0051d5",
+                        "on-primary-fixed-variant": "#374763",
+                        "tertiary": "#201400",
+                        "secondary-container": "#316bf3",
+                        "on-tertiary-container": "#aa8d5e",
+                        "inverse-surface": "#213145"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "sm": "12px",
+                        "xl": "32px",
+                        "xs": "8px",
+                        "lg": "24px",
+                        "gutter": "20px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "title-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .status-accent-green { border-left: 4px solid #10b981; }
+        .status-accent-orange { border-left: 4px solid #f59e0b; }
+        .status-accent-red { border-left: 4px solid #ef4444; }
+        .status-accent-blue { border-left: 4px solid #3b82f6; }
+        
+        .shadow-structured {
+            box-shadow: 0 4px 6px rgba(0, 23, 75, 0.05);
+        }
+        
+        .pulse {
+            animation: pulse-animation 2s infinite;
+        }
+        @keyframes pulse-animation {
+            0% { transform: scale(0.95); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+            100% { transform: scale(0.95); opacity: 0.9; }
+        }
+
+        .map-gradient {
+            background: linear-gradient(180deg, rgba(248, 249, 255, 0) 0%, rgba(248, 249, 255, 0.8) 100%);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #75777e; }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-mobile h-14 bg-surface dark:bg-surface-container-low border-b border-outline-variant dark:border-outline flat no shadows">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest p-2 rounded-full transition-colors">menu</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">Lojistik Operasyon</h1>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed p-2 rounded-full hover:bg-surface-variant cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed p-2 rounded-full hover:bg-surface-variant cursor-pointer">account_circle</span>
+</div>
+</header>
+<!-- NavigationDrawer (Desktop Only Sidebar) -->
+<aside class="hidden md:flex fixed inset-y-0 left-0 z-40 w-72 flex-col bg-surface dark:bg-surface-dim border-r border-outline-variant dark:border-outline pt-16 shadow-lg">
+<div class="px-6 py-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate super admin for a logistics firm. The portrait is high-contrast with soft studio lighting against a neutral blue-gray background. The man is wearing a modern charcoal suit and has a confident, tech-savvy expression. The overall style is clean, corporate, and minimalist, echoing a high-end SaaS environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRolKT5AhbnYvqsIZ85AuF0qPpUW16G54RJev6e_h4PvPyNG_RPeJEOZI90zRhCmHzkuHWJ7PVeM30DgKXsRPvoJcd0JwJMW0LCNdVkkJE1MGJvrQj3vBODPEwZ6mkzIc_c4T7afnzCQMyWNAHkbFiRN_2acXT_Av8cFYUryRjv7O7KZyBs4na4SUSV6UwvLuBkn3ecoz9iIB1YVx_vSzhgBYLxb3UkMOLmEYeYs5OLIvm6fSplQjC"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Süper Admin</p>
+<p class="text-xs text-on-surface-variant">admin@loji-saas.com</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto mt-2">
+<div class="bg-secondary-fixed text-on-secondary-fixed font-bold rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined">analytics</span>
+<span>Genel Bakış</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low mx-2 my-1 px-4 py-3 rounded-lg flex items-center gap-3 transition-all">
+<span class="material-symbols-outlined">business_center</span>
+<span>Müşteriler</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low mx-2 my-1 px-4 py-3 rounded-lg flex items-center gap-3 transition-all">
+<span class="material-symbols-outlined">location_on</span>
+<span>Canlı Operasyon</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low mx-2 my-1 px-4 py-3 rounded-lg flex items-center gap-3 transition-all">
+<span class="material-symbols-outlined">layers</span>
+<span>Paket Yönetimi</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low mx-2 my-1 px-4 py-3 rounded-lg flex items-center gap-3 transition-all">
+<span class="material-symbols-outlined">support_agent</span>
+<span>Destek</span>
+</div>
+<div class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low mx-2 my-1 px-4 py-3 rounded-lg flex items-center gap-3 transition-all">
+<span class="material-symbols-outlined">settings_applications</span>
+<span>Ayarlar</span>
+</div>
+</nav>
+<div class="p-4 border-t border-outline-variant text-xs text-on-surface-variant">
+            v2.4.1 Operasyonel Bütünlük Sistemi
+        </div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-20 pb-24 md:pl-72 px-4 md:px-margin-desktop min-h-screen">
+<!-- Dashboard Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-on-background">Sistem Özeti</h2>
+<p class="text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500 pulse"></span>
+                    Tüm sistemler kararlı. Canlı veri akışı aktif.
+                </p>
+</div>
+<div class="flex gap-2">
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm uppercase tracking-wider flex items-center gap-2 shadow-structured hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span> Yeni Kayıt
+                </button>
+<button class="border border-primary text-primary px-4 py-2 rounded-lg font-bold text-sm uppercase tracking-wider flex items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">download</span> Rapor Al
+                </button>
+</div>
+</div>
+<!-- Global Stats Bento Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-gutter mb-8">
+<!-- Card 1 -->
+<div class="bg-white border border-outline-variant p-4 rounded-xl shadow-structured status-accent-blue flex flex-col justify-between">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-tight">Toplam Şirket</p>
+<div class="flex items-end justify-between mt-2">
+<span class="text-headline-md font-extrabold text-primary">124</span>
+<span class="text-xs text-green-600 font-bold">+2.4%</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white border border-outline-variant p-4 rounded-xl shadow-structured status-accent-green flex flex-col justify-between">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-tight">Aktif Şirket</p>
+<div class="flex items-end justify-between mt-2">
+<span class="text-headline-md font-extrabold text-primary">118</span>
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white border border-outline-variant p-4 rounded-xl shadow-structured status-accent-blue flex flex-col justify-between">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-tight">Yolcu Sayısı</p>
+<div class="flex items-end justify-between mt-2">
+<span class="text-headline-md font-extrabold text-primary">12.4k</span>
+<span class="text-xs bg-surface-container px-1 rounded font-label-md text-on-surface-variant">GENEL</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white border border-outline-variant p-4 rounded-xl shadow-structured status-accent-blue flex flex-col justify-between">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-tight">Kayıtlı Araç</p>
+<div class="flex items-end justify-between mt-2">
+<span class="text-headline-md font-extrabold text-primary">850</span>
+<span class="material-symbols-outlined text-outline">local_shipping</span>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-white border border-outline-variant p-4 rounded-xl shadow-structured status-accent-orange flex flex-col justify-between">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-tight">Aktif Servis</p>
+<div class="flex items-end justify-between mt-2">
+<span class="text-headline-md font-extrabold text-primary">342</span>
+<span class="pulse w-2 h-2 rounded-full bg-orange-500"></span>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="bg-white border border-outline-variant p-4 rounded-xl shadow-structured status-accent-green flex flex-col justify-between">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-tight">Çevrimiçi Şoför</p>
+<div class="flex items-end justify-between mt-2">
+<span class="text-headline-md font-extrabold text-primary">310</span>
+<span class="material-symbols-outlined text-green-500">sensors</span>
+</div>
+</div>
+</div>
+<!-- Main Grid Area -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Mini Live Map Section -->
+<div class="lg:col-span-8 bg-white border border-outline-variant rounded-xl shadow-structured overflow-hidden flex flex-col h-[500px]">
+<div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+<h3 class="font-title-lg text-title-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">explore</span>
+                        Canlı Harita Görünümü
+                    </h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-1 text-xs">
+<span class="w-2 h-2 rounded-full bg-green-500"></span> Aktif
+                        </div>
+<div class="flex items-center gap-1 text-xs">
+<span class="w-2 h-2 rounded-full bg-orange-500"></span> Gecikme
+                        </div>
+<div class="flex items-center gap-1 text-xs">
+<span class="w-2 h-2 rounded-full bg-red-500"></span> Rota Dışı
+                        </div>
+</div>
+</div>
+<div class="relative flex-1 bg-surface-variant group">
+<div class="absolute inset-0 z-0">
+<!-- Simulated Map Background -->
+<div class="w-full h-full bg-cover bg-center" data-alt="A clean, minimalist vector map of a modern city center at dusk. The map uses a sophisticated dark-mode and light-mode hybrid color palette with navy, light gray, and subtle blue highlights. Street lines are crisp and professional. Tiny glowing dots represent moving vehicles in green, orange, and red, creating a sense of real-time activity and logistical flow." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAFK40czBXQ7UdKFfE0WFgIeNKoetn4IXnBiCHhyPYkwNoaA0HAgOJ9K0acwNDvXCP6DswsumuVWDXhnPLCAx9pkyYHFfmuo1mDzQMcs08ZvFEGzJwcJwoypR_vDGlC85qkHBsjiUaNaIJt2YsBywCuSIXurLXZbKm69Idlp5By05KUO1VfFuS85Bc2gLR2ve6GE2Z_JjzV0XUXq7JYcsGKvWo7ipj7f2yCRJhpPRRHnnqkzPzDTZuy')"></div>
+<div class="absolute inset-0 bg-primary/5"></div>
+</div>
+<!-- Floating Map Controls -->
+<div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
+<button class="w-10 h-10 bg-white shadow-lg border border-outline-variant flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-10 h-10 bg-white shadow-lg border border-outline-variant flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="w-10 h-10 bg-white shadow-lg border border-outline-variant flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<!-- Overlaying Dynamic Data Panel -->
+<div class="absolute bottom-4 left-4 right-4 z-10 flex gap-4 overflow-x-auto no-scrollbar pb-2">
+<div class="min-w-[200px] bg-white/95 backdrop-blur-sm p-3 rounded-lg shadow-lg border-l-4 border-red-500">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Rota Dışı Uyarısı</span>
+<span class="material-symbols-outlined text-red-500 text-sm">warning</span>
+</div>
+<p class="font-bold text-sm mt-1">34 LJO 122</p>
+<p class="text-xs text-on-surface-variant">Kadıköy - Beşiktaş Hattı</p>
+</div>
+<div class="min-w-[200px] bg-white/95 backdrop-blur-sm p-3 rounded-lg shadow-lg border-l-4 border-orange-500">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Gecikme: 12 dk</span>
+<span class="material-symbols-outlined text-orange-500 text-sm">schedule</span>
+</div>
+<p class="font-bold text-sm mt-1">06 TRK 990</p>
+<p class="text-xs text-on-surface-variant">Sabiha Gökçen Servis</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Insights & Alerts -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Support Tickets -->
+<div class="bg-white border border-outline-variant rounded-xl shadow-structured status-accent-red p-6 flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-title-lg text-title-lg">Bekleyen Destek</h3>
+<p class="text-xs text-on-surface-variant uppercase font-bold tracking-widest mt-1">8 Açık Talep</p>
+</div>
+<span class="w-10 h-10 bg-error-container text-on-error-container flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined">confirmation_number</span>
+</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-2 hover:bg-surface-container-low rounded-lg border-b border-outline-variant/30">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-xs font-bold">#42</div>
+<span class="text-sm font-medium">Ödeme Hatası</span>
+</div>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-2 hover:bg-surface-container-low rounded-lg border-b border-outline-variant/30">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-xs font-bold">#45</div>
+<span class="text-sm font-medium">GPS Veri Kesintisi</span>
+</div>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</div>
+</div>
+<button class="w-full mt-6 py-2 border border-outline-variant text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-surface-container transition-colors">Tüm Biletler</button>
+</div>
+<!-- Expiring Packages -->
+<div class="bg-white border border-outline-variant rounded-xl shadow-structured status-accent-orange p-6 flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-title-lg text-title-lg">Biten Paketler</h3>
+<p class="text-xs text-on-surface-variant uppercase font-bold tracking-widest mt-1">5 Kritik Firma</p>
+</div>
+<span class="w-10 h-10 bg-tertiary-fixed-dim text-on-tertiary-fixed-variant flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined">inventory_2</span>
+</span>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="flex-1 bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-orange-500 h-full w-[85%]"></div>
+</div>
+<span class="text-xs font-bold">85%</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-4">Yenileme oranı geçen aya göre %4 arttı.</p>
+<button class="w-full py-2 bg-secondary text-white text-xs font-bold uppercase tracking-widest rounded-lg shadow-lg hover:opacity-90 transition-opacity">Yenilemeleri Başlat</button>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="lg:col-span-12 bg-white border border-outline-variant rounded-xl shadow-structured p-6 mb-8">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold">Son 30 Günlük Sefer İstatistiği</h3>
+<p class="text-sm text-on-surface-variant">Tamamlanan, iptal edilen ve geciken seferlerin dağılımı.</p>
+</div>
+<div class="flex bg-surface-container-low p-1 rounded-lg border border-outline-variant">
+<button class="px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm border border-outline-variant">Günlük</button>
+<button class="px-4 py-1.5 text-xs font-bold rounded-md text-on-surface-variant hover:bg-surface-container-high transition-colors">Haftalık</button>
+<button class="px-4 py-1.5 text-xs font-bold rounded-md text-on-surface-variant hover:bg-surface-container-high transition-colors">Aylık</button>
+</div>
+</div>
+<div class="h-64 w-full relative flex items-end justify-between gap-2 px-2">
+<!-- Chart Simulation using CSS Gradients/Borders -->
+<div class="flex-1 bg-primary/10 rounded-t-sm relative group" style="height: 60%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">342</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-sm relative group" style="height: 75%;"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm relative group" style="height: 55%;"></div>
+<div class="flex-1 bg-secondary rounded-t-sm relative group" style="height: 90%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-secondary text-white text-[10px] px-1 rounded">512</div>
+</div>
+<div class="flex-1 bg-primary/10 rounded-t-sm relative group" style="height: 65%;"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm relative group" style="height: 40%;"></div>
+<div class="flex-1 bg-primary/30 rounded-t-sm relative group" style="height: 80%;"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm relative group" style="height: 60%;"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm relative group" style="height: 70%;"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm relative group" style="height: 45%;"></div>
+<div class="flex-1 bg-orange-500/50 rounded-t-sm relative group" style="height: 30%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-orange-600 text-white text-[10px] px-1 rounded">210</div>
+</div>
+<div class="flex-1 bg-primary/10 rounded-t-sm relative group" style="height: 55%;"></div>
+<div class="flex-1 bg-primary/10 rounded-t-sm relative group" style="height: 65%;"></div>
+<div class="flex-1 bg-primary/40 rounded-t-sm relative group" style="height: 85%;"></div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-on-surface-variant/50 uppercase tracking-tighter">
+<span>1 Haz</span>
+<span>5 Haz</span>
+<span>10 Haz</span>
+<span>15 Haz</span>
+<span>20 Haz</span>
+<span>25 Haz</span>
+<span>30 Haz</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-2 pt-1 bg-surface-container-lowest dark:bg-surface-container-low border-t border-outline-variant dark:border-outline shadow-md rounded-t-xl">
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 transition-transform duration-150 active:scale-90">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Genel</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:text-primary transition-transform duration-150 active:scale-90">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Müşteri</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:text-primary transition-transform duration-150 active:scale-90">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-label-md text-label-md">Canlı</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:text-primary transition-transform duration-150 active:scale-90">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Paket</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:text-primary transition-transform duration-150 active:scale-90">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Ayarlar</span>
+</div>
+</nav>
+<!-- FAB for Task-Focus (Hidden on detail pages as per mandate) -->
+<button class="fixed bottom-20 md:bottom-8 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<script>
+        // Simple Micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                // Subtle interaction logic can be added here
+            });
+        });
+
+        // Simulating live data update every 5 seconds
+        setInterval(() => {
+            const activeServices = document.querySelector('.status-accent-orange .text-headline-md');
+            if (activeServices) {
+                const current = parseInt(activeServices.innerText);
+                const variance = Math.floor(Math.random() * 5) - 2;
+                activeServices.innerText = current + variance;
+            }
+        }, 5000);
+    </script>
+</body></html>

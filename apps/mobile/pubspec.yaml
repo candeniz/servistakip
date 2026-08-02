@@ -1,0 +1,49 @@
+name: servis_takip
+description: "Çok kiracılı, rol bazlı personel servisi takip uygulaması (Flutter)."
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.6.1
+
+  # Navigasyon
+  go_router: ^14.6.2
+
+  # API
+  dio: ^5.7.0
+
+  # Harita & konum
+  google_maps_flutter: ^2.10.0
+  geolocator: ^13.0.2
+
+  # Bildirim (Firebase Cloud Messaging)
+  firebase_core: ^3.8.0
+  firebase_messaging: ^15.1.6
+
+  # Güvenli yerel depolama
+  flutter_secure_storage: ^9.2.2
+
+  # Gerçek zamanlı bağlantı
+  web_socket_channel: ^3.0.1
+
+  # İzinler & biçimlendirme
+  permission_handler: ^11.3.1
+  intl: ^0.20.1
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  fake_async: ^1.3.1
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lojistik Operasyon - Sistem Durumları</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "on-error": "#ffffff",
+                    "tertiary": "#201400",
+                    "primary-fixed": "#d6e3ff",
+                    "primary": "#04162f",
+                    "surface": "#f8f9ff",
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#0051d5",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary-fixed-variant": "#374763",
+                    "inverse-surface": "#213145",
+                    "tertiary-fixed": "#ffdeab",
+                    "outline": "#75777e",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "background": "#f8f9ff",
+                    "on-tertiary-container": "#aa8d5e",
+                    "surface-bright": "#f8f9ff",
+                    "surface-tint": "#4e5f7c",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#8293b2",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b6c7e8",
+                    "on-tertiary-fixed": "#271900",
+                    "primary-container": "#1a2b45",
+                    "outline-variant": "#c5c6ce",
+                    "on-surface": "#0b1c30",
+                    "on-primary-fixed": "#091c35",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-secondary-container": "#fefcff",
+                    "surface-container": "#e5eeff",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "on-surface-variant": "#44474d",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary-fixed": "#00174b",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#316bf3",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#3a2702",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-background": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "20px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "margin-desktop": "32px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "margin-mobile": "16px",
+                    "xl": "32px",
+                    "sm": "12px"
+            },
+            "fontFamily": {
+                    "title-lg": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .skeleton {
+            background: linear-gradient(90deg, #eff4ff 25%, #dce9ff 50%, #eff4ff 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite linear;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .glass-card {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-20">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-mobile h-14 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-variant p-2 rounded-full transition-colors duration-200">menu</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Lojistik Operasyon</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-variant p-2 rounded-full transition-colors duration-200">account_circle</span>
+</div>
+</header>
+<main class="pt-20 px-4 md:px-margin-desktop max-w-7xl mx-auto space-y-8">
+<!-- Section Header -->
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-lg text-headline-lg text-primary">Sistem Durumları</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Operasyonel takip ekranı ve hata yönetim paneli.</p>
+</div>
+<!-- Bento Grid for Statuses -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Veri Yükleniyor (Skeleton) -->
+<div class="md:col-span-4 bg-surface-container-lowest p-6 border border-outline-variant rounded-xl shadow-md">
+<div class="flex items-center justify-between mb-6">
+<span class="font-label-md text-label-md text-primary px-2 py-1 bg-primary-fixed rounded">DURUM: YÜKLENİYOR</span>
+<div class="w-2 h-2 rounded-full bg-secondary pulse-dot"></div>
+</div>
+<div class="space-y-4">
+<div class="h-6 w-3/4 skeleton rounded"></div>
+<div class="h-24 w-full skeleton rounded-lg"></div>
+<div class="flex gap-2">
+<div class="h-10 w-24 skeleton rounded-full"></div>
+<div class="h-10 w-24 skeleton rounded-full"></div>
+</div>
+</div>
+<p class="mt-4 font-body-md text-body-md text-on-surface-variant">Canlı sevkiyat verileri senkronize ediliyor...</p>
+</div>
+<!-- İnternet Yok Uyarısı -->
+<div class="md:col-span-4 bg-error-container p-6 border border-error rounded-xl shadow-md flex flex-col items-center text-center justify-center">
+<div class="w-16 h-16 rounded-full bg-on-error flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-error text-4xl" style="font-variation-settings: 'FILL' 1;">wifi_off</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-error-container">Bağlantı Kesildi</h3>
+<p class="font-body-md text-body-md text-on-error-container mt-2">İnternet bağlantınız koptu. Operasyonel veriler şu anda güncellenemiyor.</p>
+<button class="mt-6 px-6 py-2 bg-error text-on-error font-bold rounded-lg hover:opacity-90 transition-opacity">YENİDEN DENE</button>
+</div>
+<!-- GPS Sinyali Hatası -->
+<div class="md:col-span-4 bg-surface-container-lowest p-6 border-l-4 border-l-error border border-outline-variant rounded-xl shadow-md">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-error text-3xl">location_off</span>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Sinyal Alınamıyor</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Araç GPS cihazı ile iletişim kesildi. Son bilinen konum: <span class="font-label-md text-label-md text-primary">34 ABC 123</span></p>
+</div>
+</div>
+<div class="mt-4 h-32 rounded-lg bg-surface-variant flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-40 bg-cover bg-center" data-alt="A blurred satellite map of a city intersection with a red pulsing marker indicating a lost GPS signal. The style is professional and technical, using a dark-mode logistics aesthetic with cyan and red accents. Subtle scanline effects and UI telemetry overlays add a sense of real-time monitoring." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_199LPcncOEJQVuR_Sl44APnqlQHBS1BT1A1CertRp0GacZMluLFSg1RZ1aFQJ2yhqDQ0xFNXLD44Ocg1mtf6F3oYi3tWrIW8DavTq9yFZH8_Fi-O2TPZgvSecAm490-NReLhYC38tcDXh9ow37iV0YKqgTLSfdobOft-8SsCrkPiArGSXJvTCAWNN9Hm81jfKAmZ4Cp4L5Vbkddy6hwLX5nKEHFS4e68DjSxAbL6GmzM86Ir2pqJ')"></div>
+<span class="material-symbols-outlined text-error text-5xl z-10">error</span>
+</div>
+</div>
+<!-- Henüz Kayıt Yok (Boş Durum) -->
+<div class="md:col-span-8 bg-surface-container-lowest p-12 border border-outline-variant rounded-xl shadow-md flex flex-col items-center text-center">
+<img class="w-48 h-48 object-contain mb-6 grayscale opacity-60" data-alt="A high-end 3D minimalist illustration of an empty delivery warehouse with clean white walls and polished floors. A single, perfectly rendered cardboard box sits in the center of the vast space, representing the absence of active data. The lighting is soft and studio-quality, with a primary color palette of deep navy and bright white." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0hMqpwTXNpP9HdtP8Yr5bjpeyuJNoWJQlRLfmnTiTa5BtGA2jw7HgY9YX2BunlZbBXiCnoNLXyjmhiMH3ILxhoxqGjIsmT4vhsJ1cCzFBpKuSptGnFpSsOdqJRU_IomyyT4ja09UrzxtWL-xNRCPckvCdwRxFyq52i70Mn9gYIgfwmxGnZpTsjcW-tvi7EIfz_40qyJb-2V_Efnhc4n4YVYFs0mSe-FpOScisdZFH1LAmxLOLGRYP"/>
+<h3 class="font-headline-md text-headline-md text-primary">Henüz Kayıt Yok</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto mt-2">Bu tarih aralığında herhangi bir sevkiyat kaydı bulunamadı. Filtrelerinizi değiştirerek tekrar deneyebilirsiniz.</p>
+<button class="mt-8 px-8 py-3 bg-primary text-on-primary font-bold rounded-lg flex items-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined">add</span>
+                    YENİ KAYIT OLUŞTUR
+                </button>
+</div>
+<!-- Servis İptal Edildi Durum Kartı -->
+<div class="md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-md overflow-hidden flex flex-col">
+<div class="h-2 bg-error"></div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant block">OPERASYON ID</span>
+<span class="font-title-lg text-title-lg text-primary">#TR-88921</span>
+</div>
+<span class="bg-error-container text-on-error-container font-label-md text-label-md px-3 py-1 rounded-full">İPTAL EDİLDİ</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">person</span>
+<span class="font-body-md text-body-md">Ahmet Yılmaz (Sürücü)</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="font-body-md text-body-md">14:20 - 24 Ekim 2023</span>
+</div>
+</div>
+<div class="mt-6 p-3 bg-surface-container rounded-lg border border-outline-variant">
+<p class="font-label-md text-label-md text-on-tertiary-container mb-1">İPTAL NEDENİ</p>
+<p class="font-body-md text-body-md text-on-surface italic">"Müşteri talebi üzerine teslimat saati değiştirilemediği için operasyon durduruldu."</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Confirm Deletion Modal (Overlay Emulated) -->
+<div class="relative w-full max-w-xl mx-auto p-8 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-2xl z-20 mt-12">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-error">delete_forever</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary">Kaydı Sil?</h3>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+<span class="font-bold text-on-surface">TR-9901</span> referanslı sevkiyat kaydını silmek üzeresiniz. Bu işlem geri alınamaz ve tüm geçmiş veriler kalıcı olarak silinir.
+            </p>
+<div class="flex flex-col sm:flex-row gap-3 mt-10">
+<button class="flex-1 px-6 py-3 border border-primary text-primary font-bold rounded-lg hover:bg-surface-variant transition-colors">VAZGEÇ</button>
+<button class="flex-1 px-6 py-3 bg-error text-on-error font-bold rounded-lg hover:opacity-90 transition-opacity">EVET, SİL</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-2 pt-1 bg-surface-container-lowest border-t border-outline-variant rounded-t-xl shadow-md">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Genel</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Müşteri</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-label-md text-label-md">Canlı</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Paket</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Ayarlar</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for simulation
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.add('scale-95');
+                    setTimeout(() => this.classList.remove('scale-95'), 150);
+                });
+            });
+        });
+    </script>
+</body></html>

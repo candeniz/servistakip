@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yeni Duyuru Oluştur - Servis Takibi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#dce9ff",
+                    "secondary": "#0051d5",
+                    "on-error-container": "#93000a",
+                    "on-background": "#0b1c30",
+                    "on-surface-variant": "#44474d",
+                    "surface-tint": "#4e5f7c",
+                    "surface-container": "#e5eeff",
+                    "secondary-container": "#316bf3",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-primary": "#b6c7e8",
+                    "on-primary-container": "#8293b2",
+                    "tertiary-container": "#3a2702",
+                    "surface": "#f8f9ff",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "primary": "#04162f",
+                    "surface-container-highest": "#d3e4fe",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed": "#ffdeab",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "on-primary-fixed-variant": "#374763",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "on-secondary-fixed": "#00174b",
+                    "tertiary": "#201400",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "primary-fixed": "#d6e3ff",
+                    "background": "#f8f9ff",
+                    "on-tertiary-fixed": "#271900",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-container": "#fefcff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#1a2b45",
+                    "outline": "#75777e",
+                    "on-primary-fixed": "#091c35",
+                    "inverse-surface": "#213145",
+                    "outline-variant": "#c5c6ce",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "20px",
+                    "md": "16px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "margin-desktop": "32px",
+                    "sm": "12px",
+                    "lg": "24px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "title-lg": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f8f9ff; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-card {
+            background: #ffffff;
+            border: 1px solid #E2E8F0;
+            transition: all 0.2s ease;
+        }
+        .form-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(11, 28, 48, 0.05);
+        }
+        .custom-toggle:checked + .toggle-slider {
+            background-color: #0051d5;
+        }
+        .custom-toggle:checked + .toggle-slider::before {
+            transform: translateX(20px);
+        }
+        .accent-bar {
+            width: 4px;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-14 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-primary active:scale-95 transition-transform">arrow_back</button>
+<h1 class="font-title-lg text-title-lg text-primary">Yeni Duyuru</h1>
+</div>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full">help_outline</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 pb-24 px-margin-mobile max-w-3xl mx-auto">
+<form class="space-y-lg">
+<!-- Section 1: Hedef Kitle -->
+<section class="form-card rounded-xl overflow-hidden relative p-lg">
+<div class="accent-bar bg-secondary"></div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-secondary">groups</span>
+<h2 class="font-title-lg text-primary">Hedef Kitle</h2>
+</div>
+<div class="space-y-base">
+<label class="block font-label-md text-on-surface-variant mb-base">Duyurunun Gönderileceği Grup</label>
+<select class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-md focus:border-secondary focus:ring-0 outline-none appearance-none cursor-pointer">
+<option>Tüm Şirket</option>
+<option>Tüm Servisler</option>
+<option>Özel Güzergah</option>
+<option>Sadece Şoförler</option>
+<option>Yönetici Paneli</option>
+</select>
+</div>
+</section>
+<!-- Section 2: Duyuru İçeriği -->
+<section class="form-card rounded-xl overflow-hidden relative p-lg">
+<div class="accent-bar bg-primary-container"></div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-primary">article</span>
+<h2 class="font-title-lg text-primary">Duyuru İçeriği</h2>
+</div>
+<div class="space-y-lg">
+<div class="space-y-base">
+<label class="block font-label-md text-on-surface-variant mb-base">Başlık</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-md focus:border-secondary focus:ring-0 outline-none" placeholder="Örn: Güzergah değişikliği hakkında" type="text"/>
+</div>
+<div class="space-y-base">
+<label class="block font-label-md text-on-surface-variant mb-base">Açıklama</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-md focus:border-secondary focus:ring-0 outline-none resize-none" placeholder="Duyuru detaylarını buraya yazınız..." rows="4"></textarea>
+</div>
+</div>
+</section>
+<!-- Section 3: Medya -->
+<section class="form-card rounded-xl overflow-hidden relative p-lg">
+<div class="accent-bar bg-tertiary-fixed-dim"></div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-on-tertiary-container">attach_file</span>
+<h2 class="font-title-lg text-primary">Medya ve Ekler</h2>
+</div>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center gap-sm bg-surface-container-lowest hover:bg-surface-container transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-secondary transition-colors">cloud_upload</span>
+<p class="font-body-md text-on-surface-variant text-center">Görsel veya belge yüklemek için tıklayın veya sürükleyin</p>
+<p class="font-label-md text-outline">Maksimum dosya boyutu: 10MB (PDF, PNG, JPG)</p>
+</div>
+</section>
+<!-- Section 4: Ayarlar & Zamanlama -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Sol Panel -->
+<div class="form-card rounded-xl p-lg relative overflow-hidden">
+<div class="accent-bar bg-outline"></div>
+<h3 class="font-label-md text-on-surface-variant mb-md">ZAMANLAMA</h3>
+<div class="space-y-md">
+<label class="flex items-center gap-sm cursor-pointer p-sm rounded-lg hover:bg-surface-container-low transition-colors">
+<input checked="" class="w-5 h-5 text-secondary focus:ring-0 border-outline-variant bg-surface-container-lowest" name="timing" type="radio"/>
+<span class="font-body-md font-medium text-primary">Hemen Yayınla</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer p-sm rounded-lg hover:bg-surface-container-low transition-colors">
+<input class="w-5 h-5 text-secondary focus:ring-0 border-outline-variant bg-surface-container-lowest" name="timing" type="radio"/>
+<span class="font-body-md font-medium text-primary">İleri Tarihli Planla</span>
+</label>
+<div class="pt-xs">
+<label class="block font-label-md text-on-surface-variant mb-base">Son Geçerlilik Tarihi</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-sm font-label-md outline-none" type="date"/>
+</div>
+</div>
+</div>
+<!-- Sağ Panel -->
+<div class="form-card rounded-xl p-lg relative overflow-hidden">
+<div class="accent-bar bg-outline"></div>
+<h3 class="font-label-md text-on-surface-variant mb-md">BİLDİRİM AYARLARI</h3>
+<div class="space-y-lg">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-primary">Push Bildirimi</span>
+<span class="font-label-md text-on-surface-variant">Kullanıcılara anlık uyarı gitmesi</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer custom-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-primary">Okundu Bilgisi</span>
+<span class="font-label-md text-on-surface-variant">Kimlerin gördüğünü takip et</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer custom-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Submit Button Area -->
+<div class="flex flex-col md:flex-row gap-md pt-lg">
+<button class="flex-1 px-xl py-4 bg-primary text-white rounded-lg font-bold uppercase tracking-wider text-label-md hover:bg-primary-container active:scale-95 transition-all shadow-md" type="button">
+                    Duyuruyu Yayınla
+                </button>
+<button class="px-xl py-4 bg-transparent border border-primary text-primary rounded-lg font-bold uppercase tracking-wider text-label-md hover:bg-surface-container-low active:scale-95 transition-all" type="button">
+                    Taslak Olarak Kaydet
+                </button>
+</div>
+</form>
+</main>
+<!-- BottomNavBar (Hidden on Mobile Task context as per rules, but included for structure if top-level) -->
+<!-- Determined this as transactional/sub-page intent (Creating announcement) so suppressing shell as per mandate -->
+<!-- Micro-interactions Script -->
+<script>
+        // Simple visual feedback for radio/checkbox groups
+        const formElements = document.querySelectorAll('input, select, textarea');
+        formElements.forEach(el => {
+            el.addEventListener('focus', () => {
+                el.closest('.form-card')?.classList.add('ring-2', 'ring-secondary-container/20');
+            });
+            el.addEventListener('blur', () => {
+                el.closest('.form-card')?.classList.remove('ring-2', 'ring-secondary-container/20');
+            });
+        });
+
+        // Toggle state styling helper
+        const toggles = document.querySelectorAll('.custom-toggle');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                const label = e.target.closest('label');
+                if (e.target.checked) {
+                    label.previousElementSibling?.querySelector('span:first-child')?.classList.add('text-secondary');
+                } else {
+                    label.previousElementSibling?.querySelector('span:first-child')?.classList.remove('text-secondary');
+                }
+            });
+        });
+    </script>
+</body></html>

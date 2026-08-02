@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FleetOps | Güzergâh Yönetimi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Hanken+Grotesk', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .route-card-accent {
+            width: 4px;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        /* Zebra striping for tables if used */
+        .zebra-table tr:nth-child(even) {
+            background-color: #f1f5f9;
+        }
+        /* Custom scrollbar for control center feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8f9ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#d3e4fe",
+                      "secondary": "#0051d5",
+                      "primary-container": "#1a2b45",
+                      "on-tertiary-container": "#aa8d5e",
+                      "on-secondary-fixed": "#00174b",
+                      "inverse-surface": "#213145",
+                      "primary": "#04162f",
+                      "surface-tint": "#4e5f7c",
+                      "on-surface": "#0b1c30",
+                      "error-container": "#ffdad6",
+                      "primary-fixed-dim": "#b6c7e8",
+                      "secondary-container": "#316bf3",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#b6c7e8",
+                      "surface-container": "#e5eeff",
+                      "on-tertiary-fixed": "#271900",
+                      "primary-fixed": "#d6e3ff",
+                      "surface": "#f8f9ff",
+                      "on-surface-variant": "#44474d",
+                      "surface-container-high": "#dce9ff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-primary-fixed-variant": "#374763",
+                      "on-secondary-fixed-variant": "#003ea8",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#fefcff",
+                      "surface-dim": "#cbdbf5",
+                      "on-error": "#ffffff",
+                      "on-background": "#0b1c30",
+                      "outline-variant": "#c5c6ce",
+                      "on-primary-fixed": "#091c35",
+                      "outline": "#75777e",
+                      "tertiary-fixed": "#ffdeab",
+                      "on-tertiary-fixed-variant": "#59431b",
+                      "surface-container-lowest": "#ffffff",
+                      "error": "#ba1a1a",
+                      "secondary-fixed": "#dbe1ff",
+                      "on-primary-container": "#8293b2",
+                      "tertiary-container": "#3a2702",
+                      "tertiary": "#201400",
+                      "surface-bright": "#f8f9ff",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#e3c28e",
+                      "surface-container-highest": "#d3e4fe",
+                      "secondary-fixed-dim": "#b4c5ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-primary": "#ffffff",
+                      "background": "#f8f9ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "gutter": "20px",
+                      "md": "16px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "32px",
+                      "base": "4px",
+                      "xs": "8px",
+                      "xl": "32px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Hanken Grotesk"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "title-lg": ["Hanken Grotesk"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "label-md": ["JetBrains Mono"],
+                      "headline-lg-mobile": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-primary border-b border-outline-variant dark:border-primary-container flex items-center justify-between px-margin-mobile md:px-margin-desktop h-14 w-full">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined cursor-pointer text-primary dark:text-on-primary-fixed active:scale-95 duration-150">menu</span>
+<h1 class="text-title-lg font-title-lg font-bold text-primary dark:text-secondary-fixed">FleetOps</h1>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden md:flex items-center gap-md">
+<nav class="flex gap-lg">
+<a class="font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high transition-colors px-xs py-base rounded" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-secondary dark:text-secondary-fixed border-b-2 border-secondary" href="#">Tracking</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high transition-colors px-xs py-base rounded" href="#">Services</a>
+</nav>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant cursor-pointer active:scale-95 duration-150">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a logistics executive in a corporate setting. The lighting is soft and professional, emphasizing a modern light-mode aesthetic. The background is a slightly blurred office with clean lines and a palette of whites and blues, matching the corporate B2B SaaS theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDQT41Pl6Losp-0vg81JiMUueSiydNt0vGrtNzc92sk1UK72rOqxVGX7Xfil6cndu1jbPBB3I-yjjV9IJzfAYORmYXnKBzg7dnbfVgJx8r2nzED3--ms6TNvjmdQhoDBgtJkzLECQrOEr5M1nfYcZd7nHQMeeFvCSHDpecKTRLF4akmKsaC13T8FkafzWy691Vd6ov0p4LtWkir9f0caLgTHIcYdoQqlA2c0s2sVXZb1_64SAhmj5A"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation Drawer (Desktop only) -->
+<aside class="hidden md:flex fixed left-0 top-14 h-[calc(100vh-3.5rem)] w-72 bg-surface-container dark:bg-primary-container border-r border-outline-variant dark:border-primary-container flex-col p-md gap-xs shadow-md z-40">
+<div class="flex items-center gap-md p-xs mb-md">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">Logistics Manager</p>
+<p class="text-xs text-outline">Global Fleet Command</p>
+</div>
+</div>
+<nav class="flex flex-col gap-base">
+<a class="flex items-center gap-md p-md rounded-full text-on-surface-variant dark:text-on-primary-fixed-variant hover:bg-surface-variant dark:hover:bg-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-full bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary shadow-sm" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-body-md text-body-md">Güzergâh Yönetimi</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-full text-on-surface-variant dark:text-on-primary-fixed-variant hover:bg-surface-variant dark:hover:bg-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-body-md text-body-md">Filo Durumu</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-full text-on-surface-variant dark:text-on-primary-fixed-variant hover:bg-surface-variant dark:hover:bg-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body-md text-body-md">Personel Listesi</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<p class="text-[10px] font-label-md text-outline uppercase tracking-wider">Sistem Sürümü</p>
+<p class="font-label-md text-label-md text-on-surface-variant">v2.4.0-STABLE</p>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pt-20 pb-20 md:pb-8 md:pl-80 px-margin-mobile md:pr-margin-desktop min-h-screen">
+<!-- Screen Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-xl gap-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Güzergâh Listesi</h2>
+<p class="font-body-md text-body-md text-outline">Operasyonel verimliliği artırmak için tanımlanmış servis hatlarını yönetin.</p>
+</div>
+<button class="bg-secondary text-on-secondary font-bold uppercase py-sm px-lg rounded-lg flex items-center gap-xs shadow-md hover:opacity-90 active:scale-95 transition-all w-fit">
+<span class="material-symbols-outlined">add_location_alt</span>
+<span>Yeni Güzergâh</span>
+</button>
+</div>
+<!-- Filters & Search -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md mb-lg flex flex-wrap items-center gap-md shadow-sm">
+<div class="flex-1 min-w-[240px]">
+<label class="block font-label-md text-label-md text-outline mb-xs">Güzergâh Ara</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-md py-xs rounded border border-outline-variant focus:ring-2 focus:ring-secondary focus:border-secondary outline-none text-body-md font-body-md" placeholder="Güzergâh adı veya nokta yazın..." type="text"/>
+</div>
+</div>
+<div class="w-full md:w-auto">
+<label class="block font-label-md text-label-md text-outline mb-xs">Durum</label>
+<select class="w-full md:w-48 py-xs px-md rounded border border-outline-variant focus:ring-2 focus:ring-secondary focus:border-secondary outline-none text-body-md font-body-md">
+<option>Tümü</option>
+<option>Aktif</option>
+<option>Pasif</option>
+</select>
+</div>
+</div>
+<!-- Route Grid (Bento style) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Card 1: Active -->
+<div class="relative bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="route-card-accent bg-green-500"></div>
+<div class="p-lg">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h3 class="font-title-lg text-title-lg text-primary group-hover:text-secondary transition-colors">Kadıköy - Maslak</h3>
+<span class="inline-block mt-xs px-xs py-0.5 rounded bg-green-50 text-green-700 border border-green-200 text-[10px] font-label-md font-bold uppercase">Aktif</span>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">trip_origin</span>
+<p class="font-body-md text-body-md">Rıhtım İETT Durakları</p>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<p class="font-body-md text-body-md">Maslak Plaza Hub</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-sm pt-md border-t border-outline-variant">
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Duraklar</p>
+<p class="font-body-md text-body-md font-bold">12 Durak</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Mesafe</p>
+<p class="font-body-md text-body-md font-bold">24.5 km</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Süre</p>
+<p class="font-body-md text-body-md font-bold">45 dk</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Servis Sayısı</p>
+<p class="font-body-md text-body-md font-bold">8 Araç</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low px-lg py-sm flex justify-between items-center">
+<span class="font-label-md text-label-md text-outline uppercase tracking-tight">[PLAKA: 34 SK 2024]</span>
+<button class="text-secondary font-bold text-[12px] uppercase flex items-center gap-xs hover:underline">
+<span>Detaylar</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Active -->
+<div class="relative bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="route-card-accent bg-green-500"></div>
+<div class="p-lg">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h3 class="font-title-lg text-title-lg text-primary group-hover:text-secondary transition-colors">Beşiktaş - Ümraniye</h3>
+<span class="inline-block mt-xs px-xs py-0.5 rounded bg-green-50 text-green-700 border border-green-200 text-[10px] font-label-md font-bold uppercase">Aktif</span>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">trip_origin</span>
+<p class="font-body-md text-body-md">Beşiktaş İskele</p>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<p class="font-body-md text-body-md">Ümraniye Sanayi Sitesi</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-sm pt-md border-t border-outline-variant">
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Duraklar</p>
+<p class="font-body-md text-body-md font-bold">18 Durak</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Mesafe</p>
+<p class="font-body-md text-body-md font-bold">15.2 km</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Süre</p>
+<p class="font-body-md text-body-md font-bold">35 dk</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Servis Sayısı</p>
+<p class="font-body-md text-body-md font-bold">12 Araç</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low px-lg py-sm flex justify-between items-center">
+<span class="font-label-md text-label-md text-outline uppercase tracking-tight">[PLAKA: 34 TR 0505]</span>
+<button class="text-secondary font-bold text-[12px] uppercase flex items-center gap-xs hover:underline">
+<span>Detaylar</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Passive (Alert Style) -->
+<div class="relative bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="route-card-accent bg-orange-500"></div>
+<div class="p-lg">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h3 class="font-title-lg text-title-lg text-primary group-hover:text-secondary transition-colors">Beylikdüzü - Mecidiyeköy</h3>
+<span class="inline-block mt-xs px-xs py-0.5 rounded bg-surface-variant text-on-surface-variant border border-outline-variant text-[10px] font-label-md font-bold uppercase">Pasif</span>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">trip_origin</span>
+<p class="font-body-md text-body-md">Beylikdüzü Son Durak</p>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<p class="font-body-md text-body-md">Mecidiyeköy Meydan</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-sm pt-md border-t border-outline-variant opacity-60">
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Duraklar</p>
+<p class="font-body-md text-body-md font-bold">25 Durak</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Mesafe</p>
+<p class="font-body-md text-body-md font-bold">42.0 km</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Süre</p>
+<p class="font-body-md text-body-md font-bold">75 dk</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Servis Sayısı</p>
+<p class="font-body-md text-body-md font-bold">0 Araç</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low px-lg py-sm flex justify-between items-center">
+<span class="font-label-md text-label-md text-outline uppercase tracking-tight">[REVIZYON GEREKLI]</span>
+<button class="text-secondary font-bold text-[12px] uppercase flex items-center gap-xs hover:underline">
+<span>Etkinleştir</span>
+<span class="material-symbols-outlined text-[16px]">play_circle</span>
+</button>
+</div>
+</div>
+<!-- Card 4: Active -->
+<div class="relative bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="route-card-accent bg-green-500"></div>
+<div class="p-lg">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h3 class="font-title-lg text-title-lg text-primary group-hover:text-secondary transition-colors">Ataşehir - Kartal</h3>
+<span class="inline-block mt-xs px-xs py-0.5 rounded bg-green-50 text-green-700 border border-green-200 text-[10px] font-label-md font-bold uppercase">Aktif</span>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">trip_origin</span>
+<p class="font-body-md text-body-md">Batı Ataşehir Konutları</p>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<p class="font-body-md text-body-md">Kartal Sahil Lojistik</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-sm pt-md border-t border-outline-variant">
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Duraklar</p>
+<p class="font-body-md text-body-md font-bold">9 Durak</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Mesafe</p>
+<p class="font-body-md text-body-md font-bold">18.1 km</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Süre</p>
+<p class="font-body-md text-body-md font-bold">28 dk</p>
+</div>
+<div>
+<p class="text-[10px] font-label-md text-outline uppercase">Servis Sayısı</p>
+<p class="font-body-md text-body-md font-bold">5 Araç</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low px-lg py-sm flex justify-between items-center">
+<span class="font-label-md text-label-md text-outline uppercase tracking-tight">[PLAKA: 34 FLT 88]</span>
+<button class="text-secondary font-bold text-[12px] uppercase flex items-center gap-xs hover:underline">
+<span>Detaylar</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Map Preview Bento Item -->
+<div class="lg:col-span-1 xl:col-span-2 relative bg-surface-container rounded-xl overflow-hidden border border-outline-variant group shadow-sm">
+<div class="absolute top-md left-md z-10 bg-white/90 backdrop-blur-sm p-sm rounded shadow-md border border-outline-variant">
+<p class="font-label-md text-label-md text-primary flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                        CANLI OPERASYON HARITASI
+                    </p>
+</div>
+<div class="w-full h-full min-h-[300px] bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A clean, minimalist digital map of Istanbul showing various logistics routes highlighted in vibrant blue and green lines. Several small truck icons represent active fleet vehicles. The style is professional and systematic, with a cool-toned color palette of navy, white, and subtle greys, suitable for a high-end corporate B2B SaaS dashboard interface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCRWIgRwB0SUDE1XzUq92csXiUtSLI2YPLNv-jFyAu7dm3DZrHPPa3jMAntRqKzYGsKjnZNT6xsTO6uRELQglTrce635j8XUNzUnWH4xZQXr8qeaPVW2bo3XcoyViVnS6uYE514kFmmzIii1uq-EKxW9lyPV6UCE3IF0FGmIec5c2ne_m8juVaU52Wnh0roVx8E1RX5x5TIm27zr0XdvQjy-zxU_qJvmI2-DVq3cqU7F1rhAR7eRNP9')">
+</div>
+<div class="absolute bottom-md right-md z-10 flex gap-xs">
+<button class="w-10 h-10 bg-white rounded-lg shadow-lg flex items-center justify-center text-primary hover:bg-surface-variant transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-10 h-10 bg-white rounded-lg shadow-lg flex items-center justify-center text-primary hover:bg-surface-variant transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="w-10 h-10 bg-primary text-white rounded-lg shadow-lg flex items-center justify-center hover:opacity-90 transition-colors">
+<span class="material-symbols-outlined">fullscreen</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface dark:bg-primary border-t border-outline-variant dark:border-primary-container flex justify-around items-center w-full h-16 pb-safe shadow-sm">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed font-bold" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-label-md text-label-md">Güzergâh</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-label-md text-label-md">Servis</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Ekip</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Ayar</span>
+</a>
+</nav>
+<!-- Micro-interaction Scripts -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.group');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    // Slight elevation effect logic could be here
+                });
+            });
+        });
+    </script>
+</body></html>

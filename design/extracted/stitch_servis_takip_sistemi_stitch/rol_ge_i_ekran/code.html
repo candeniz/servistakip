@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Servis Takibi - Yönlendiriliyorsunuz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#213145",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1a2b45",
+                    "error": "#ba1a1a",
+                    "tertiary": "#201400",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#271900",
+                    "secondary-container": "#316bf3",
+                    "secondary": "#0051d5",
+                    "surface-container": "#e5eeff",
+                    "on-background": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-primary-fixed-variant": "#374763",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-container": "#8293b2",
+                    "on-primary-fixed": "#091c35",
+                    "surface-tint": "#4e5f7c",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "on-surface-variant": "#44474d",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#00174b",
+                    "on-tertiary-container": "#aa8d5e",
+                    "surface": "#f8f9ff",
+                    "background": "#f8f9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdeab",
+                    "primary": "#04162f",
+                    "tertiary-container": "#3a2702",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "outline": "#75777e",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "inverse-primary": "#b6c7e8",
+                    "outline-variant": "#c5c6ce",
+                    "surface-dim": "#cbdbf5",
+                    "secondary-fixed": "#dbe1ff",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "on-secondary-container": "#fefcff",
+                    "primary-fixed": "#d6e3ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xl": "32px",
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "md": "16px",
+                    "xs": "8px",
+                    "margin-desktop": "32px",
+                    "gutter": "20px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "title-lg": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes pulse-ring {
+            0% { transform: scale(.33); }
+            80%, 100% { opacity: 0; }
+        }
+        @keyframes pulse-dot {
+            0% { transform: scale(.8); }
+            50% { transform: scale(1); }
+            100% { transform: scale(.8); }
+        }
+        .pulse-ring {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background-color: #316bf3;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        .pulse-dot {
+            animation: pulse-dot 1.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) -0.4s infinite;
+        }
+        .loading-bar-container {
+            width: 200px;
+            height: 4px;
+            background-color: #e5eeff;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+        .loading-bar-progress {
+            position: absolute;
+            height: 100%;
+            background-color: #0051d5;
+            width: 30%;
+            border-radius: 2px;
+            animation: slide 1.5s infinite ease-in-out;
+        }
+        @keyframes slide {
+            0% { left: -30%; }
+            100% { left: 100%; }
+        }
+        body {
+            background-color: #f8f9ff;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen font-body-md text-on-surface">
+<!-- Background Layer (Level 0) -->
+<div class="fixed inset-0 z-0 opacity-10 pointer-events-none">
+<div class="absolute inset-0 grid grid-cols-12 gap-gutter px-margin-desktop">
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+<div class="border-l border-outline-variant h-full"></div>
+</div>
+</div>
+<!-- Main Transition Canvas -->
+<main class="relative z-10 flex flex-col items-center justify-center w-full max-w-lg px-margin-mobile">
+<!-- Brand Identity Component (TopAppBar Reference) -->
+<div class="mb-xl text-center">
+<h1 class="font-headline-md text-headline-md font-bold text-primary tracking-tight">
+                Servis Takibi
+            </h1>
+<div class="mt-xs inline-flex items-center gap-xs px-sm py-1 bg-surface-container rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Sistem Güvenli</span>
+</div>
+</div>
+<!-- Animation Context Center -->
+<div class="relative w-48 h-48 mb-lg flex items-center justify-center">
+<!-- Loading Indicator Shell -->
+<div class="pulse-ring"></div>
+<div class="pulse-ring" style="animation-delay: -1s;"></div>
+<div class="relative z-20 w-24 h-24 bg-white shadow-lg rounded-full flex items-center justify-center border border-outline-variant pulse-dot">
+<!-- Dynamic Icon based on transition state -->
+<span class="material-symbols-outlined text-[40px] text-secondary" id="role-icon" style="font-variation-settings: 'FILL' 1;">
+                    local_shipping
+                </span>
+</div>
+<!-- Floating Status Indicators -->
+<div class="absolute top-0 right-0 animate-bounce delay-100">
+<div class="bg-secondary-container p-2 rounded-lg shadow-md border border-on-secondary-container">
+<span class="material-symbols-outlined text-white text-[20px]">map</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-0 animate-bounce delay-300">
+<div class="bg-inverse-surface p-2 rounded-lg shadow-md border border-primary-container">
+<span class="material-symbols-outlined text-white text-[20px]">badge</span>
+</div>
+</div>
+</div>
+<!-- Directional Messaging (Operational Cards Style) -->
+<div class="bg-white border border-outline-variant rounded-xl p-lg w-full shadow-sm text-center relative overflow-hidden">
+<!-- Left-hand color-coded accent bar -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex flex-col gap-sm items-center">
+<h2 class="font-title-lg text-title-lg text-primary" id="role-message">
+                    Sürücü Paneline Yönlendiriliyorsunuz...
+                </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[280px]" id="sub-message">
+                    Sistem verileri ve güzergah bilgileriniz hazırlanıyor. Lütfen bekleyiniz.
+                </p>
+<!-- Loading Bar Component -->
+<div class="loading-bar-container mt-md">
+<div class="loading-bar-progress"></div>
+</div>
+<!-- Technical Badge (JetBrains Mono) -->
+<div class="mt-md flex gap-xs">
+<span class="font-label-md text-label-md px-xs py-1 bg-surface-container-high rounded border border-outline-variant text-on-surface-variant">
+                        ID: #082X-L
+                    </span>
+<span class="font-label-md text-label-md px-xs py-1 bg-surface-container-high rounded border border-outline-variant text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                        CANLI BAĞLANTI
+                    </span>
+</div>
+</div>
+</div>
+<!-- Bottom Assistance (Optional/Subtle) -->
+<div class="mt-xl">
+<button class="font-label-md text-label-md text-secondary hover:text-on-secondary-fixed-variant transition-colors flex items-center gap-xs">
+                Yardım Merkezi
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Micro-interaction Script for Role Simulation -->
+<script>
+        const roles = [
+            {
+                message: "Sürücü Paneline Yönlendiriliyorsunuz...",
+                sub: "Sistem verileri ve güzergah bilgileriniz hazırlanıyor. Lütfen bekleyiniz.",
+                icon: "local_shipping",
+                color: "#0051d5"
+            },
+            {
+                message: "Yolcu Ekranı Hazırlanıyor...",
+                sub: "Servis konumu ve tahmini varış süresi hesaplanıyor.",
+                icon: "person_pin_circle",
+                color: "#316bf3"
+            },
+            {
+                message: "Yönetici Konsolu Açılıyor...",
+                sub: "Operasyonel veriler ve filo durumu yükleniyor.",
+                icon: "dashboard",
+                color: "#04162f"
+            }
+        ];
+
+        let currentRole = 0;
+        const msgEl = document.getElementById('role-message');
+        const subEl = document.getElementById('sub-message');
+        const iconEl = document.getElementById('role-icon');
+
+        // Simple loop to show transition capability for the splash screen demo
+        setInterval(() => {
+            currentRole = (currentRole + 1) % roles.length;
+            
+            // Fade out
+            document.querySelector('main').style.opacity = '0.5';
+            document.querySelector('main').style.transition = 'opacity 0.3s ease';
+
+            setTimeout(() => {
+                const role = roles[currentRole];
+                msgEl.innerText = role.message;
+                subEl.innerText = role.sub;
+                iconEl.innerText = role.icon;
+                iconEl.style.color = role.color;
+                
+                // Fade in
+                document.querySelector('main').style.opacity = '1';
+            }, 300);
+        }, 4000);
+
+        // Real-time Pulse Animation (Micro-interaction)
+        document.addEventListener('mousemove', (e) => {
+            const dot = document.querySelector('.pulse-dot');
+            const rect = dot.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            dot.style.transform = `translate(${x * 0.05}px, ${y * 0.05}px)`;
+        });
+    </script>
+</body></html>

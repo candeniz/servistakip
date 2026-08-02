@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logistix Command - Vehicle Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#75777e",
+                    "secondary-container": "#316bf3",
+                    "on-secondary-container": "#fefcff",
+                    "tertiary-container": "#3a2702",
+                    "surface-container": "#e5eeff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-tint": "#4e5f7c",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "on-tertiary-container": "#aa8d5e",
+                    "on-primary-container": "#8293b2",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-fixed-variant": "#374763",
+                    "background": "#f8f9ff",
+                    "tertiary": "#201400",
+                    "on-tertiary-fixed": "#271900",
+                    "on-primary-fixed": "#091c35",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "primary-container": "#1a2b45",
+                    "on-surface-variant": "#44474d",
+                    "outline-variant": "#c5c6ce",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#d6e3ff",
+                    "primary": "#04162f",
+                    "surface-dim": "#cbdbf5",
+                    "error-container": "#ffdad6",
+                    "surface": "#f8f9ff",
+                    "on-surface": "#0b1c30",
+                    "on-background": "#0b1c30",
+                    "tertiary-fixed": "#ffdeab",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b6c7e8",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "surface-bright": "#f8f9ff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-secondary-fixed": "#00174b",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#d3e4fe",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#0051d5",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#213145"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xs": "8px",
+                    "margin-mobile": "16px",
+                    "gutter": "20px",
+                    "xl": "32px",
+                    "base": "4px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "title-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sidebar-active {
+            background-color: #316bf3; /* secondary-container */
+            color: #fefcff; /* on-secondary-container */
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex">
+<!-- NavigationDrawer (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low border-r border-outline-variant flex flex-col py-lg px-md gap-xs z-40 hidden md:flex">
+<div class="mb-lg px-xs">
+<h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tight">LOGISTIX COMMAND</h1>
+<p class="text-on-surface-variant font-label-md text-label-md mt-1">Fleet Commander v2.4.0</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-label-md">Live Tracking</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-md">Services</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md">People</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container font-bold rounded-lg group" href="#">
+<span class="material-symbols-outlined">settings_suggest</span>
+<span class="font-label-md">Management</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-lg px-xs flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Admin Panel</p>
+<p class="text-xs text-on-surface-variant">Fleet Commander</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-72 flex flex-col h-screen overflow-hidden">
+<!-- TopAppBar (Shared Component) -->
+<header class="h-20 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-desktop z-30">
+<div class="flex items-center gap-md">
+<button class="md:hidden p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-md text-headline-md font-bold text-primary tracking-tight uppercase">Management / Vehicles</h2>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden sm:flex items-center gap-md bg-surface-container-low px-md py-xs rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-48" placeholder="Search plate or model..." type="text"/>
+</div>
+<button class="bg-secondary text-on-secondary px-lg py-2 rounded-lg font-bold text-label-md uppercase tracking-wider flex items-center gap-xs hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+                    Yeni Kayıt
+                </button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a logistics administrator in a modern office setting, bright studio lighting, neutral professional background, high quality photography for a corporate SaaS interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-2iQmmA4Ir2ObZdEj-9w9MqeFteO4SZjhTMzQv7XX5RUMV98oCk1nMjlbVFSWXugS1t2I_FXA12-eSVWF6Bw0cO_kfboWvGiT76pwiY0x7jfxKLm8u-utc4EIFYgSuQaMcih3YtcWHIFkzH_14CcVX8SnGvx0n_LF-c_f4Ovv_tIxI6E5al4yP7GsCDiIvtEXTmhrFGwh7zMu_zvmn08qJjFvetGoop-Lg-tRS8C7bSDrsnhOy0vV"/>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-margin-desktop custom-scrollbar space-y-lg">
+<!-- Statistics Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="bg-surface border border-outline-variant p-lg rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-md">TOTAL FLEET</span>
+<span class="material-symbols-outlined text-secondary">local_shipping</span>
+</div>
+<div class="mt-md">
+<span class="font-display-lg text-display-lg text-primary">124</span>
+<span class="text-success-container text-xs ml-xs font-bold text-green-600">+2 Bu Ay</span>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant p-lg rounded-lg shadow-sm border-l-4 border-l-green-500">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-md">ACTIVE VEHICLES</span>
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+</div>
+<div class="mt-md">
+<span class="font-display-lg text-display-lg text-primary">118</span>
+<span class="text-xs ml-xs block text-on-surface-variant">95.2% Utilization</span>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant p-lg rounded-lg shadow-sm border-l-4 border-l-orange-500">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-md">MAINTENANCE DUE</span>
+<span class="material-symbols-outlined text-orange-500">warning</span>
+</div>
+<div class="mt-md">
+<span class="font-display-lg text-display-lg text-primary">4</span>
+<span class="text-xs ml-xs block text-on-surface-variant">Scheduled this week</span>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant p-lg rounded-lg shadow-sm border-l-4 border-l-red-500">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-md">INACTIVE / REPAIR</span>
+<span class="material-symbols-outlined text-red-500">build</span>
+</div>
+<div class="mt-md">
+<span class="font-display-lg text-display-lg text-primary">2</span>
+<span class="text-xs ml-xs block text-on-surface-variant">Avg down-time 4.2d</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid - Vehicle Cards & Details Panel -->
+<div class="grid grid-cols-12 gap-gutter items-start">
+<!-- Vehicle List (left 7 cols) -->
+<div class="col-span-12 lg:col-span-7 space-y-md">
+<div class="flex items-center justify-between px-xs">
+<h3 class="font-title-lg text-title-lg text-primary">Fleet Assets</h3>
+<div class="flex gap-xs">
+<button class="p-2 bg-surface-container-high rounded text-primary"><span class="material-symbols-outlined">grid_view</span></button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined">list</span></button>
+</div>
+</div>
+<!-- Vehicle Card 1 (Active) -->
+<div class="bg-surface border border-outline-variant rounded-lg p-lg relative group cursor-pointer hover:shadow-md transition-shadow border-l-4 border-l-green-500" onclick="toggleDetails(1)">
+<div class="flex flex-wrap justify-between items-start gap-md">
+<div class="space-y-1">
+<span class="bg-primary text-on-primary font-label-md px-md py-1 rounded text-lg tracking-widest block w-fit">34 ABC 123</span>
+<h4 class="font-title-lg text-title-lg text-primary mt-xs">Mercedes-Benz Sprinter 317 CDI</h4>
+<div class="flex gap-md text-on-surface-variant mt-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">groups</span> 19+1 Kapasite</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> Ahmet Yılmaz</span>
+</div>
+</div>
+<div class="text-right space-y-2">
+<span class="bg-green-100 text-green-800 text-[10px] px-md py-1 rounded-full font-bold uppercase">Aktif</span>
+<div class="text-on-surface-variant font-label-md text-xs">
+                                    MUAYENE: 12.12.2024
+                                </div>
+</div>
+</div>
+<div class="mt-lg pt-md border-t border-outline-variant flex justify-between items-center">
+<div class="text-xs text-on-surface-variant uppercase font-bold">Servis: <span class="text-primary">AVRUPA YAKASI-1</span></div>
+<button class="text-secondary font-bold text-xs flex items-center gap-1 group-hover:underline">
+                                Detaylar <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Vehicle Card 2 (Warning State) -->
+<div class="bg-surface border border-outline-variant rounded-lg p-lg relative group cursor-pointer hover:shadow-md transition-shadow border-l-4 border-l-orange-500" onclick="toggleDetails(2)">
+<div class="flex flex-wrap justify-between items-start gap-md">
+<div class="space-y-1">
+<span class="bg-primary text-on-primary font-label-md px-md py-1 rounded text-lg tracking-widest block w-fit">06 DEF 456</span>
+<h4 class="font-title-lg text-title-lg text-primary mt-xs">Volkswagen Crafter Premium</h4>
+<div class="flex gap-md text-on-surface-variant mt-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">groups</span> 16+1 Kapasite</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> Mehmet Demir</span>
+</div>
+</div>
+<div class="text-right space-y-2">
+<span class="bg-green-100 text-green-800 text-[10px] px-md py-1 rounded-full font-bold uppercase">Aktif</span>
+<div class="text-red-500 font-bold text-xs flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-sm">warning</span> 14.11.2023
+                                </div>
+</div>
+</div>
+<div class="mt-lg pt-md border-t border-outline-variant flex justify-between items-center">
+<div class="text-xs text-on-surface-variant uppercase font-bold">Servis: <span class="text-primary">ANADOLU YAKASI-3</span></div>
+<button class="text-secondary font-bold text-xs flex items-center gap-1">
+                                Detaylar <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Vehicle Card 3 (Inactive) -->
+<div class="bg-surface border border-outline-variant rounded-lg p-lg relative group cursor-pointer hover:shadow-md transition-shadow border-l-4 border-l-red-500 opacity-80" onclick="toggleDetails(3)">
+<div class="flex flex-wrap justify-between items-start gap-md">
+<div class="space-y-1">
+<span class="bg-outline text-on-primary font-label-md px-md py-1 rounded text-lg tracking-widest block w-fit">35 GHI 789</span>
+<h4 class="font-title-lg text-title-lg text-primary mt-xs">Ford Transit Courier</h4>
+<div class="flex gap-md text-on-surface-variant mt-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">groups</span> 4+1 Kapasite</span>
+<span class="flex items-center gap-1 italic">Atanmamış</span>
+</div>
+</div>
+<div class="text-right space-y-2">
+<span class="bg-red-100 text-red-800 text-[10px] px-md py-1 rounded-full font-bold uppercase">Pasif</span>
+<div class="text-on-surface-variant font-label-md text-xs uppercase">Muayene: Geçti</div>
+</div>
+</div>
+<div class="mt-lg pt-md border-t border-outline-variant flex justify-between items-center">
+<div class="text-xs text-on-surface-variant uppercase font-bold">Servis: <span class="text-primary">-</span></div>
+<button class="text-secondary font-bold text-xs flex items-center gap-1">
+                                Detaylar <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Vehicle Detail View (right 5 cols) -->
+<div class="col-span-12 lg:col-span-5 bg-surface border border-outline-variant rounded-lg shadow-xl overflow-hidden sticky top-0 hidden lg:block" id="detailPanel">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A clean, professionally shot photo of a white Mercedes Sprinter transport van parked in a bright warehouse, reflecting high-quality fleet management standards, realistic corporate aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUqAY2E1dod9qbmThQxecBCZv51dK7oXuO9fTflU65zgJ7-LcnaNlYjErjMhdtYu4lc9kqGXoMqX8cDyQQbNhrDX6Ubfv2gufbgcUKPYs05gBpO6gFIAQRvcy37RJbT-aPuk9vPpD0KQ8YREhgQoSoBQzQOS8Y-qzttFNnC5Kc8TWmSP8XkiOu3ySwcOOwih8niTKamP10jR7HaHQjWOJmFADz8uUYtpL6OFtOjkm3gyQr24ZhJrzE"/>
+<div class="absolute bottom-0 left-0 w-full p-lg bg-gradient-to-t from-primary/90 to-transparent text-on-primary">
+<h3 class="font-headline-md text-headline-md font-bold">34 ABC 123</h3>
+<p class="font-label-md">Mercedes-Benz Sprinter 317 CDI</p>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex border-b border-outline-variant bg-surface-container-low">
+<button class="flex-1 py-md px-md text-xs font-bold uppercase tracking-wider text-secondary border-b-2 border-secondary" id="tab-genel" onclick="switchTab('genel')">Genel Bilgiler</button>
+<button class="flex-1 py-md px-md text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" id="tab-belgeler" onclick="switchTab('belgeler')">Belgeler</button>
+<button class="flex-1 py-md px-md text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" id="tab-bakim" onclick="switchTab('bakim')">Bakım Notları</button>
+</div>
+<div class="p-lg h-[400px] overflow-y-auto custom-scrollbar">
+<!-- Genel Bilgiler Content -->
+<div class="space-y-lg" id="content-genel">
+<div class="grid grid-cols-2 gap-md">
+<div>
+<label class="text-[10px] text-on-surface-variant font-bold uppercase">Motor No</label>
+<p class="font-body-lg text-primary">OM654.12.3392</p>
+</div>
+<div>
+<label class="text-[10px] text-on-surface-variant font-bold uppercase">Şasi No</label>
+<p class="font-body-lg text-primary">WDB9061351S82...</p>
+</div>
+<div>
+<label class="text-[10px] text-on-surface-variant font-bold uppercase">Model Yılı</label>
+<p class="font-body-lg text-primary">2022</p>
+</div>
+<div>
+<label class="text-[10px] text-on-surface-variant font-bold uppercase">Kilometre</label>
+<p class="font-body-lg text-primary">42.500 km</p>
+</div>
+</div>
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-bold uppercase">Atanmış Şoför</p>
+<p class="font-title-lg text-primary">Ahmet Yılmaz</p>
+<p class="text-xs text-secondary font-bold">Lisans: B, D1 (Aktif)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Belgeler Content (Hidden) -->
+<div class="hidden space-y-md" id="content-belgeler">
+<div class="flex items-center justify-between p-md border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">description</span>
+<div>
+<p class="font-bold text-primary">Trafik Sigortası</p>
+<p class="text-xs text-on-surface-variant">sigorta_2024.pdf (2.4 MB)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">download</span>
+</div>
+<div class="flex items-center justify-between p-md border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">description</span>
+<div>
+<p class="font-bold text-primary">Kasko Poliçesi</p>
+<p class="text-xs text-on-surface-variant">kasko_final.pdf (1.8 MB)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">download</span>
+</div>
+<div class="flex items-center justify-between p-md border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">history_edu</span>
+<div>
+<p class="font-bold text-primary">Muayene Raporu</p>
+<p class="text-xs text-on-surface-variant">muayene_ist_2023.pdf (4.1 MB)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">download</span>
+</div>
+</div>
+<!-- Bakım Notları Content (Hidden) -->
+<div class="hidden space-y-md relative pl-lg" id="content-bakim">
+<div class="absolute left-[11px] top-0 bottom-0 w-[2px] bg-outline-variant"></div>
+<!-- Timeline Entry -->
+<div class="relative pb-lg">
+<div class="absolute left-[-23px] top-1 w-4 h-4 rounded-full bg-secondary border-4 border-white shadow-sm"></div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-secondary uppercase">15 Ekim 2023</p>
+<h5 class="font-bold text-primary">Periyodik Bakım (40.000 KM)</h5>
+<p class="text-sm text-on-surface-variant">Yağ filtresi, hava filtresi ve balatalar değiştirildi. Servis: Yıldız Oto.</p>
+</div>
+</div>
+<!-- Timeline Entry -->
+<div class="relative pb-lg">
+<div class="absolute left-[-23px] top-1 w-4 h-4 rounded-full bg-outline-variant border-4 border-white shadow-sm"></div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-on-surface-variant uppercase">02 Eylül 2023</p>
+<h5 class="font-bold text-primary">Lastik Değişimi</h5>
+<p class="text-sm text-on-surface-variant">Kışlık lastik setine geçiş yapıldı. Diş derinliği kontrol edildi.</p>
+</div>
+</div>
+<!-- Timeline Entry -->
+<div class="relative pb-lg">
+<div class="absolute left-[-23px] top-1 w-4 h-4 rounded-full bg-outline-variant border-4 border-white shadow-sm"></div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-on-surface-variant uppercase">14 Temmuz 2023</p>
+<h5 class="font-bold text-primary">Klima Dezenfeksiyonu</h5>
+<p class="text-sm text-on-surface-variant">Polen filtresi değişimi ve gaz dolumu yapıldı.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="p-lg bg-surface border-t border-outline-variant flex gap-md">
+<button class="flex-1 bg-primary text-on-primary py-2 rounded font-bold text-xs uppercase">Düzenle</button>
+<button class="px-md py-2 border border-outline text-primary rounded font-bold text-xs uppercase">İşlemler</button>
+</div>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (Shared Component) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant shadow-lg z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-md text-[10px]">Tracking</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-[10px]">Services</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-label-md text-[10px]">People</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary bg-surface-container-highest rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+<span class="font-label-md text-[10px]">Manage</span>
+</a>
+</nav>
+</main>
+<script>
+        function toggleDetails(id) {
+            const panel = document.getElementById('detailPanel');
+            panel.classList.remove('hidden');
+            // In a real app, logic here would load specific data for ID
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function switchTab(tabName) {
+            const contents = ['genel', 'belgeler', 'bakim'];
+            contents.forEach(name => {
+                const content = document.getElementById(`content-${name}`);
+                const tab = document.getElementById(`tab-${name}`);
+                if (name === tabName) {
+                    content.classList.remove('hidden');
+                    tab.classList.add('text-secondary', 'border-b-2', 'border-secondary');
+                    tab.classList.remove('text-on-surface-variant');
+                } else {
+                    content.classList.add('hidden');
+                    tab.classList.remove('text-secondary', 'border-b-2', 'border-secondary');
+                    tab.classList.add('text-on-surface-variant');
+                }
+            });
+        }
+    </script>
+</body></html>

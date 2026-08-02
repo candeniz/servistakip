@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#dce9ff",
+                    "secondary": "#0051d5",
+                    "on-error-container": "#93000a",
+                    "on-background": "#0b1c30",
+                    "on-surface-variant": "#44474d",
+                    "surface-tint": "#4e5f7c",
+                    "surface-container": "#e5eeff",
+                    "secondary-container": "#316bf3",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-primary": "#b6c7e8",
+                    "on-primary-container": "#8293b2",
+                    "tertiary-container": "#3a2702",
+                    "surface": "#f8f9ff",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "primary": "#04162f",
+                    "surface-container-highest": "#d3e4fe",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed": "#ffdeab",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "on-primary-fixed-variant": "#374763",
+                    "on-tertiary-container": "#aa8d5e",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "on-secondary-fixed": "#00174b",
+                    "tertiary": "#201400",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "primary-fixed": "#d6e3ff",
+                    "background": "#f8f9ff",
+                    "on-tertiary-fixed": "#271900",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-container": "#fefcff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#1a2b45",
+                    "outline": "#75777e",
+                    "on-primary-fixed": "#091c35",
+                    "inverse-surface": "#213145",
+                    "outline-variant": "#c5c6ce",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "20px",
+                    "md": "16px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "margin-desktop": "32px",
+                    "sm": "12px",
+                    "lg": "24px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "title-lg": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .incident-card-active {
+            border: 2px solid #0051d5;
+            background-color: #e5eeff;
+        }
+        .incident-card-active .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-mobile h-14">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary">Olay Bildir</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-primary" data-icon="help_outline">help_outline</span>
+</button>
+</header>
+<main class="pt-20 pb-24 px-margin-mobile max-w-2xl mx-auto space-y-lg">
+<!-- Olay Tipi Selection -->
+<section class="space-y-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md-mobile text-primary">Olay Tipi Seçin</h2>
+<span class="bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Zorunlu</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-sm">
+<!-- Card: Teknik Arıza -->
+<button class="incident-card group p-lg bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center gap-xs transition-all hover:border-secondary active:scale-95" onclick="selectIncident(this)">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary" data-icon="build">build</span>
+</div>
+<span class="font-body-md font-semibold text-on-surface">Teknik Arıza</span>
+</button>
+<!-- Card: Trafik Kazası -->
+<button class="incident-card group p-lg bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center gap-xs transition-all hover:border-secondary active:scale-95" onclick="selectIncident(this)">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary" data-icon="car_crash">car_crash</span>
+</div>
+<span class="font-body-md font-semibold text-on-surface">Trafik Kazası</span>
+</button>
+<!-- Card: Yol Kapalı -->
+<button class="incident-card group p-lg bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center gap-xs transition-all hover:border-secondary active:scale-95" onclick="selectIncident(this)">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary" data-icon="block">block</span>
+</div>
+<span class="font-body-md font-semibold text-on-surface">Yol Kapalı</span>
+</button>
+<!-- Card: Aşırı Trafik -->
+<button class="incident-card group p-lg bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center gap-xs transition-all hover:border-secondary active:scale-95" onclick="selectIncident(this)">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary" data-icon="traffic">traffic</span>
+</div>
+<span class="font-body-md font-semibold text-on-surface">Aşırı Trafik</span>
+</button>
+<!-- Card: Yolcu Problemi -->
+<button class="incident-card group p-lg bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center gap-xs transition-all hover:border-secondary active:scale-95" onclick="selectIncident(this)">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary" data-icon="groups">groups</span>
+</div>
+<span class="font-body-md font-semibold text-on-surface text-center">Yolcu Problemi</span>
+</button>
+<!-- Card: Diğer -->
+<button class="incident-card group p-lg bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center gap-xs transition-all hover:border-secondary active:scale-95" onclick="selectIncident(this)">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary" data-icon="more_horiz">more_horiz</span>
+</div>
+<span class="font-body-md font-semibold text-on-surface">Diğer</span>
+</button>
+</div>
+</section>
+<!-- Detaylar -->
+<section class="space-y-sm">
+<h2 class="font-headline-md text-headline-md-mobile text-primary">Detaylar</h2>
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm space-y-md">
+<div class="space-y-base">
+<label class="font-label-md text-on-surface-variant ml-1">AÇIKLAMA</label>
+<textarea class="w-full bg-surface border-outline p-md rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary min-h-[120px] text-body-lg placeholder:text-outline-variant transition-all" placeholder="Olayın detaylarını buraya yazın..."></textarea>
+</div>
+<div class="space-y-base">
+<label class="font-label-md text-on-surface-variant ml-1">FOTOĞRAF EKLE (OPSİYONEL)</label>
+<div class="grid grid-cols-3 gap-sm">
+<button class="aspect-square bg-surface border-2 border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="add_a_photo">add_a_photo</span>
+<span class="text-[10px] mt-1 font-bold">YÜKLE</span>
+</button>
+<div class="aspect-square bg-surface border border-outline-variant rounded-lg relative overflow-hidden group">
+<div class="w-full h-full bg-center bg-cover" data-alt="A high-resolution photograph of a vehicle engine with clear mechanical failure indicators, used in a professional logistics maintenance context. The lighting is bright and clear, emphasizing metallic textures and industrial grease. The style is documentation-focused and clinical, matching a corporate B2B SaaS tool." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqpWG0TXGgSUon-rkX0qBqxcbKzXP9PPrS44wWVFeZGfkfOZ4F4GU5uopPu4155yZmRNQJXBXciLxhWZ76ti1n8Tdc5i1vbxoKlJqipmbmYkdoPti7yVGXYAMXyCelaYp8vn2gIQptuip4M_EZmlCogoZZuFdIXrcrDJOoFS7TEd_clHJZ7sRHevrHh3hr3oXcBDi6iOvenWXEvUxE49XpbMn1ADF-SfRhkpmPRHMgzfu4GHt3OZLs')"></div>
+<button class="absolute top-1 right-1 bg-error text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md active:scale-90">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Otomatik Bilgiler -->
+<section class="space-y-sm">
+<h2 class="font-headline-md text-headline-md-mobile text-primary">Sistem Bilgileri</h2>
+<div class="bg-surface-container p-md rounded-xl space-y-sm border-l-4 border-secondary">
+<div class="grid grid-cols-2 gap-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-base" data-icon="calendar_today">calendar_today</span>
+<div>
+<p class="text-[10px] text-on-surface-variant font-bold">TARİH / SAAT</p>
+<p class="font-body-md font-semibold">24 Mayıs 2024, 14:30</p>
+</div>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-base" data-icon="route">route</span>
+<div>
+<p class="text-[10px] text-on-surface-variant font-bold">MEVCUT SERVİS</p>
+<p class="font-body-md font-semibold">OSB-1 Ekspres</p>
+</div>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-base" data-icon="directions_bus">directions_bus</span>
+<div>
+<p class="text-[10px] text-on-surface-variant font-bold">ARAÇ PLAKASI</p>
+<p class="font-label-md bg-white px-2 py-0.5 rounded border border-outline-variant">34 ABC 123</p>
+</div>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-base" data-icon="person">person</span>
+<div>
+<p class="text-[10px] text-on-surface-variant font-bold">ŞOFÖR</p>
+<p class="font-body-md font-semibold">Ahmet Yılmaz</p>
+</div>
+</div>
+</div>
+<hr class="border-outline-variant"/>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary" data-icon="location_on">location_on</span>
+<div class="flex-1">
+<p class="text-[10px] text-on-surface-variant font-bold">KONUM</p>
+<p class="font-body-md italic text-on-surface-variant">İstanbul, Kadıköy, Barbaros Blv. No: 42</p>
+</div>
+<div class="w-12 h-12 rounded-lg bg-surface border border-outline-variant overflow-hidden">
+<div class="w-full h-full bg-cover" data-location="Istanbul" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGOnykWU3nP3XL-Uyz7yWJwpS8MEXNnCmnlNZON0gS_YJm-8jodqnc2Jz9ohYLFlGt3jDxQTtPFrVhg5AzWkYddQAc6Rug9d82sjw-kriQA_rSVTJKXuKGpS4f-MCyMeLPtpZ4ERcQVOrBQa_4Zm3Mc94i-_O75_Gr90pVMYxXQGGMGdA6VHwVhktT2VcoGPjUxZY0LagZymBYCqfdgw1cJNbyK60Sy8k7tKEs8y5GObo3oYJBlCli')"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Submit Button -->
+<div class="pt-xl pb-lg">
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold text-body-lg uppercase tracking-widest shadow-lg hover:bg-primary-container transition-all active:scale-95 flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+                OLAYI BİLDİR
+            </button>
+<p class="text-center text-[11px] text-on-surface-variant mt-md">Bu bildirim anlık olarak operasyon merkezine iletilecektir.</p>
+</div>
+</main>
+<!-- BottomNavBar (Hidden for focused task as per mandate, but included for system consistency if needed elsewhere) -->
+<!-- We suppress it here as this is a focused task screen ("Olay Bildir") -->
+<script>
+        function selectIncident(element) {
+            // Remove active class from all
+            document.querySelectorAll('.incident-card').forEach(card => {
+                card.classList.remove('incident-card-active');
+                card.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+            });
+            // Add active class to selected
+            element.classList.add('incident-card-active');
+            element.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+        }
+
+        // Add some interaction ripple feel
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Potential for simple feedback or sound here
+            });
+        });
+    </script>
+</body></html>

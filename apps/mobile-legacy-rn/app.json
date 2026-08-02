@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Servis Takip",
+    "slug": "servis-takip",
+    "version": "0.1.0",
+    "scheme": "servistakip",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.servistakip.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Servis konumunuzu takip edebilmek için konum izni gereklidir.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Servis aktifken arka planda konum paylaşımı için izin gereklidir.",
+        "UIBackgroundModes": ["location", "fetch"]
+      }
+    },
+    "android": {
+      "package": "com.servistakip.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION"
+      ]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Servis aktifken arka planda konum paylaşımı için izin gereklidir."
+        }
+      ]
+    ],
+    "extra": {
+      "apiBaseUrl": "http://localhost:8000",
+      "wsBaseUrl": "ws://localhost:8000",
+      "useMock": true
+    }
+  }
+}

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Şifremi Unuttum - Servis Takibi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#213145",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1a2b45",
+                    "error": "#ba1a1a",
+                    "tertiary": "#201400",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#271900",
+                    "secondary-container": "#316bf3",
+                    "secondary": "#0051d5",
+                    "surface-container": "#e5eeff",
+                    "on-background": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-primary-fixed-variant": "#374763",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-container": "#8293b2",
+                    "on-primary-fixed": "#091c35",
+                    "surface-tint": "#4e5f7c",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "on-surface-variant": "#44474d",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#00174b",
+                    "on-tertiary-container": "#aa8d5e",
+                    "surface": "#f8f9ff",
+                    "background": "#f8f9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdeab",
+                    "primary": "#04162f",
+                    "tertiary-container": "#3a2702",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "outline": "#75777e",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "inverse-primary": "#b6c7e8",
+                    "outline-variant": "#c5c6ce",
+                    "surface-dim": "#cbdbf5",
+                    "secondary-fixed": "#dbe1ff",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "on-secondary-container": "#fefcff",
+                    "primary-fixed": "#d6e3ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xl": "32px",
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "md": "16px",
+                    "xs": "8px",
+                    "margin-desktop": "32px",
+                    "gutter": "20px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "title-lg": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-input-focus:focus {
+            border-color: #0051d5;
+            box-shadow: 0 0 0 1px #0051d5;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col">
+<!-- Top Navigation Anchor (As prescribed in JSON - Task Focused suppression rule applied, but maintaining context) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-14 bg-surface dark:bg-primary border-b border-outline-variant dark:border-primary-container">
+<div class="flex items-center gap-xs">
+<button class="p-xs hover:bg-surface-container-high dark:hover:bg-primary-container transition-colors active:scale-95 rounded-full" onclick="window.history.back()">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary dark:text-primary-fixed">Servis Takibi</h1>
+</div>
+<div class="p-xs">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">help_outline</span>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center pt-14 px-margin-mobile">
+<!-- Main Content Area: Bento Layout Principle -->
+<div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-gutter items-stretch">
+<!-- Left Side: Atmospheric/Operational Visual -->
+<div class="hidden md:flex md:col-span-5 flex-col justify-center p-lg bg-primary rounded-xl overflow-hidden relative shadow-lg">
+<div class="absolute inset-0 opacity-20">
+<div class="w-full h-full bg-[radial-gradient(#316bf3_1px,transparent_1px)] [background-size:20px_20px]"></div>
+</div>
+<div class="relative z-10 space-y-md">
+<div class="inline-flex items-center gap-xs bg-secondary-container/20 text-secondary-fixed-dim px-xs py-1 rounded-full">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+<span class="font-label-md text-label-md">GÜVENLİ ERİŞİM</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-white leading-tight">Hesabınızı Güvende Tutun.</h2>
+<p class="font-body-md text-body-md text-primary-fixed opacity-80">
+                        Şifrenizi sıfırlamak için kayıtlı iletişim bilgilerinizi doğrulamanız gerekmektedir. Süreç, operasyonel verilerinizin güvenliği için uçtan uca şifrelenmiştir.
+                    </p>
+<div class="pt-lg">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/10 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-white">verified_user</span>
+</div>
+<div>
+<p class="text-white font-semibold text-body-md">2FA Desteği</p>
+<p class="text-white/60 text-xs">Çift aşamalı doğrulama</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Reset Form Card -->
+<div class="md:col-span-7 bg-white p-lg md:p-xl rounded-xl border border-outline-variant shadow-md flex flex-col justify-center">
+<div class="space-y-xs mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-background">Şifremi Unuttum</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Lütfen hesabınıza kayıtlı olan e-posta adresini veya telefon numarasını girin. Size bir sıfırlama bağlantısı göndereceğiz.
+                    </p>
+</div>
+<form class="space-y-lg" id="resetForm">
+<!-- Input Section -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold block px-1" for="identifier">E-POSTA VEYA TELEFON</label>
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline group-focus-within:text-secondary transition-colors">alternate_email</span>
+<input class="w-full pl-12 pr-4 py-3.5 bg-surface border border-outline-variant rounded-lg font-body-md focus:ring-0 focus:border-secondary transition-all outline-none" id="identifier" placeholder="örnek@firma.com veya 5xx..." required="" type="text"/>
+</div>
+</div>
+<!-- Status Display (Initially Hidden) -->
+<div class="hidden p-md rounded-lg border flex items-start gap-sm animate-in fade-in duration-300" id="statusMessage">
+<span class="material-symbols-outlined mt-0.5" id="statusIcon"></span>
+<div class="font-body-md text-body-md" id="statusText"></div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-sm pt-sm">
+<button class="w-full bg-primary text-white py-4 px-lg font-label-md text-label-md uppercase tracking-wider rounded-lg hover:bg-on-primary-fixed-variant transition-colors active:scale-[0.98] flex items-center justify-center gap-sm shadow-sm" type="submit">
+<span>SIFIRLAMA TALİMATI GÖNDER</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+<a class="w-full bg-transparent border border-outline-variant text-on-surface-variant py-3 px-lg font-label-md text-label-md uppercase tracking-wider rounded-lg hover:bg-surface-container-low transition-colors active:scale-[0.98] flex items-center justify-center gap-sm" href="login.html">
+<span class="material-symbols-outlined text-[20px]">keyboard_backspace</span>
+<span>GİRİŞ EKRANINA DÖN</span>
+</a>
+</div>
+</form>
+<!-- Help Link -->
+<div class="mt-xl pt-lg border-t border-outline-variant text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Yardıma mı ihtiyacınız var? 
+                        <a class="text-secondary font-bold hover:underline" href="#">Destek Ekibiyle İletişime Geçin</a>
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Operational Footer (Compact) -->
+<footer class="mt-auto py-lg px-margin-mobile">
+<div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">SİSTEM ÇEVRİMİÇİ</span>
+</div>
+<div class="flex gap-lg">
+<span class="font-label-md text-label-md text-on-surface-variant">GİZLİLİK POLİTİKASI</span>
+<span class="font-label-md text-label-md text-on-surface-variant">KULLANIM ŞARTLARI</span>
+</div>
+</div>
+</footer>
+<script>
+        document.getElementById('resetForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('identifier').value;
+            const statusDiv = document.getElementById('statusMessage');
+            const statusIcon = document.getElementById('statusIcon');
+            const statusText = document.getElementById('statusText');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            // UI State: Loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="animate-spin material-symbols-outlined">progress_activity</span><span>GÖNDERİLİYOR...</span>';
+
+            setTimeout(() => {
+                // Success Simulation
+                statusDiv.classList.remove('hidden', 'bg-error-container', 'border-error', 'text-on-error-container');
+                statusDiv.classList.add('bg-surface-container', 'border-secondary', 'text-secondary');
+                
+                statusIcon.innerText = 'check_circle';
+                statusIcon.className = 'material-symbols-outlined text-secondary';
+                
+                statusText.innerHTML = `<strong>Başarılı!</strong><br>Sıfırlama bağlantısı <strong>${identifier}</strong> adresine gönderildi. Lütfen gelen kutunuzu kontrol edin.`;
+                
+                submitBtn.innerHTML = '<span>TEKRAR GÖNDER</span><span class="material-symbols-outlined text-[20px]">refresh</span>';
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+
+        // Add visual micro-interaction for input
+        const input = document.getElementById('identifier');
+        input.addEventListener('focus', () => {
+            input.parentElement.parentElement.classList.add('scale-[1.01]');
+            input.parentElement.parentElement.style.transition = 'transform 0.2s ease-out';
+        });
+        input.addEventListener('blur', () => {
+            input.parentElement.parentElement.classList.remove('scale-[1.01]');
+        });
+    </script>
+</body></html>

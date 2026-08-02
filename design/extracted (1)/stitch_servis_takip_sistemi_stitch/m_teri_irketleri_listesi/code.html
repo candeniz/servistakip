@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Müşteri Şirket Listesi | Lojistik Operasyon</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#003ea8",
+                      "inverse-primary": "#b6c7e8",
+                      "surface-container-highest": "#d3e4fe",
+                      "surface-dim": "#cbdbf5",
+                      "on-tertiary-fixed-variant": "#59431b",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-container": "#8293b2",
+                      "on-secondary-fixed": "#00174b",
+                      "on-tertiary-fixed": "#271900",
+                      "outline": "#75777e",
+                      "on-surface-variant": "#44474d",
+                      "outline-variant": "#c5c6ce",
+                      "tertiary-fixed-dim": "#e3c28e",
+                      "on-background": "#0b1c30",
+                      "error-container": "#ffdad6",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-container-high": "#dce9ff",
+                      "secondary-fixed": "#dbe1ff",
+                      "primary-container": "#1a2b45",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#d6e3ff",
+                      "surface-container": "#e5eeff",
+                      "surface-tint": "#4e5f7c",
+                      "background": "#f8f9ff",
+                      "on-error": "#ffffff",
+                      "surface": "#f8f9ff",
+                      "on-primary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#fefcff",
+                      "on-surface": "#0b1c30",
+                      "primary-fixed-dim": "#b6c7e8",
+                      "tertiary-container": "#3a2702",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#eff4ff",
+                      "secondary-fixed-dim": "#b4c5ff",
+                      "surface-bright": "#f8f9ff",
+                      "on-primary-fixed": "#091c35",
+                      "surface-variant": "#d3e4fe",
+                      "primary": "#04162f",
+                      "tertiary-fixed": "#ffdeab",
+                      "secondary": "#0051d5",
+                      "on-primary-fixed-variant": "#374763",
+                      "tertiary": "#201400",
+                      "secondary-container": "#316bf3",
+                      "on-tertiary-container": "#aa8d5e",
+                      "inverse-surface": "#213145"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "32px",
+                      "sm": "12px",
+                      "xl": "32px",
+                      "xs": "8px",
+                      "lg": "24px",
+                      "gutter": "20px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "label-md": ["JetBrains Mono"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "title-lg": ["Hanken Grotesk"],
+                      "headline-lg-mobile": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            font-family: 'Hanken Grotesk', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 10px; }
+        .operational-card-active { border-left: 4px solid #10b981; }
+        .operational-card-passive { border-left: 4px solid #94a3b8; }
+        .operational-card-expiring { border-left: 4px solid #f59e0b; }
+        .operational-card-critical { border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body class="min-h-screen pb-20 md:pb-0 md:pl-72">
+<!-- Navigation Drawer (Sidebar) -->
+<aside class="fixed inset-y-0 left-0 z-50 hidden md:flex flex-col h-full w-72 bg-surface border-r border-outline-variant shadow-lg">
+<div class="p-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-4xl">local_shipping</span>
+<h1 class="font-headline-lg text-headline-lg font-black text-on-background">Loji-SAAS</h1>
+</div>
+<div class="px-4 py-6 border-b border-outline-variant mb-4">
+<div class="flex items-center gap-sm px-2">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a confident middle-aged logistics executive with grey-streaked hair, wearing a navy blue blazer and a crisp white shirt. The background is a blurred high-tech logistics control room with glowing blue screens and data visualizations. The lighting is sharp and cinematic, reinforcing a sense of authority and corporate precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPfV7bwbCLOg-lPSF8Zr1Egaa7TElKRIm5N_hw_feVM_tcYpaPx6_2PU8S2n1uu1MrlQ04ub10Au6IkdVM5QgEMvlvT-4mUOGrJ8Kss5MizmhppWiaxaYUhxngFBc-FEdVDNFar4bXHlDNCBP3IZc_6miF2stEApjeC0jWYb6yR_pjp6lg974Yw-F91Hw6vsqz35YqI2TJ2D3-RoUKAUtbBW3NKHl7i8SyE6QzJxVezYM1-2NopGQj"/>
+</div>
+<div>
+<p class="font-title-lg text-body-lg font-bold leading-tight">Süper Admin</p>
+<p class="text-on-surface-variant text-label-md">admin@loji-saas.com</p>
+<span class="inline-block mt-1 px-2 py-0.5 bg-primary-container text-on-primary-container text-[10px] font-bold rounded uppercase">Sistem Yöneticisi</span>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-2 space-y-1 custom-scrollbar">
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-low px-4 py-3 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md">Genel Bakış</span>
+</a>
+<a class="flex items-center gap-md bg-secondary-fixed text-on-secondary-fixed font-bold rounded-lg px-4 py-3 transition-all duration-200 shadow-sm" href="#">
+<span class="material-symbols-outlined">business_center</span>
+<span class="font-body-md">Müşteriler</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-low px-4 py-3 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-body-md">Canlı Operasyon</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-low px-4 py-3 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">layers</span>
+<span class="font-body-md">Paket Yönetimi</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-low px-4 py-3 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-body-md">Destek</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-low px-4 py-3 rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings_applications</span>
+<span class="font-body-md">Ayarlar</span>
+</a>
+</nav>
+</aside>
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 md:left-72 right-0 h-16 bg-surface z-40 border-b border-outline-variant flex items-center justify-between px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-xs">
+<button class="md:hidden p-2 hover:bg-surface-variant rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Müşteri Yönetimi</h2>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden sm:flex bg-surface-container rounded-full px-4 py-2 border border-outline-variant w-64 items-center gap-xs">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder:text-outline-variant" placeholder="Müşteri ara..." type="text"/>
+</div>
+<button class="p-2 hover:bg-surface-variant rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 hover:bg-surface-variant rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 px-margin-mobile md:px-margin-desktop pb-32">
+<!-- Filter Bar -->
+<section class="mb-lg flex flex-wrap items-center gap-xs">
+<span class="text-on-surface-variant font-label-md mr-2">Filtrele:</span>
+<button class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md transition-colors">Tümü</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md hover:bg-surface-variant transition-colors flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span> Aktif
+            </button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md hover:bg-surface-variant transition-colors flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span> Pasif
+            </button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md hover:bg-surface-variant transition-colors flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span> Süresi Dolan
+            </button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md hover:bg-surface-variant transition-colors flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-blue-400"></span> Deneme
+            </button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md hover:bg-surface-variant transition-colors flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-purple-500"></span> Enterprise
+            </button>
+</section>
+<!-- Customer Grid/List -->
+<div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-gutter">
+<!-- Customer Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-md p-md operational-card-active hover:shadow-lg transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="flex gap-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-center overflow-hidden">
+<img class="w-10 h-10 object-contain" data-alt="A clean, minimalist vector logo for a global shipping company named 'Atlas Trans'. The logo features a stylized geometric globe in shades of deep navy and electric blue. The design is modern, professional, and corporate, set against a pristine white background. High resolution, crisp lines, perfect for a B2B SaaS dashboard interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYjvuUxmOAQDi00IXHxQGOXC_moCA_7ajvjn5wfMHQvY-tZDg3j5Pb75O_0dDF8sd1TPifScm_NKGBGnfAsh49o0fjhU9P1qZc0BhI4yK4nXGqvwqQtVlxLP_j_6WGkvQHyYUGs055Crfmdk3KXtcc-AyeHvZ1myKLCyv4m5MHBf8skL52OT4A-DJ44I7ZC2fA1cb1xkSItI_bkHqUK6Bi9YijGoPW8bdUo_8qAPy21YSq686gLsaG"/>
+</div>
+<div>
+<h3 class="font-headline-md text-title-lg text-primary leading-tight">Atlas Lojistik A.Ş.</h3>
+<span class="font-label-md text-on-surface-variant tracking-wider uppercase">[KOD: ATL-4820]</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="grid grid-cols-3 gap-xs mb-md border-y border-outline-variant py-sm">
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Kullanıcı</p>
+<p class="font-headline-md text-primary">24</p>
+</div>
+<div class="text-center border-x border-outline-variant">
+<p class="text-on-surface-variant text-label-md font-bold">Araç</p>
+<p class="font-headline-md text-primary">156</p>
+</div>
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Aktif İş</p>
+<p class="font-headline-md text-secondary">42</p>
+</div>
+</div>
+<div class="space-y-xs text-body-md">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">person</span> Yönetici:</span>
+<span class="font-semibold">Ahmet Yılmaz</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">inventory_2</span> Paket:</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded font-bold text-xs">Enterprise Plus</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">event</span> Bitiş Tarihi:</span>
+<span class="text-primary font-bold">12.10.2025</span>
+</div>
+</div>
+<button class="mt-md w-full py-2 bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary font-bold rounded-lg transition-colors flex items-center justify-center gap-xs">
+                    Detayları Görüntüle <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Customer Card 2 (Expiring) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-md p-md operational-card-expiring hover:shadow-lg transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="flex gap-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-center overflow-hidden">
+<img class="w-10 h-10 object-contain" data-alt="A modern corporate logo for 'Express Cargo Solutions'. The design features a sleek, forward-leaning orange arrow integrated with stylized letter 'E' and 'X'. Minimalist aesthetic, utilizing professional grey and vibrant orange. Clean vector style, sharp contrast against a white background, optimized for UI display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE9qtC8H5hSdSXa9B0dlJmat3v8eoOAHT255-ydlu2qt338PtEtgC89-uUhKTsDCHdUJqmhH2MqpKGIkwZ0s4fEBzgCqBPtYOq8s-QqSO9MKvjnu0IP-9CHn73EXerq6x33VAmZRfZ9CiZDOh8gUn-SpO0SNTNFfp2nSPeLwl4ffiqb03pRGDDvC3_Zwy4Emq2dVfgvc26Uc1avHpTdsR4A8LLAgQe_KC9tiKkdwIvWP0X7U7gv2Zp"/>
+</div>
+<div>
+<h3 class="font-headline-md text-title-lg text-primary leading-tight">Ekspres Kargo Ltd.</h3>
+<span class="font-label-md text-on-surface-variant tracking-wider uppercase">[KOD: EXP-9912]</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="grid grid-cols-3 gap-xs mb-md border-y border-outline-variant py-sm">
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Kullanıcı</p>
+<p class="font-headline-md text-primary">8</p>
+</div>
+<div class="text-center border-x border-outline-variant">
+<p class="text-on-surface-variant text-label-md font-bold">Araç</p>
+<p class="font-headline-md text-primary">32</p>
+</div>
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Aktif İş</p>
+<p class="font-headline-md text-secondary">5</p>
+</div>
+</div>
+<div class="space-y-xs text-body-md">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">person</span> Yönetici:</span>
+<span class="font-semibold">Merve Çelik</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">inventory_2</span> Paket:</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded font-bold text-xs">Standart Kobi</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">event</span> Bitiş Tarihi:</span>
+<span class="text-error font-bold flex items-center gap-1">05.08.2024 <span class="material-symbols-outlined text-[16px]">warning</span></span>
+</div>
+</div>
+<button class="mt-md w-full py-2 bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary font-bold rounded-lg transition-colors flex items-center justify-center gap-xs">
+                    Detayları Görüntüle <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Customer Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-md p-md operational-card-active hover:shadow-lg transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="flex gap-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-center overflow-hidden">
+<img class="w-10 h-10 object-contain" data-alt="A sophisticated corporate logo for 'Global Route Logistics'. The icon features three interconnected dots forming a triangular path, symbolizing network and efficiency. Uses a professional color palette of emerald green and slate grey. High-end, technical aesthetic suitable for global logistics software. White background with sharp detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm_gGeEGeWCvci_SyiiwC_aKt5TAC5INAIRs0BHotIO4Q2M4swvWapkeXpcJNkux6tBnPx8gB8in7jrFrSds1ffp8KttMj4tLCBMl7vBqd9rwLKce48ZqEOmiJ5ZIZEPZP6Nt-XOaUgzcJOWkyF7_I_CcSO7xw3t5Gjm2Z7Za2AQEkCjaQ346kqhlzMbIDtPSsHO-PLWf4XvP6oakzwv9Rtis_tCIkeRxQrTpvHjZryvcddHkCnuXp"/>
+</div>
+<div>
+<h3 class="font-headline-md text-title-lg text-primary leading-tight">Global Rota</h3>
+<span class="font-label-md text-on-surface-variant tracking-wider uppercase">[KOD: GLO-2150]</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="grid grid-cols-3 gap-xs mb-md border-y border-outline-variant py-sm">
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Kullanıcı</p>
+<p class="font-headline-md text-primary">112</p>
+</div>
+<div class="text-center border-x border-outline-variant">
+<p class="text-on-surface-variant text-label-md font-bold">Araç</p>
+<p class="font-headline-md text-primary">450</p>
+</div>
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Aktif İş</p>
+<p class="font-headline-md text-secondary">218</p>
+</div>
+</div>
+<div class="space-y-xs text-body-md">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">person</span> Yönetici:</span>
+<span class="font-semibold">Bülent Ecevit</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">inventory_2</span> Paket:</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded font-bold text-xs">Enterprise Premium</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">event</span> Bitiş Tarihi:</span>
+<span class="text-primary font-bold">30.12.2026</span>
+</div>
+</div>
+<button class="mt-md w-full py-2 bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary font-bold rounded-lg transition-colors flex items-center justify-center gap-xs">
+                    Detayları Görüntüle <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Customer Card 4 (Passive) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-md p-md operational-card-passive opacity-75 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+<div class="flex justify-between items-start mb-md">
+<div class="flex gap-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-center overflow-hidden">
+<img class="w-10 h-10 object-contain" data-alt="A minimalist logo for 'Urban Fleet'. Features a stylized city skyline silhouette with a tire track running through it. The colors are muted steel blue and slate grey. Clean lines, contemporary design, professional corporate feel. Set against a white background with soft lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtv3Nbv3_8acNnpM2BlS5_fb3MZdhzGIR2E0NdBSAqifQc1IWuI5sY4z49Inrkrl5IvVSA-oT_0bmeIjvXbB7gmsRJV37kO9LOZL7o-2Qwr04kxQjiBGrgh4rumV0Wa45lniVYiowPaQHIr1o2s8ZYiPEPhKj8xiiSzcau77CCKxOAufEH0PJh11gUD0N1DqI0fEPp5cLkykqfJ6ZbguAS1T96jMiSLPlf_s8BUXZvjiHCZDSHCDjx"/>
+</div>
+<div>
+<h3 class="font-headline-md text-title-lg text-primary leading-tight">Şehir Filosu</h3>
+<span class="font-label-md text-on-surface-variant tracking-wider uppercase">[KOD: UBN-1004]</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="grid grid-cols-3 gap-xs mb-md border-y border-outline-variant py-sm">
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Kullanıcı</p>
+<p class="font-headline-md text-primary">2</p>
+</div>
+<div class="text-center border-x border-outline-variant">
+<p class="text-on-surface-variant text-label-md font-bold">Araç</p>
+<p class="font-headline-md text-primary">0</p>
+</div>
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Aktif İş</p>
+<p class="font-headline-md text-secondary">0</p>
+</div>
+</div>
+<div class="space-y-xs text-body-md">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">person</span> Yönetici:</span>
+<span class="font-semibold">Caner Bakır</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">inventory_2</span> Paket:</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded font-bold text-xs">Ücretsiz Deneme</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">event</span> Bitiş Tarihi:</span>
+<span class="text-on-surface-variant font-bold">Süresi Doldu</span>
+</div>
+</div>
+<button class="mt-md w-full py-2 bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary font-bold rounded-lg transition-colors flex items-center justify-center gap-xs">
+                    Hesabı İncele <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Customer Card 5 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-md p-md operational-card-active hover:shadow-lg transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="flex gap-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-center overflow-hidden">
+<img class="w-10 h-10 object-contain" data-alt="A modern tech-oriented logo for 'DataDrive Logistics'. The design combines a circuit board pattern with a truck silhouette. Bold, professional color palette of tech-blue and silver. Sleek, minimalist vector graphic, symbolizing data-driven operational efficiency. White background with sharp contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYPsxilKpxmKEAoBErO52b1eRC0eQuTi5IMjmZ7BvitEeacLdNSNXW63s7XmBluXPQB0znzCr5W_hvraWSXp4g0D_L0e3Bf-H_AGuCqhmLyifiM6y0OfJD2_0Rt8dcgW4Zcp1chtTCIixw6emGfgm6tnjoMVtf4cI_v90U3yAUB3pP4xZinESrHaGVfr5KupFJih_Xy2Xej6RrMs0AQq69wgFGTtvbdW6jlRioymzSxtpFQzSYqjXX"/>
+</div>
+<div>
+<h3 class="font-headline-md text-title-lg text-primary leading-tight">VeriLojistik A.Ş.</h3>
+<span class="font-label-md text-on-surface-variant tracking-wider uppercase">[KOD: DAT-7721]</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="grid grid-cols-3 gap-xs mb-md border-y border-outline-variant py-sm">
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Kullanıcı</p>
+<p class="font-headline-md text-primary">45</p>
+</div>
+<div class="text-center border-x border-outline-variant">
+<p class="text-on-surface-variant text-label-md font-bold">Araç</p>
+<p class="font-headline-md text-primary">210</p>
+</div>
+<div class="text-center">
+<p class="text-on-surface-variant text-label-md font-bold">Aktif İş</p>
+<p class="font-headline-md text-secondary">88</p>
+</div>
+</div>
+<div class="space-y-xs text-body-md">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">person</span> Yönetici:</span>
+<span class="font-semibold">Selma Güler</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">inventory_2</span> Paket:</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded font-bold text-xs">Enterprise Pro</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">event</span> Bitiş Tarihi:</span>
+<span class="text-primary font-bold">14.02.2026</span>
+</div>
+</div>
+<button class="mt-md w-full py-2 bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary font-bold rounded-lg transition-colors flex items-center justify-center gap-xs">
+                    Detayları Görüntüle <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-margin-mobile md:bottom-8 md:right-8 w-14 h-14 bg-secondary text-on-secondary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-50 group">
+<span class="material-symbols-outlined text-3xl">add</span>
+<span class="absolute right-full mr-4 bg-primary text-on-primary px-3 py-1 rounded text-body-md font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity hidden md:block">Yeni Müşteri Ekle</span>
+</button>
+<!-- Mobile Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-2 pt-1 bg-surface-container-lowest border-t border-outline-variant shadow-md md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Genel</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Müşteri</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-label-md text-label-md">Canlı</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Paket</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Ayarlar</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interactions for demo
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const ripple = document.createElement('span');
+                ripple.className = 'absolute inset-0 bg-white opacity-25 rounded-inherit pointer-events-none animate-ping';
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 500);
+            });
+        });
+
+        // Filter chip selection logic
+        const filterChips = document.querySelectorAll('section button');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach(c => {
+                    c.classList.remove('bg-primary', 'text-on-primary');
+                    c.classList.add('bg-surface-container', 'text-on-surface-variant');
+                });
+                chip.classList.add('bg-primary', 'text-on-primary');
+                chip.classList.remove('bg-surface-container', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

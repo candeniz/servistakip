@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Destek Merkezi - Servis Takibi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#dce9ff",
+                    "secondary": "#0051d5",
+                    "on-error-container": "#93000a",
+                    "on-background": "#0b1c30",
+                    "on-surface-variant": "#44474d",
+                    "surface-tint": "#4e5f7c",
+                    "surface-container": "#e5eeff",
+                    "secondary-container": "#316bf3",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-primary": "#b6c7e8",
+                    "on-primary-container": "#8293b2",
+                    "tertiary-container": "#3a2702",
+                    "surface": "#f8f9ff",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "primary": "#04162f",
+                    "surface-container-highest": "#d3e4fe",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed": "#ffdeab",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "on-primary-fixed-variant": "#374763",
+                    "on-tertiary-container": "#aa8d5e",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "on-secondary-fixed": "#00174b",
+                    "tertiary": "#201400",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "primary-fixed": "#d6e3ff",
+                    "background": "#f8f9ff",
+                    "on-tertiary-fixed": "#271900",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-container": "#fefcff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#1a2b45",
+                    "outline": "#75777e",
+                    "on-primary-fixed": "#091c35",
+                    "inverse-surface": "#213145",
+                    "outline-variant": "#c5c6ce",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "20px",
+                    "md": "16px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "margin-desktop": "32px",
+                    "sm": "12px",
+                    "lg": "24px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "title-lg": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #f8f9ff;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .support-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+        .support-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(11, 28, 48, 0.05), 0 2px 4px -1px rgba(11, 28, 48, 0.03);
+        }
+        .status-pill {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #eff4ff;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d3e4fe;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-14 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<button class="active:scale-95 transition-transform p-xs hover:bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary">Destek Merkezi</h1>
+</div>
+<div class="flex items-center gap-xs">
+<button class="active:scale-95 transition-transform p-xs hover:bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+<button class="active:scale-95 transition-transform p-xs hover:bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-primary">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Tab Navigation -->
+<nav class="fixed top-14 left-0 w-full z-40 bg-surface-container-lowest border-b border-outline-variant">
+<div class="flex">
+<button class="flex-1 py-4 text-center border-b-2 border-secondary font-semibold text-secondary transition-all" id="tab-active" onclick="switchTab('active')">
+                Açık Talepler
+            </button>
+<button class="flex-1 py-4 text-center border-b-2 border-transparent text-on-surface-variant hover:bg-surface-container-low transition-all" id="tab-solved" onclick="switchTab('solved')">
+                Çözülenler
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="mt-32 px-margin-mobile max-w-3xl mx-auto space-y-md">
+<!-- Search & Filter Area (Operational Clarity) -->
+<div class="flex items-center justify-between py-xs">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">3 AKTİF TALEP</span>
+<button class="flex items-center gap-xs text-secondary font-semibold text-body-md">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                Filtrele
+            </button>
+</div>
+<!-- Ticket List Container -->
+<div class="space-y-md pb-12" id="ticket-list">
+<!-- Ticket Card 1: Yanıt Bekliyor -->
+<div class="support-card bg-surface-container-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-sm" style="border-left-color: #316bf3;">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-base">
+<span class="font-label-md text-label-md text-on-surface-variant">#TK-4821</span>
+<h3 class="font-title-lg text-title-lg text-on-surface leading-tight">Güzergah optimizasyon hatası bildirimi</h3>
+</div>
+<span class="status-pill px-xs py-base bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded uppercase">Yanıt Bekliyor</span>
+</div>
+<div class="flex flex-wrap items-center gap-md pt-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">priority_high</span>
+<span class="text-body-md text-on-surface-variant">Öncelik: <span class="font-semibold text-error">Yüksek</span></span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">schedule</span>
+<span class="text-body-md text-on-surface-variant">Son Güncelleme: <span class="font-medium">14 dk önce</span></span>
+</div>
+</div>
+<div class="mt-xs pt-xs border-t border-outline-variant flex justify-end">
+<button class="text-secondary font-bold text-body-md hover:underline active:scale-95 transition-transform">DETAYLARI GÖR</button>
+</div>
+</div>
+<!-- Ticket Card 2: Açık -->
+<div class="support-card bg-surface-container-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-sm" style="border-left-color: #aa8d5e;">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-base">
+<span class="font-label-md text-label-md text-on-surface-variant">#TK-4799</span>
+<h3 class="font-title-lg text-title-lg text-on-surface leading-tight">Yeni araç kaydı onay süreci</h3>
+</div>
+<span class="status-pill px-xs py-base bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase">Açık</span>
+</div>
+<div class="flex flex-wrap items-center gap-md pt-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">low_priority</span>
+<span class="text-body-md text-on-surface-variant">Öncelik: <span class="font-semibold">Orta</span></span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">schedule</span>
+<span class="text-body-md text-on-surface-variant">Son Güncelleme: <span class="font-medium">2 saat önce</span></span>
+</div>
+</div>
+<div class="mt-xs pt-xs border-t border-outline-variant flex justify-end">
+<button class="text-secondary font-bold text-body-md hover:underline active:scale-95 transition-transform">DETAYLARI GÖR</button>
+</div>
+</div>
+<!-- Ticket Card 3: Açık -->
+<div class="support-card bg-surface-container-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-sm" style="border-left-color: #75777e;">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-base">
+<span class="font-label-md text-label-md text-on-surface-variant">#TK-4752</span>
+<h3 class="font-title-lg text-title-lg text-on-surface leading-tight">Fatura detayları eksikliği hakkında</h3>
+</div>
+<span class="status-pill px-xs py-base bg-surface-container text-on-surface-variant text-[10px] font-bold rounded uppercase">Açık</span>
+</div>
+<div class="flex flex-wrap items-center gap-md pt-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">check_box_outline_blank</span>
+<span class="text-body-md text-on-surface-variant">Öncelik: <span class="font-semibold text-on-surface-variant">Düşük</span></span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">schedule</span>
+<span class="text-body-md text-on-surface-variant">Son Güncelleme: <span class="font-medium">Dün, 16:45</span></span>
+</div>
+</div>
+<div class="mt-xs pt-xs border-t border-outline-variant flex justify-end">
+<button class="text-secondary font-bold text-body-md hover:underline active:scale-95 transition-transform">DETAYLARI GÖR</button>
+</div>
+</div>
+</div>
+<!-- Empty State (Placeholder for Solved) -->
+<div class="hidden flex-col items-center justify-center py-xl text-center opacity-0 transition-opacity duration-300" id="solved-empty">
+<div class="w-48 h-48 mb-lg bg-surface-container-low rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-[64px]" style="font-variation-settings: 'wght' 200;">check_circle</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Tüm Talepler Çözüldü</h2>
+<p class="text-body-lg text-on-surface-variant max-w-[280px]">Son 30 gün içinde kapatılmış bir destek talebiniz bulunmuyor.</p>
+</div>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-secondary text-on-secondary rounded-full shadow-lg flex items-center justify-center active:scale-90 hover:scale-105 transition-all z-50">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant shadow-md">
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-all">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Ana Sayfa</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-all">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-md text-label-md">Seferlerim</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md text-label-md">Duyurular</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-95 transition-all">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-label-md text-label-md">Destek</span>
+</button>
+</footer>
+<script>
+        function switchTab(tab) {
+            const activeTab = document.getElementById('tab-active');
+            const solvedTab = document.getElementById('tab-solved');
+            const ticketList = document.getElementById('ticket-list');
+            const solvedEmpty = document.getElementById('solved-empty');
+
+            if (tab === 'active') {
+                activeTab.classList.add('border-secondary', 'text-secondary');
+                activeTab.classList.remove('border-transparent', 'text-on-surface-variant');
+                solvedTab.classList.add('border-transparent', 'text-on-surface-variant');
+                solvedTab.classList.remove('border-secondary', 'text-secondary');
+                
+                ticketList.classList.remove('hidden');
+                solvedEmpty.classList.add('hidden');
+                solvedEmpty.classList.remove('flex');
+            } else {
+                solvedTab.classList.add('border-secondary', 'text-secondary');
+                solvedTab.classList.remove('border-transparent', 'text-on-surface-variant');
+                activeTab.classList.add('border-transparent', 'text-on-surface-variant');
+                activeTab.classList.remove('border-secondary', 'text-secondary');
+                
+                ticketList.classList.add('hidden');
+                solvedEmpty.classList.remove('hidden');
+                solvedEmpty.classList.add('flex');
+                setTimeout(() => solvedEmpty.classList.add('opacity-100'), 50);
+            }
+        }
+
+        // Add subtle ripple effect to cards
+        document.querySelectorAll('.support-card').forEach(card => {
+            card.addEventListener('mousedown', function(e) {
+                this.classList.add('scale-[0.98]');
+            });
+            card.addEventListener('mouseup', function(e) {
+                this.classList.remove('scale-[0.98]');
+            });
+            card.addEventListener('mouseleave', function(e) {
+                this.classList.remove('scale-[0.98]');
+            });
+        });
+    </script>
+</body></html>

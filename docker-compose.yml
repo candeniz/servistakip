@@ -1,0 +1,66 @@
+# ============================================================
+# Servis Takip - Yerel geliştirme yığını
+#   db    : PostgreSQL 16 + PostGIS
+#   redis : WebSocket pub/sub
+#   api   : FastAPI (Uvicorn)
+# Çalıştırma: docker compose up --build
+# ============================================================
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: servis_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-servis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-servis_dev_pw}
+      POSTGRES_DB: ${POSTGRES_DB:-servis_takip}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-servis} -d ${POSTGRES_DB:-servis_takip}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: servis_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ./services/api
+      dockerfile: Dockerfile
+    container_name: servis_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # compose ağı içindeki host adlarını zorla
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-servis}:${POSTGRES_PASSWORD:-servis_dev_pw}@db:5432/${POSTGRES_DB:-servis_takip}
+      ALEMBIC_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-servis}:${POSTGRES_PASSWORD:-servis_dev_pw}@db:5432/${POSTGRES_DB:-servis_takip}
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    # Migration'ları uygula, demo seed'i yükle, sonra sunucuyu başlat
+    command: >
+      sh -c "alembic upgrade head &&
+             python -m app.seed &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+volumes:
+  pgdata:

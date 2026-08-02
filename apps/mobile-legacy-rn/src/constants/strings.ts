@@ -1,0 +1,66 @@
+/**
+ * Kullanıcıya gösterilen sabit metinler (Türkçe).
+ * UI metinleri merkezi tutulur; component içine gömülmez.
+ */
+export const strings = {
+  app: {
+    name: 'Servis Takip',
+    tagline: 'Personel servislerini gerçek zamanlı takip edin',
+  },
+  auth: {
+    loginTitle: 'Giriş Yap',
+    email: 'E-posta',
+    password: 'Şifre',
+    forgotPassword: 'Şifremi unuttum',
+    loginButton: 'Giriş Yap',
+    demoHint: 'Demo hesapları aşağıdan seçebilirsiniz',
+    invalidCredentials: 'E-posta veya şifre hatalı.',
+    logout: 'Çıkış Yap',
+  },
+  common: {
+    loading: 'Yükleniyor…',
+    retry: 'Tekrar Dene',
+    save: 'Kaydet',
+    cancel: 'Vazgeç',
+    confirm: 'Onayla',
+    close: 'Kapat',
+    search: 'Ara…',
+    all: 'Tümü',
+    today: 'Bugün',
+    noData: 'Kayıt bulunamadı',
+    error: 'Bir şeyler ters gitti',
+  },
+  errors: {
+    noInternet: 'İnternet bağlantısı yok. Bağlantınızı kontrol edin.',
+    apiUnreachable: 'Sunucuya ulaşılamıyor. Lütfen daha sonra tekrar deneyin.',
+    gpsOff: 'Konum servisi kapalı. Lütfen GPS’i açın.',
+    locationDenied: 'Konum izni verilmedi.',
+    notificationDenied: 'Bildirim izni verilmedi.',
+    driverNoLocation: 'Şoför şu anda konum paylaşmıyor.',
+    tripNotStarted: 'Servis henüz başlamadı.',
+    tripCancelled: 'Servis iptal edildi.',
+    noActiveTrip: 'Aktif servis bulunamadı.',
+    noAssignedService: 'Size atanmış bir servis bulunmuyor.',
+    sessionExpired: 'Oturum süreniz doldu. Lütfen tekrar giriş yapın.',
+    unauthorized: 'Bu ekrana erişim yetkiniz yok.',
+    wsDisconnected: 'Canlı bağlantı koptu, yeniden bağlanılıyor…',
+  },
+  driver: {
+    start: 'Servisi Başlat',
+    arrive: 'Durağa Vardım',
+    depart: 'Duraktan Hareket',
+    complete: 'Servisi Tamamla',
+    preTripCheck: 'Servis Öncesi Kontrol',
+    reportIncident: 'Olay Bildir',
+    nextStop: 'Sıradaki Durak',
+  },
+  passenger: {
+    liveTitle: 'Servisim',
+    etaLabel: 'Tahmini Varış',
+    remainingStops: 'Kalan Durak',
+    remainingDistance: 'Kalan Mesafe',
+    delayLabel: 'Gecikme',
+    absentToday: 'Bugün Binmeyeceğim',
+    driverInfo: 'Şoför & Araç',
+  },
+} as const;

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #316bf3;
+        }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot {
+            transform: translateX(100%);
+            background-color: #ffffff;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8e0;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dce9ff",
+                        "secondary": "#0051d5",
+                        "on-error-container": "#93000a",
+                        "on-background": "#0b1c30",
+                        "on-surface-variant": "#44474d",
+                        "surface-tint": "#4e5f7c",
+                        "surface-container": "#e5eeff",
+                        "secondary-container": "#316bf3",
+                        "on-tertiary-fixed-variant": "#59431b",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-primary": "#b6c7e8",
+                        "on-primary-container": "#8293b2",
+                        "tertiary-container": "#3a2702",
+                        "surface": "#f8f9ff",
+                        "primary-fixed-dim": "#b6c7e8",
+                        "primary": "#04162f",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d3e4fe",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed": "#ffdeab",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed-variant": "#374763",
+                        "on-tertiary-container": "#aa8d5e",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#e3c28e",
+                        "on-secondary-fixed": "#00174b",
+                        "tertiary": "#201400",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "primary-fixed": "#d6e3ff",
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#271900",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-container": "#fefcff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1a2b45",
+                        "outline": "#75777e",
+                        "on-primary-fixed": "#091c35",
+                        "inverse-surface": "#213145",
+                        "outline-variant": "#c5c6ce",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "20px",
+                        "md": "16px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "margin-desktop": "32px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "title-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-mobile h-14">
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-high transition-colors p-2 rounded-full active:scale-95" data-icon="arrow_back">arrow_back</button>
+<h1 class="font-title-lg text-title-lg text-primary">Bildirim Kuralları</h1>
+</div>
+<div class="flex items-center gap-xs">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-high transition-colors p-2 rounded-full active:scale-95" data-icon="help_outline">help_outline</button>
+</div>
+</header>
+<main class="mt-14 mb-20 max-w-4xl mx-auto px-margin-mobile pt-lg pb-xl">
+<!-- Header Section with Atmospheric Background -->
+<div class="relative overflow-hidden rounded-xl bg-primary-container p-lg mb-xl shadow-md border border-outline-variant">
+
+<div class="relative z-10">
+<h2 class="font-headline-md text-headline-md text-on-primary-fixed mb-xs">Otomatik Bildirim Ayarları</h2>
+<p class="text-on-primary-container font-body-md max-w-md">Servis operasyonlarınızdaki kritik olaylardan anlık haberdar olun. Bildirim kurallarını dilediğiniz gibi özelleştirin.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Information Panel (Left Column Desktop) -->
+<div class="md:col-span-4 flex flex-col gap-md">
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl">
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="info">info</span>
+<span class="font-title-lg text-body-lg font-semibold text-primary">Neden Bildirimler?</span>
+</div>
+<p class="text-on-surface-variant font-body-md leading-relaxed">
+                        Gerçek zamanlı bildirimler, operasyonel gecikmeleri %30 oranında azaltmanıza yardımcı olur. Şoför ve araç değişikliklerini anında takip ederek verimliliği artırın.
+                    </p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl">
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="devices">devices</span>
+<span class="font-title-lg text-body-lg font-semibold text-primary">Cihaz Durumu</span>
+</div>
+<div class="flex items-center justify-between p-xs bg-surface-container rounded-lg">
+<span class="text-on-surface-variant font-label-md">PUSH BİLDİRİM:</span>
+<span class="text-secondary font-label-md font-bold">AKTİF</span>
+</div>
+</div>
+</div>
+<!-- Settings List (Right Column Desktop) -->
+<div class="md:col-span-8 flex flex-col gap-xl">
+<!-- Group: Sefer Başlangıç & Takip -->
+<section>
+<h3 class="font-label-md text-on-surface-variant uppercase tracking-widest mb-md border-b border-outline-variant pb-xs">Sefer ve Konum</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<!-- Row: Servis Başladı -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold">Servis Başladı</p>
+<p class="text-on-surface-variant text-body-md">Araç garajdan çıkıp ilk durağa yöneldiğinde.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+<!-- Row: Servis 5 Durak Uzakta -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold">Servis 5 Durak Uzakta</p>
+<p class="text-on-surface-variant text-body-md">Hedef durağa 5 durak mesafe kaldığında.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+<!-- Row: Servis 3 Durak Uzakta -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="near_me">near_me</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold">Servis 3 Durak Uzakta</p>
+<p class="text-on-surface-variant text-body-md">Sizin için kritik yaklaşma bildirimi.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+<!-- Row: Servis 10 Dakika Uzakta -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold">Servis 10 Dakika Uzakta</p>
+<p class="text-on-surface-variant text-body-md">Trafik verilerine göre tahmini varış süresi.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+<!-- Row: Servis Durağa Vardı -->
+<div class="flex items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold">Servis Durağa Vardı</p>
+<p class="text-on-surface-variant text-body-md">Araç tam olarak durağa ulaştığında.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+</div>
+</section>
+<!-- Group: Durum & Değişiklikler -->
+<section>
+<h3 class="font-label-md text-on-surface-variant uppercase tracking-widest mb-md border-b border-outline-variant pb-xs">Operasyonel Durum</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<!-- Row: Servis Gecikti -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold">Servis Gecikti</p>
+<p class="text-on-surface-variant text-body-md">Planlanan sürenin 15 dk üzerine çıkıldığında.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+<!-- Row: Araç Değişti -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="directions_bus">directions_bus</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold">Araç Değişti</p>
+<p class="text-on-surface-variant text-body-md">Zorunlu plaka değişimlerinde bilgilendirme.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+<!-- Row: Şoför Değişti -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold">Şoför Değişti</p>
+<p class="text-on-surface-variant text-body-md">Yeni personel atandığında otomatik uyarı.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+<!-- Row: Servis İptal Edildi -->
+<div class="flex items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</div>
+<div>
+<p class="font-body-lg text-primary font-semibold text-error">Servis İptal Edildi</p>
+<p class="text-on-surface-variant text-body-md">Sefer iptali durumunda yüksek öncelikli bildirim.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer toggle-label transition-colors">
+<div class="absolute top-[2px] left-[2px] bg-white border-outline-variant border rounded-full h-5 w-5 transition-all toggle-dot"></div>
+</div>
+</label>
+</div>
+</div>
+</section>
+<!-- Advanced Options Link -->
+<div class="flex justify-center">
+<button class="px-lg py-sm border border-secondary text-secondary font-bold rounded-lg hover:bg-surface-container-high transition-all active:scale-95 uppercase text-label-md">
+                        TÜM AYARLARI SIFIRLA
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface border-t border-outline-variant flex justify-around items-center px-4 py-2 shadow-md h-16">
+<div class="flex flex-col items-center justify-center text-on-surface-variant cursor-pointer active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Ana Sayfa</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant cursor-pointer active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-md text-label-md">Seferlerim</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant cursor-pointer active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-md text-label-md">Duyurular</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profil</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions for toggles
+        document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                const parent = e.target.closest('.group');
+                if (e.target.checked) {
+                    parent.style.backgroundColor = 'rgba(203, 219, 245, 0.2)';
+                } else {
+                    parent.style.backgroundColor = 'transparent';
+                }
+            });
+        });
+
+        // Initialize state colors for active toggles
+        document.querySelectorAll('.toggle-checkbox:checked').forEach(toggle => {
+            const parent = toggle.closest('.group');
+            parent.style.backgroundColor = 'rgba(203, 219, 245, 0.2)';
+        });
+    </script>
+</body></html>

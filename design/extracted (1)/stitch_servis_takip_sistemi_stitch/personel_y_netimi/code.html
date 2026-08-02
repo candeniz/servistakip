@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logistix Command - Personnel Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#75777e",
+                    "secondary-container": "#316bf3",
+                    "on-secondary-container": "#fefcff",
+                    "tertiary-container": "#3a2702",
+                    "surface-container": "#e5eeff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-tint": "#4e5f7c",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "on-tertiary-container": "#aa8d5e",
+                    "on-primary-container": "#8293b2",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-fixed-variant": "#374763",
+                    "background": "#f8f9ff",
+                    "tertiary": "#201400",
+                    "on-tertiary-fixed": "#271900",
+                    "on-primary-fixed": "#091c35",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "primary-container": "#1a2b45",
+                    "on-surface-variant": "#44474d",
+                    "outline-variant": "#c5c6ce",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#d6e3ff",
+                    "primary": "#04162f",
+                    "surface-dim": "#cbdbf5",
+                    "error-container": "#ffdad6",
+                    "surface": "#f8f9ff",
+                    "on-surface": "#0b1c30",
+                    "on-background": "#0b1c30",
+                    "tertiary-fixed": "#ffdeab",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b6c7e8",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-secondary-fixed": "#00174b",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#d3e4fe",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#0051d5",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#213145"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xs": "8px",
+                    "margin-mobile": "16px",
+                    "gutter": "20px",
+                    "xl": "32px",
+                    "base": "4px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "title-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 10px; }
+        .staff-row:hover { background-color: #f1f5f9; transition: background-color 150ms ease; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- Navigation Drawer (Desktop) -->
+<aside class="hidden md:flex flex-col py-lg px-md gap-xs fixed left-0 top-0 h-full w-72 bg-surface-container-low dark:bg-primary-container border-r border-outline-variant dark:border-outline z-30">
+<div class="mb-lg px-sm">
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">LOGISTIX</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Fleet Commander v2.4.0</p>
+</div>
+<nav class="flex-1 flex flex-col gap-xs">
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-label-md text-label-md">Live Tracking</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-md text-label-md">Services</span>
+</a>
+<a class="flex items-center gap-md p-md bg-secondary-container text-on-secondary-container rounded-lg font-bold" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md uppercase">People</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">settings_suggest</span>
+<span class="font-label-md text-label-md">Management</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-lg flex items-center gap-md px-sm">
+<div class="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold">Admin Panel</p>
+<p class="text-xs text-on-surface-variant">Fleet Commander</p>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col md:ml-72 h-screen relative">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-20 bg-surface border-b border-outline-variant shrink-0">
+<div class="flex items-center gap-md">
+<button class="md:hidden p-md">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-md text-headline-md font-bold text-primary tracking-tight">PERSONNEL MANAGEMENT</h2>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden md:flex gap-md">
+<button class="bg-primary text-on-primary px-lg py-sm rounded font-bold text-xs uppercase hover:opacity-90 transition-opacity flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                        Excel ile Yükle
+                    </button>
+<button class="bg-secondary text-on-secondary px-lg py-sm rounded font-bold text-xs uppercase hover:opacity-90 transition-opacity flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">directions_bus</span>
+                        Toplu Taşıma
+                    </button>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a logistics administrator in a modern office setting, soft natural lighting, high-end corporate aesthetic, sharp focus on facial features with a blurred office background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFcktYoX6gBb0tTZt5EQ8-MFBJoQSUs1gntesmZ0FrKY1AEY7BOoTRI7o1p_QwoYuzzSX20xvTMsFwRGlBCWOGkcLFdUfHAZ6ZYNDjxga1sG0T4dbEeHZczIqKMhNYtCrCOPTgJLMvHkdTrlfk0NB9GtRBfs8VGrZlcLLVnm6QXTckwPHs85fF9xZwf0JrJ5HLNnKNDYYvH01-GixVhd1_kU-Myo-34k6F6eIykjaI0gA81tkawtRw"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 overflow-hidden flex flex-col lg:flex-row">
+<!-- List Section -->
+<section class="flex-1 p-lg overflow-y-auto custom-scrollbar flex flex-col gap-lg">
+<!-- Filter Bar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md">
+<div class="relative md:col-span-2">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-xl pr-md py-md bg-surface-container border border-outline-variant rounded-lg focus:border-secondary focus:ring-0 text-body-md transition-all" placeholder="Ad Soyad veya Personel No ara..." type="text"/>
+</div>
+<select class="bg-surface-container border border-outline-variant rounded-lg py-md px-md text-body-md">
+<option>Tüm Departmanlar</option>
+<option>Operasyon</option>
+<option>Lojistik</option>
+<option>Bilgi İşlem</option>
+</select>
+<select class="bg-surface-container border border-outline-variant rounded-lg py-md px-md text-body-md">
+<option>Bugün Binecekler</option>
+<option>Binmeyecekler</option>
+<option>Tümü</option>
+</select>
+</div>
+<!-- Staff Table -->
+<div class="bg-white rounded-xl border border-outline-variant overflow-hidden shadow-[0_4px_6px_rgba(4,22,47,0.05)]">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="p-md font-label-md text-label-md text-on-surface-variant uppercase">Ad Soyad</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant uppercase">Personel No</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant uppercase">Departman</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant uppercase">Servis</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant uppercase">Bugün Durum</th>
+<th class="p-md font-label-md text-label-md text-on-surface-variant uppercase text-right">İşlem</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="staff-row cursor-pointer" onclick="openDetail('Ahmet Yılmaz', 'EMP-2309')">
+<td class="p-md flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-[10px] flex items-center justify-center text-white font-bold">AY</div>
+<span class="font-body-md font-bold">Ahmet Yılmaz</span>
+</td>
+<td class="p-md"><span class="font-label-md bg-surface-variant px-xs py-[2px] rounded text-[11px]">EMP-2309</span></td>
+<td class="p-md text-body-md">Operasyon</td>
+<td class="p-md text-body-md">Sabah / Akşam</td>
+<td class="p-md">
+<button class="relative inline-flex h-6 w-11 items-center rounded-full bg-secondary transition-colors" onclick="event.stopPropagation()">
+<span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+</button>
+<span class="ml-xs text-xs font-bold text-secondary">BİNECEK</span>
+</td>
+<td class="p-md text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors">chevron_right</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="staff-row cursor-pointer" onclick="openDetail('Zeynep Demir', 'EMP-4412')">
+<td class="p-md flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-[10px] flex items-center justify-center text-tertiary-fixed-dim font-bold">ZD</div>
+<span class="font-body-md font-bold">Zeynep Demir</span>
+</td>
+<td class="p-md"><span class="font-label-md bg-surface-variant px-xs py-[2px] rounded text-[11px]">EMP-4412</span></td>
+<td class="p-md text-body-md">Lojistik Planlama</td>
+<td class="p-md text-body-md">Sabah</td>
+<td class="p-md">
+<button class="relative inline-flex h-6 w-11 items-center rounded-full bg-outline-variant transition-colors" onclick="event.stopPropagation()">
+<span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-1"></span>
+</button>
+<span class="ml-xs text-xs font-bold text-outline">GELMEYECEK</span>
+</td>
+<td class="p-md text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors">chevron_right</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="staff-row cursor-pointer" onclick="openDetail('Murat Caner', 'EMP-1102')">
+<td class="p-md flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-primary-container text-[10px] flex items-center justify-center text-white font-bold">MC</div>
+<span class="font-body-md font-bold">Murat Caner</span>
+</td>
+<td class="p-md"><span class="font-label-md bg-surface-variant px-xs py-[2px] rounded text-[11px]">EMP-1102</span></td>
+<td class="p-md text-body-md">Bilgi İşlem</td>
+<td class="p-md text-body-md">Akşam</td>
+<td class="p-md">
+<button class="relative inline-flex h-6 w-11 items-center rounded-full bg-secondary transition-colors" onclick="event.stopPropagation()">
+<span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+</button>
+<span class="ml-xs text-xs font-bold text-secondary">BİNECEK</span>
+</td>
+<td class="p-md text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors">chevron_right</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Detail Overlay/Panel (Visible on click) -->
+<div class="hidden absolute inset-y-0 right-0 w-full md:w-[480px] bg-white shadow-2xl border-l border-outline-variant z-40 transform transition-transform duration-300 translate-x-full lg:relative lg:translate-x-0 lg:flex flex-col lg:border-l-0 lg:bg-surface-container-low lg:h-full" id="detailPanel">
+<div class="p-lg flex justify-between items-center border-b border-outline-variant bg-white lg:bg-transparent">
+<div>
+<h3 class="font-title-lg text-title-lg" id="detailName">Staff Details</h3>
+<p class="font-label-md text-label-md text-on-surface-variant" id="detailEmpNo">Select staff to view profile</p>
+</div>
+<button class="lg:hidden material-symbols-outlined text-on-surface-variant hover:text-error" onclick="closeDetail()">close</button>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-lg space-y-lg">
+<!-- Weekly Schedule -->
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md text-primary font-bold uppercase tracking-wider">Haftalık Servis Planı</h4>
+<div class="grid grid-cols-5 gap-xs">
+<div class="bg-white p-xs border border-outline-variant rounded flex flex-col items-center gap-xs">
+<span class="text-[10px] font-bold">PZT</span>
+<div class="w-full flex flex-col gap-1">
+<div class="h-2 rounded-full bg-secondary opacity-20"></div>
+<div class="h-2 rounded-full bg-secondary"></div>
+</div>
+</div>
+<div class="bg-white p-xs border border-outline-variant rounded flex flex-col items-center gap-xs">
+<span class="text-[10px] font-bold">SAL</span>
+<div class="w-full flex flex-col gap-1">
+<div class="h-2 rounded-full bg-secondary"></div>
+<div class="h-2 rounded-full bg-secondary"></div>
+</div>
+</div>
+<div class="bg-white p-xs border border-outline-variant rounded flex flex-col items-center gap-xs">
+<span class="text-[10px] font-bold">ÇAR</span>
+<div class="w-full flex flex-col gap-1">
+<div class="h-2 rounded-full bg-secondary"></div>
+<div class="h-2 rounded-full bg-secondary"></div>
+</div>
+</div>
+<div class="bg-white p-xs border border-outline-variant rounded flex flex-col items-center gap-xs">
+<span class="text-[10px] font-bold">PER</span>
+<div class="w-full flex flex-col gap-1">
+<div class="h-2 rounded-full bg-secondary"></div>
+<div class="h-2 rounded-full bg-outline-variant"></div>
+</div>
+</div>
+<div class="bg-white p-xs border border-outline-variant rounded flex flex-col items-center gap-xs">
+<span class="text-[10px] font-bold">CUM</span>
+<div class="w-full flex flex-col gap-1">
+<div class="h-2 rounded-full bg-secondary"></div>
+<div class="h-2 rounded-full bg-secondary"></div>
+</div>
+</div>
+</div>
+<div class="flex gap-md text-[10px] font-bold text-on-surface-variant">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-secondary"></div> Aktif Servis</div>
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-outline-variant"></div> Kullanım Dışı</div>
+</div>
+</div>
+<!-- Travel History -->
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md text-primary font-bold uppercase tracking-wider">Geçmiş Yolculuk Kayıtları</h4>
+<div class="space-y-xs">
+<div class="bg-white p-md rounded border-l-4 border-secondary border-outline-variant flex justify-between items-center">
+<div>
+<p class="font-body-md font-bold">Dün - Akşam Servisi</p>
+<p class="text-xs text-on-surface-variant">Plaka: 34 LGS 882 | 18:15</p>
+</div>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="bg-white p-md rounded border-l-4 border-secondary border-outline-variant flex justify-between items-center">
+<div>
+<p class="font-body-md font-bold">Dün - Sabah Servisi</p>
+<p class="text-xs text-on-surface-variant">Plaka: 34 LGS 882 | 07:45</p>
+</div>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="bg-white p-md rounded border-l-4 border-error border-outline-variant flex justify-between items-center">
+<div>
+<p class="font-body-md font-bold">14 May - Akşam Servisi</p>
+<p class="text-xs text-on-surface-variant">Binmedi (Bildirimli)</p>
+</div>
+<span class="material-symbols-outlined text-error">cancel</span>
+</div>
+</div>
+</div>
+<!-- Quick Stats -->
+<div class="grid grid-cols-2 gap-md pt-md">
+<div class="bg-white p-md rounded border border-outline-variant text-center">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Bu Ay Katılım</p>
+<p class="text-headline-md font-bold text-primary">92%</p>
+</div>
+<div class="bg-white p-md rounded border border-outline-variant text-center">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Toplam Km</p>
+<p class="text-headline-md font-bold text-primary">142.5</p>
+</div>
+</div>
+</div>
+<!-- Detail Actions -->
+<div class="p-lg border-t border-outline-variant bg-white flex gap-md">
+<button class="flex-1 border border-primary text-primary py-md rounded font-bold text-xs uppercase hover:bg-surface-container transition-colors">Düzenle</button>
+<button class="flex-1 bg-primary text-on-primary py-md rounded font-bold text-xs uppercase hover:opacity-90 transition-opacity">Rotayı Gör</button>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (Mobile Only) -->
+<button class="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-secondary text-white rounded-full shadow-lg flex items-center justify-center z-50">
+<span class="material-symbols-outlined">person_add</span>
+</button>
+<!-- Bottom Nav Bar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant shadow-lg z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-md text-[10px]">Tracking</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-[10px]">Services</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary bg-surface-container-highest rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-label-md text-[10px]">People</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span class="font-label-md text-[10px]">Manage</span>
+</a>
+</nav>
+</main>
+<script>
+        function openDetail(name, empNo) {
+            const panel = document.getElementById('detailPanel');
+            const nameEl = document.getElementById('detailName');
+            const empNoEl = document.getElementById('detailEmpNo');
+            
+            nameEl.textContent = name;
+            empNoEl.textContent = 'Personel No: ' + empNo;
+            
+            panel.classList.remove('hidden');
+            setTimeout(() => {
+                panel.classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeDetail() {
+            const panel = document.getElementById('detailPanel');
+            panel.classList.add('translate-x-full');
+            setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 300);
+        }
+
+        // Toggle handling
+        document.querySelectorAll('tr.staff-row').forEach(row => {
+            const toggle = row.querySelector('button');
+            if(toggle) {
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const dot = this.querySelector('span');
+                    const label = this.nextElementSibling;
+                    const isActive = dot.classList.contains('translate-x-6');
+                    
+                    if(isActive) {
+                        dot.classList.replace('translate-x-6', 'translate-x-1');
+                        this.classList.replace('bg-secondary', 'bg-outline-variant');
+                        label.textContent = 'GELMEYECEK';
+                        label.classList.replace('text-secondary', 'text-outline');
+                    } else {
+                        dot.classList.replace('translate-x-1', 'translate-x-6');
+                        this.classList.replace('bg-outline-variant', 'bg-secondary');
+                        label.textContent = 'BİNECEK';
+                        label.classList.replace('text-outline', 'text-secondary');
+                    }
+                });
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yeni Müşteri Oluşturma - Lojistik Operasyon</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "inverse-primary": "#b6c7e8",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#8293b2",
+                    "on-secondary-fixed": "#00174b",
+                    "on-tertiary-fixed": "#271900",
+                    "outline": "#75777e",
+                    "on-surface-variant": "#44474d",
+                    "outline-variant": "#c5c6ce",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "on-background": "#0b1c30",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container-high": "#dce9ff",
+                    "secondary-fixed": "#dbe1ff",
+                    "primary-container": "#1a2b45",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d6e3ff",
+                    "surface-container": "#e5eeff",
+                    "surface-tint": "#4e5f7c",
+                    "background": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#fefcff",
+                    "on-surface": "#0b1c30",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "tertiary-container": "#3a2702",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "surface-bright": "#f8f9ff",
+                    "on-primary-fixed": "#091c35",
+                    "surface-variant": "#d3e4fe",
+                    "primary": "#04162f",
+                    "tertiary-fixed": "#ffdeab",
+                    "secondary": "#0051d5",
+                    "on-primary-fixed-variant": "#374763",
+                    "tertiary": "#201400",
+                    "secondary-container": "#316bf3",
+                    "on-tertiary-container": "#aa8d5e",
+                    "inverse-surface": "#213145"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "32px",
+                    "sm": "12px",
+                    "xl": "32px",
+                    "xs": "8px",
+                    "lg": "24px",
+                    "gutter": "20px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "label-md": ["JetBrains Mono"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "title-lg": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .stepper-line {
+            height: 2px;
+            flex-grow: 1;
+            background-color: #c5c6ce;
+            margin: 0 12px;
+            transition: background-color 0.3s ease;
+        }
+        .stepper-line.active {
+            background-color: #0051d5;
+        }
+        .step-content {
+            display: none;
+        }
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-20">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-mobile h-14 bg-surface dark:bg-surface-container-low border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Lojistik Operasyon</h1>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</header>
+<main class="pt-24 px-4 md:px-margin-desktop max-w-6xl mx-auto">
+<!-- Header Section -->
+<div class="mb-8">
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-2">Yeni Müşteri Oluşturma Sihirbazı</h2>
+<p class="text-on-surface-variant font-body-lg">Sisteme yeni bir lojistik firması tanımlamak için aşağıdaki adımları takip edin.</p>
+</div>
+<!-- Horizontal Stepper -->
+<div class="mb-12 flex items-center justify-between overflow-x-auto pb-4">
+<div class="flex items-center min-w-max">
+<div class="flex flex-col items-center gap-2 group" data-step="1">
+<div class="w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold transition-all" id="step-circle-1">1</div>
+<span class="font-label-md text-label-md text-secondary" id="step-label-1">Firma Bilgileri</span>
+</div>
+<div class="stepper-line" id="line-1"></div>
+<div class="flex flex-col items-center gap-2 group" data-step="2">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold transition-all" id="step-circle-2">2</div>
+<span class="font-label-md text-label-md text-on-surface-variant" id="step-label-2">Yönetici</span>
+</div>
+<div class="stepper-line" id="line-2"></div>
+<div class="flex flex-col items-center gap-2 group" data-step="3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold transition-all" id="step-circle-3">3</div>
+<span class="font-label-md text-label-md text-on-surface-variant" id="step-label-3">Limitler</span>
+</div>
+<div class="stepper-line" id="line-3"></div>
+<div class="flex flex-col items-center gap-2 group" data-step="4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold transition-all" id="step-circle-4">4</div>
+<span class="font-label-md text-label-md text-on-surface-variant" id="step-label-4">Paket &amp; Modül</span>
+</div>
+<div class="stepper-line" id="line-4"></div>
+<div class="flex flex-col items-center gap-2 group" data-step="5">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold transition-all" id="step-circle-5">5</div>
+<span class="font-label-md text-label-md text-on-surface-variant" id="step-label-5">Branding</span>
+</div>
+<div class="stepper-line" id="line-5"></div>
+<div class="flex flex-col items-center gap-2 group" data-step="6">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold transition-all" id="step-circle-6">6</div>
+<span class="font-label-md text-label-md text-on-surface-variant" id="step-label-6">Özet</span>
+</div>
+</div>
+</div>
+<!-- Multi-Step Form Container -->
+<div class="glass-panel p-8 rounded-xl shadow-lg mb-8">
+<form id="wizardForm">
+<!-- Step 1: Company Info -->
+<div class="step-content active" id="content-1">
+<h3 class="font-title-lg text-title-lg mb-6 border-b border-outline-variant pb-2">Kurumsal Bilgiler</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-1">
+<label class="text-on-surface-variant font-label-md">Firma Tam Adı (Ünvan)</label>
+<input class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3" placeholder="Örn: LojiSaas Taşımacılık A.Ş." type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-on-surface-variant font-label-md">Vergi Numarası / Mersis</label>
+<input class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3" placeholder="1234567890" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-on-surface-variant font-label-md">Sektör</label>
+<select class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3">
+<option>Uluslararası Nakliye</option>
+<option>Şehir içi Dağıtım</option>
+<option>Soğuk Zincir</option>
+<option>E-Ticaret Lojistiği</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-on-surface-variant font-label-md">Şehir / Ülke</label>
+<input class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3" placeholder="İstanbul / Türkiye" type="text"/>
+</div>
+<div class="flex flex-col gap-1 md:col-span-2">
+<label class="text-on-surface-variant font-label-md">Adres</label>
+<textarea class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3" placeholder="Açık adres bilgilerini buraya giriniz..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Step 2: Admin User -->
+<div class="step-content" id="content-2">
+<h3 class="font-title-lg text-title-lg mb-6 border-b border-outline-variant pb-2">Yönetici Kullanıcı Tanımı</h3>
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-lg mb-6">
+<span class="material-symbols-outlined text-secondary">info</span>
+<p class="text-body-md text-on-surface-variant italic">Bu kullanıcı, firmanın "Süper Admin" yetkisine sahip olacak ilk kullanıcıdır. Sistem şifresini e-posta yoluyla alacaktır.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-1">
+<label class="text-on-surface-variant font-label-md">Yönetici Adı Soyadı</label>
+<input class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3" placeholder="Ad Soyad" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-on-surface-variant font-label-md">E-Posta Adresi</label>
+<input class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3" placeholder="yönetici@firma.com" type="email"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-on-surface-variant font-label-md">Telefon Numarası</label>
+<input class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3" placeholder="+90 5xx xxx xx xx" type="tel"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-on-surface-variant font-label-md">Pozisyon</label>
+<input class="rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-3" placeholder="Lojistik Müdürü / IT Direktörü" type="text"/>
+</div>
+</div>
+</div>
+<!-- Step 3: Limits -->
+<div class="step-content" id="content-3">
+<h3 class="font-title-lg text-title-lg mb-6 border-b border-outline-variant pb-2">Operasyonel Limitler</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col items-center p-6 border border-outline-variant rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4">group</span>
+<label class="font-label-md text-label-md mb-2">Max. Kullanıcı Sayısı</label>
+<input class="w-full text-center font-bold text-headline-md border-none focus:ring-0" type="number" value="10"/>
+<p class="text-xs text-on-surface-variant mt-2">Sistemdeki toplam personel</p>
+</div>
+<div class="flex flex-col items-center p-6 border border-outline-variant rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4">local_shipping</span>
+<label class="font-label-md text-label-md mb-2">Araç Kapasitesi</label>
+<input class="w-full text-center font-bold text-headline-md border-none focus:ring-0" type="number" value="50"/>
+<p class="text-xs text-on-surface-variant mt-2">Tanımlanabilir aktif plaka</p>
+</div>
+<div class="flex flex-col items-center p-6 border border-outline-variant rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4">cloud_upload</span>
+<label class="font-label-md text-label-md mb-2">Depolama (GB)</label>
+<input class="w-full text-center font-bold text-headline-md border-none focus:ring-0" type="number" value="100"/>
+<p class="text-xs text-on-surface-variant mt-2">Belge ve fotoğraf saklama</p>
+</div>
+</div>
+</div>
+<!-- Step 4: Package & Modules -->
+<div class="step-content" id="content-4">
+<h3 class="font-title-lg text-title-lg mb-6 border-b border-outline-variant pb-2">Hizmet Paketi Seçimi</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+<!-- Starter Card -->
+<label class="relative flex flex-col p-4 border-2 border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-secondary has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container">
+<input checked="" class="hidden" name="package" type="radio" value="starter"/>
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-title-lg">Başlangıç</span>
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<p class="text-sm mb-4">Küçük ölçekli firmalar için temel takip araçları.</p>
+<ul class="text-xs space-y-1 opacity-80">
+<li class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">check</span> Canlı İzleme</li>
+<li class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">check</span> Rota Planlama</li>
+</ul>
+</label>
+<!-- Professional Card -->
+<label class="relative flex flex-col p-4 border-2 border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-secondary has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container">
+<input class="hidden" name="package" type="radio" value="pro"/>
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-title-lg">Profesyonel</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+<p class="text-sm mb-4">Geniş filo yönetimi ve detaylı raporlama.</p>
+<ul class="text-xs space-y-1 opacity-80">
+<li class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">check</span> ERP Entegrasyonu</li>
+<li class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">check</span> Yakıt Analizi</li>
+</ul>
+</label>
+<!-- Enterprise Card -->
+<label class="relative flex flex-col p-4 border-2 border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-colors has-[:checked]:border-secondary has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container">
+<input class="hidden" name="package" type="radio" value="enterprise"/>
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-title-lg">Kurumsal</span>
+<span class="material-symbols-outlined">domain</span>
+</div>
+<p class="text-sm mb-4">Özel çözümler ve 7/24 premium destek.</p>
+<ul class="text-xs space-y-1 opacity-80">
+<li class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">check</span> Dedicated Server</li>
+<li class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">check</span> API Erişimi</li>
+</ul>
+</label>
+</div>
+<h4 class="font-title-lg text-title-lg mb-4">Ek Modüller</h4>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="flex items-center gap-3 p-3 bg-white border border-outline-variant rounded-lg">
+<input class="rounded text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-sm">Isı Takibi</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-white border border-outline-variant rounded-lg">
+<input class="rounded text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-sm">Sürücü Analizi</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-white border border-outline-variant rounded-lg">
+<input class="rounded text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-sm">Gümrük Entegr.</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-white border border-outline-variant rounded-lg">
+<input class="rounded text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-sm">E-Arşiv Fatura</span>
+</div>
+</div>
+</div>
+<!-- Step 5: Branding -->
+<div class="step-content" id="content-5">
+<h3 class="font-title-lg text-title-lg mb-6 border-b border-outline-variant pb-2">Kurumsal Kimlik (Branding)</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<div>
+<label class="text-on-surface-variant font-label-md mb-4 block">Firma Logosu</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl h-48 flex flex-col items-center justify-center bg-surface-container-low cursor-pointer hover:bg-surface-variant transition-colors overflow-hidden group">
+<div class="group-hover:scale-110 transition-transform flex flex-col items-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">add_photo_alternate</span>
+<p class="text-xs text-on-surface-variant px-8 text-center">PNG, JPG formatında min. 500x500px önerilir. Sürükleyip bırakın veya tıklayın.</p>
+</div>
+</div>
+</div>
+<div>
+<label class="text-on-surface-variant font-label-md mb-4 block">Arayüz Tema Rengi</label>
+<div class="grid grid-cols-4 gap-4">
+<button class="w-12 h-12 rounded-full bg-blue-600 border-4 border-white shadow-md ring-2 ring-secondary" type="button"></button>
+<button class="w-12 h-12 rounded-full bg-emerald-600 border-4 border-white shadow-md" type="button"></button>
+<button class="w-12 h-12 rounded-full bg-orange-600 border-4 border-white shadow-md" type="button"></button>
+<button class="w-12 h-12 rounded-full bg-slate-800 border-4 border-white shadow-md" type="button"></button>
+</div>
+<div class="mt-8">
+<label class="text-on-surface-variant font-label-md mb-2 block">Özel Renk Kodu (HEX)</label>
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded border border-outline-variant bg-blue-600"></div>
+<input class="flex-grow rounded-lg border-outline-variant focus:border-secondary focus:ring-secondary p-2 font-label-md" type="text" value="#2563EB"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 6: Summary & Success -->
+<div class="step-content" id="content-6">
+<div id="finalReview">
+<h3 class="font-title-lg text-title-lg mb-6 border-b border-outline-variant pb-2">Kaydı Onaylayın</h3>
+<div class="space-y-4 bg-surface-container-low p-6 rounded-xl border border-outline-variant">
+<div class="flex justify-between border-b border-outline-variant/30 pb-2">
+<span class="text-on-surface-variant">Firma Ünvanı:</span>
+<span class="font-bold">Atlas Global Lojistik Ltd. Şti.</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/30 pb-2">
+<span class="text-on-surface-variant">Yönetici:</span>
+<span class="font-bold">Ahmet Yılmaz (ahmet@atlas-global.com)</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/30 pb-2">
+<span class="text-on-surface-variant">Seçilen Paket:</span>
+<span class="font-bold">Profesyonel Paket</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/30 pb-2">
+<span class="text-on-surface-variant">Aktif Limitler:</span>
+<span class="font-bold">10 Kullanıcı / 50 Araç</span>
+</div>
+</div>
+<div class="mt-8 p-4 border-l-4 border-secondary bg-secondary/10 text-sm">
+<p>Onayla ve Kaydet butonuna bastığınızda firma veritabanı oluşturulacak ve yöneticiye giriş bilgileri otomatik olarak gönderilecektir.</p>
+</div>
+</div>
+<div class="hidden text-center py-8" id="successPanel">
+<div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-5xl">check_circle</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-emerald-700 mb-2">Müşteri Başarıyla Oluşturuldu!</h3>
+<p class="text-on-surface-variant mb-8">Firma kurulumu tamamlandı ve erişime hazır.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-lg mx-auto mb-8">
+<div class="p-4 bg-white border border-outline-variant rounded-lg">
+<p class="text-xs text-on-surface-variant uppercase font-bold mb-1">Firma Kodu</p>
+<p class="font-label-md text-lg">ATL-99231-X</p>
+</div>
+<div class="p-4 bg-white border border-outline-variant rounded-lg">
+<p class="text-xs text-on-surface-variant uppercase font-bold mb-1">Geçici Şifre</p>
+<p class="font-label-md text-lg">Loji_2024_!A</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-4 justify-center">
+<button class="flex items-center justify-center gap-2 bg-primary text-white px-8 py-3 rounded-full font-bold uppercase text-sm tracking-widest hover:bg-opacity-90 transition-all" type="button">
+<span class="material-symbols-outlined">download</span> Kurulum Belgesini İndir
+                            </button>
+<button class="flex items-center justify-center gap-2 border-2 border-primary text-primary px-8 py-3 rounded-full font-bold uppercase text-sm tracking-widest hover:bg-surface-variant transition-all" onclick="location.reload()" type="button">
+                                Yeni Müşteri Ekle
+                            </button>
+</div>
+</div>
+</div>
+<!-- Navigation Controls -->
+<div class="mt-10 flex justify-between items-center" id="wizardActions">
+<button class="flex items-center gap-2 text-on-surface-variant font-bold px-6 py-2 rounded-lg hover:bg-surface-variant transition-colors invisible" id="prevBtn" type="button">
+<span class="material-symbols-outlined">arrow_back</span> Geri Dön
+                    </button>
+<div class="flex gap-4">
+<button class="px-6 py-2 text-on-surface-variant font-bold hover:underline" type="button">Vazgeç</button>
+<button class="bg-primary text-white px-8 py-3 rounded-full font-bold uppercase text-sm tracking-widest shadow-lg hover:shadow-xl active:scale-95 transition-all" id="nextBtn" type="button">
+                            Sonraki Adım <span class="material-symbols-outlined align-middle ml-1">arrow_forward</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-2 pt-1 bg-surface-container-lowest dark:bg-surface-container-low border-t border-outline-variant dark:border-outline shadow-md">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Genel</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Müşteri</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-label-md text-label-md">Canlı</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Paket</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Ayarlar</span>
+</div>
+</nav>
+<script>
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const wizardActions = document.getElementById('wizardActions');
+        const finalReview = document.getElementById('finalReview');
+        const successPanel = document.getElementById('successPanel');
+
+        function updateStep() {
+            // Content Visibility
+            document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`content-${currentStep}`).classList.add('active');
+
+            // Stepper Visuals
+            for (let i = 1; i <= totalSteps; i++) {
+                const circle = document.getElementById(`step-circle-${i}`);
+                const label = document.getElementById(`step-label-${i}`);
+                const line = document.getElementById(`line-${i-1}`);
+
+                if (i < currentStep) {
+                    circle.className = "w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold transition-all";
+                    circle.innerHTML = '<span class="material-symbols-outlined">check</span>';
+                    label.className = "font-label-md text-label-md text-emerald-600";
+                    if (line) line.classList.add('active');
+                } else if (i === currentStep) {
+                    circle.className = "w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold transition-all";
+                    circle.innerHTML = i;
+                    label.className = "font-label-md text-label-md text-secondary";
+                    if (line) line.classList.remove('active');
+                } else {
+                    circle.className = "w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold transition-all";
+                    circle.innerHTML = i;
+                    label.className = "font-label-md text-label-md text-on-surface-variant";
+                    if (line) line.classList.remove('active');
+                }
+            }
+
+            // Buttons Logic
+            if (currentStep === 1) {
+                prevBtn.classList.add('invisible');
+            } else {
+                prevBtn.classList.remove('invisible');
+            }
+
+            if (currentStep === totalSteps) {
+                nextBtn.innerHTML = 'Onayla ve Kaydet <span class="material-symbols-outlined align-middle ml-1">cloud_done</span>';
+            } else {
+                nextBtn.innerHTML = 'Sonraki Adım <span class="material-symbols-outlined align-middle ml-1">arrow_forward</span>';
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStep();
+            } else {
+                // Final Submission
+                finalReview.classList.add('hidden');
+                successPanel.classList.remove('hidden');
+                wizardActions.classList.add('hidden');
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStep();
+            }
+        });
+
+        // Initialize
+        updateStep();
+    </script>
+</body></html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Haftalık Servis Takvimi | FleetOps</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .zebra-striping div:nth-child(even) {
+            background-color: #f1f5f9;
+        }
+        .status-accent-green { border-left: 4px solid #10b981; }
+        .status-accent-orange { border-left: 4px solid #f59e0b; }
+        .status-accent-red { border-left: 4px solid #ef4444; }
+        .status-accent-gray { border-left: 4px solid #94a3b8; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#0051d5",
+                    "primary-container": "#1a2b45",
+                    "on-tertiary-container": "#aa8d5e",
+                    "on-secondary-fixed": "#00174b",
+                    "inverse-surface": "#213145",
+                    "primary": "#04162f",
+                    "surface-tint": "#4e5f7c",
+                    "on-surface": "#0b1c30",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "secondary-container": "#316bf3",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b6c7e8",
+                    "surface-container": "#e5eeff",
+                    "on-tertiary-fixed": "#271900",
+                    "primary-fixed": "#d6e3ff",
+                    "surface": "#f8f9ff",
+                    "on-surface-variant": "#44474d",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-fixed-variant": "#374763",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#fefcff",
+                    "surface-dim": "#cbdbf5",
+                    "on-error": "#ffffff",
+                    "on-background": "#0b1c30",
+                    "outline-variant": "#c5c6ce",
+                    "on-primary-fixed": "#091c35",
+                    "outline": "#75777e",
+                    "tertiary-fixed": "#ffdeab",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-primary-container": "#8293b2",
+                    "tertiary-container": "#3a2702",
+                    "tertiary": "#201400",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "surface-container-highest": "#d3e4fe",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "background": "#f8f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "gutter": "20px",
+                    "md": "16px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "32px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "xl": "32px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "title-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-primary border-b border-outline-variant dark:border-primary-container flex items-center justify-between px-margin-mobile md:px-margin-desktop h-14">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary dark:text-on-primary-fixed cursor-pointer active:scale-95 duration-150">menu</span>
+<h1 class="text-title-lg font-title-lg font-bold text-primary dark:text-secondary-fixed">FleetOps</h1>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container text-label-md font-bold cursor-pointer active:scale-95 duration-150">
+                MK
+            </div>
+</div>
+</header>
+<!-- Sidebar (NavigationDrawer) -->
+<aside class="fixed left-0 top-0 h-full w-72 bg-surface-container dark:bg-primary-container border-r border-outline-variant dark:border-primary-container hidden md:flex flex-col p-md gap-xs z-40 pt-20">
+<div class="mb-lg px-xs">
+<p class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest">Global Fleet Command</p>
+<h2 class="text-headline-md font-headline-md text-primary dark:text-on-primary-fixed">Logistics Manager</h2>
+</div>
+<nav class="flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-primary-fixed-variant hover:bg-surface-variant dark:hover:bg-primary transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full transition-all duration-200 ease-in-out shadow-sm" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-body-md font-bold">Servis Takvimi</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-primary-fixed-variant hover:bg-surface-variant dark:hover:bg-primary transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-body-md">Fleet Status</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-primary-fixed-variant hover:bg-surface-variant dark:hover:bg-primary transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body-md">Personnel List</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-primary-fixed-variant hover:bg-surface-variant dark:hover:bg-primary transition-colors rounded-lg mt-xl" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-md py-sm text-label-md text-outline">v2.4.0</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-72 pt-20 pb-24 px-margin-mobile md:px-margin-desktop">
+<!-- Header & Filters -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-lg">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-primary">Haftalık Servis Takvimi</h2>
+<p class="text-body-md text-on-surface-variant">22 - 28 Mayıs 2024 Arası Operasyonel Plan</p>
+</div>
+<div class="flex flex-wrap items-center gap-md">
+<div class="relative">
+<label class="block text-label-md font-label-md mb-xs text-on-surface-variant">Bölge Filtresi</label>
+<select class="bg-surface border border-outline rounded-lg px-md py-sm text-body-md focus:border-secondary focus:ring-0 outline-none min-w-[160px]">
+<option>Tüm Bölgeler</option>
+<option>İstanbul Avrupa</option>
+<option>İstanbul Anadolu</option>
+<option>Kocaeli</option>
+</select>
+</div>
+<div class="relative">
+<label class="block text-label-md font-label-md mb-xs text-on-surface-variant">Servis Tipi</label>
+<select class="bg-surface border border-outline rounded-lg px-md py-sm text-body-md focus:border-secondary focus:ring-0 outline-none min-w-[160px]">
+<option>Tüm Tipler</option>
+<option>Personel</option>
+<option>Öğrenci</option>
+</select>
+</div>
+<button class="bg-primary text-white px-lg h-11 rounded-lg text-label-md font-bold uppercase tracking-wider hover:opacity-90 active:scale-95 transition-all mt-auto self-end flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Yeni Kayıt
+                </button>
+</div>
+</div>
+<!-- Weekly Horizontal Calendar Navigation -->
+<div class="mb-lg overflow-x-auto hide-scrollbar">
+<div class="flex gap-md min-w-max pb-xs">
+<!-- Day Card -->
+<div class="flex flex-col items-center bg-secondary text-white w-24 py-md rounded-xl shadow-md cursor-pointer border border-secondary transition-all">
+<span class="text-label-md font-label-md uppercase opacity-80">Pzt</span>
+<span class="text-headline-md font-headline-md">22</span>
+</div>
+<!-- Day Card -->
+<div class="flex flex-col items-center bg-surface-container text-on-surface w-24 py-md rounded-xl border border-outline-variant hover:bg-surface-variant cursor-pointer transition-all">
+<span class="text-label-md font-label-md uppercase opacity-60">Sal</span>
+<span class="text-headline-md font-headline-md">23</span>
+</div>
+<!-- Day Card -->
+<div class="flex flex-col items-center bg-surface-container text-on-surface w-24 py-md rounded-xl border border-outline-variant hover:bg-surface-variant cursor-pointer transition-all">
+<span class="text-label-md font-label-md uppercase opacity-60">Çar</span>
+<span class="text-headline-md font-headline-md">24</span>
+</div>
+<!-- Day Card -->
+<div class="flex flex-col items-center bg-surface-container text-on-surface w-24 py-md rounded-xl border border-outline-variant hover:bg-surface-variant cursor-pointer transition-all relative">
+<span class="text-label-md font-label-md uppercase opacity-60">Per</span>
+<span class="text-headline-md font-headline-md">25</span>
+<div class="absolute -top-1 -right-1 w-3 h-3 bg-error rounded-full animate-pulse border-2 border-surface"></div>
+</div>
+<!-- Day Card -->
+<div class="flex flex-col items-center bg-surface-container text-on-surface w-24 py-md rounded-xl border border-outline-variant hover:bg-surface-variant cursor-pointer transition-all">
+<span class="text-label-md font-label-md uppercase opacity-60">Cum</span>
+<span class="text-headline-md font-headline-md">26</span>
+</div>
+<!-- Day Card (Holiday/Tatil) -->
+<div class="flex flex-col items-center bg-surface-container-high text-outline w-24 py-md rounded-xl border border-outline-variant opacity-60 cursor-not-allowed">
+<span class="text-label-md font-label-md uppercase opacity-60">Cmt</span>
+<span class="text-headline-md font-headline-md">27</span>
+<span class="text-[10px] uppercase font-bold mt-1">Tatil</span>
+</div>
+<!-- Day Card (Holiday/Tatil) -->
+<div class="flex flex-col items-center bg-surface-container-high text-outline w-24 py-md rounded-xl border border-outline-variant opacity-60 cursor-not-allowed">
+<span class="text-label-md font-label-md uppercase opacity-60">Paz</span>
+<span class="text-headline-md font-headline-md">28</span>
+<span class="text-[10px] uppercase font-bold mt-1">Tatil</span>
+</div>
+</div>
+</div>
+<!-- Service Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Morning Block -->
+<section class="space-y-md">
+<div class="flex items-center gap-md border-b border-outline-variant pb-xs">
+<span class="material-symbols-outlined text-secondary">wb_sunny</span>
+<h3 class="text-title-lg font-title-lg text-primary">Sabah Servisleri (06:00 - 09:30)</h3>
+</div>
+<!-- Service Card 1 -->
+<div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-outline-variant status-accent-green hover:bg-surface transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<p class="text-label-md font-label-md text-secondary">[PLAKA: 34 SK 2024]</p>
+<h4 class="text-body-lg font-bold">Teknopark - Levent Hattı</h4>
+</div>
+<span class="text-label-md bg-green-100 text-green-700 px-sm py-1 rounded-full font-bold">AKTİF</span>
+</div>
+<div class="grid grid-cols-2 gap-sm text-body-md mb-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span>Ahmet Yılmaz</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>07:15 Kalkış</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-xs border-t border-outline-variant mt-sm">
+<span class="text-label-md text-on-surface-variant italic">Kapasite: 18/22</span>
+<div class="flex gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs hover:bg-surface-variant rounded-lg"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="p-xs hover:bg-surface-variant rounded-lg"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+</div>
+</div>
+</div>
+<!-- Conflict Card -->
+<div class="bg-error-container p-md rounded-lg shadow-md border-2 border-error status-accent-red">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<h4 class="text-body-lg font-bold text-on-error-container">Kadıköy - Pendik Ekspres</h4>
+</div>
+<span class="text-label-md bg-error text-on-error px-sm py-1 rounded-full font-bold">ÇAKIŞMA</span>
+</div>
+<div class="p-sm bg-white/50 rounded-lg mb-sm">
+<p class="text-body-md font-bold text-error">Çakışma: Şoför Mehmet Can farklı görevde</p>
+<p class="text-label-md text-on-surface-variant">Aynı saatte "Ümraniye Servisi" atanmış.</p>
+</div>
+<div class="flex gap-md">
+<button class="flex-1 bg-error text-on-error py-xs rounded text-label-md font-bold uppercase tracking-tighter">Şoför Değiştir</button>
+<button class="flex-1 bg-outline-variant text-on-surface py-xs rounded text-label-md font-bold uppercase tracking-tighter">İncele</button>
+</div>
+</div>
+<!-- Service Card 3 -->
+<div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-outline-variant status-accent-orange hover:bg-surface transition-colors">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<p class="text-label-md font-label-md text-secondary">[PLAKA: 34 AA 999]</p>
+<h4 class="text-body-lg font-bold">Maslak - Beşiktaş Hattı</h4>
+</div>
+<span class="text-label-md bg-orange-100 text-orange-700 px-sm py-1 rounded-full font-bold">BEKLEMEDE</span>
+</div>
+<div class="grid grid-cols-2 gap-sm text-body-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span>Caner Korkmaz</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>08:00 Kalkış</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Evening Block -->
+<section class="space-y-md">
+<div class="flex items-center gap-md border-b border-outline-variant pb-xs">
+<span class="material-symbols-outlined text-secondary">nights_stay</span>
+<h3 class="text-title-lg font-title-lg text-primary">Akşam Servisleri (16:30 - 19:30)</h3>
+</div>
+<!-- Cancelled Service -->
+<div class="bg-surface-container p-md rounded-lg border border-outline-variant status-accent-gray opacity-75 grayscale">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<p class="text-label-md font-label-md text-outline">[İPTAL EDİLDİ]</p>
+<h4 class="text-body-lg font-bold text-outline line-through">Etiler - Şişli Ring</h4>
+</div>
+<span class="text-label-md bg-outline text-white px-sm py-1 rounded-full font-bold">İPTAL</span>
+</div>
+<p class="text-label-md italic text-outline">Gerekçe: Personel sayısındaki yetersizlik (22 Mayıs)</p>
+</div>
+<!-- Service Card 4 -->
+<div class="bg-surface-container-lowest p-md rounded-lg shadow-sm border border-outline-variant status-accent-green hover:bg-surface transition-colors">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<p class="text-label-md font-label-md text-secondary">[PLAKA: 06 ANC 06]</p>
+<h4 class="text-body-lg font-bold">Plaza - Metro Bağlantısı</h4>
+</div>
+<span class="text-label-md bg-green-100 text-green-700 px-sm py-1 rounded-full font-bold">AKTİF</span>
+</div>
+<div class="grid grid-cols-2 gap-sm text-body-md mb-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span>Selim Ak</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>17:45 Kalkış</span>
+</div>
+</div>
+<div class="flex items-center gap-sm mt-md">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white bg-blue-400"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-green-400"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-orange-400"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-[8px] font-bold">+12</div>
+</div>
+<span class="text-label-md text-on-surface-variant">Yolcu Listesi Onaylı</span>
+</div>
+</div>
+<!-- Empty Slot Prompt -->
+<div class="border-2 border-dashed border-outline-variant rounded-lg p-xl flex flex-col items-center justify-center text-on-surface-variant hover:border-secondary hover:text-secondary cursor-pointer transition-all bg-surface-container-low">
+<span class="material-symbols-outlined text-[32px] mb-xs">add_circle</span>
+<p class="font-bold">Yeni Akşam Bloğu Ekle</p>
+<p class="text-label-md opacity-60">Henüz planlanmamış bir servis var mı?</p>
+</div>
+</section>
+</div>
+<!-- Real-time Pulse Overlay (Small interaction) -->
+<div class="mt-xl p-md bg-surface-container-high rounded-xl flex items-center justify-between border border-outline-variant">
+<div class="flex items-center gap-md">
+<div class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+</div>
+<span class="text-body-md font-bold">Canlı Takip: 12 araç aktif yolda</span>
+</div>
+<button class="text-secondary font-bold text-label-md flex items-center gap-xs">
+                MAP GÖRÜNÜMÜNE GEÇ
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface dark:bg-primary border-t border-outline-variant dark:border-primary-container h-16 pb-safe flex justify-around items-center md:hidden">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-[10px]">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed font-bold active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="font-label-md text-[10px]">Takvim</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-label-md text-[10px]">Tracking</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-[10px]">People</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-[10px]">Settings</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions and Tab Management
+        document.querySelectorAll('.flex.flex-col.items-center.bg-surface-container').forEach(day => {
+            day.addEventListener('click', function() {
+                // Remove active from all
+                document.querySelectorAll('.flex.flex-col.items-center').forEach(d => {
+                    d.classList.remove('bg-secondary', 'text-white', 'shadow-md');
+                    d.classList.add('bg-surface-container', 'text-on-surface');
+                });
+                // Add active to this
+                this.classList.remove('bg-surface-container', 'text-on-surface');
+                this.classList.add('bg-secondary', 'text-white', 'shadow-md');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,21 @@
+/** TanStack Query anahtarlarının merkezi tanımı. */
+export const queryKeys = {
+  me: ['me'] as const,
+  tenants: ['tenants'] as const,
+  tenant: (id: string) => ['tenants', id] as const,
+  users: (params?: Record<string, unknown>) => ['users', params ?? {}] as const,
+  vehicles: ['vehicles'] as const,
+  routes: ['routes'] as const,
+  route: (id: string) => ['routes', id] as const,
+  serviceDefinitions: ['service-definitions'] as const,
+  trips: (params?: Record<string, unknown>) => ['trips', params ?? {}] as const,
+  trip: (id: string) => ['trips', id] as const,
+  tripPassengers: (id: string) => ['trips', id, 'passengers'] as const,
+  tripLatestLocation: (id: string) => ['trips', id, 'latest-location'] as const,
+  passengerToday: ['passenger', 'today'] as const,
+  passengerCurrentTrip: ['passenger', 'current-trip'] as const,
+  passengerHistory: ['passenger', 'history'] as const,
+  notifications: ['notifications'] as const,
+  incidents: ['incidents'] as const,
+  reports: (kind: string) => ['reports', kind] as const,
+} as const;

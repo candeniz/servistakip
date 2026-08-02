@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Şifre Oluştur - Servis Takibi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#213145",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1a2b45",
+                    "error": "#ba1a1a",
+                    "tertiary": "#201400",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#271900",
+                    "secondary-container": "#316bf3",
+                    "secondary": "#0051d5",
+                    "surface-container": "#e5eeff",
+                    "on-background": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-primary-fixed-variant": "#374763",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-container": "#8293b2",
+                    "on-primary-fixed": "#091c35",
+                    "surface-tint": "#4e5f7c",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "on-surface-variant": "#44474d",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#00174b",
+                    "on-tertiary-container": "#aa8d5e",
+                    "surface": "#f8f9ff",
+                    "background": "#f8f9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdeab",
+                    "primary": "#04162f",
+                    "tertiary-container": "#3a2702",
+                    "on-tertiary-fixed-variant": "#59431b",
+                    "outline": "#75777e",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#b6c7e8",
+                    "inverse-primary": "#b6c7e8",
+                    "outline-variant": "#c5c6ce",
+                    "surface-dim": "#cbdbf5",
+                    "secondary-fixed": "#dbe1ff",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary-fixed-dim": "#e3c28e",
+                    "on-secondary-container": "#fefcff",
+                    "primary-fixed": "#d6e3ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xl": "32px",
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "md": "16px",
+                    "xs": "8px",
+                    "margin-desktop": "32px",
+                    "gutter": "20px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "title-lg": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-active { color: #0051d5; }
+        .step-done { color: #1a2b45; }
+        
+        /* Realistic operational border-accent */
+        .operational-accent {
+            border-left: 4px solid #0051d5;
+        }
+
+        /* Custom focus ring */
+        .custom-focus:focus {
+            outline: none;
+            border: 2px solid #316bf3;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- Top Navigation Anchor (Suppressing global nav as per Transactional rule) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-14 bg-surface border-b border-outline-variant">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Servis Takibi</h1>
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-body-md text-body-md">Destek</span>
+</button>
+</header>
+<main class="flex-grow flex items-center justify-center pt-14 pb-8 px-margin-mobile">
+<div class="max-w-6xl w-full grid md:grid-cols-2 gap-xl items-center">
+<!-- Left Side: Informational Context -->
+<div class="hidden md:flex flex-col gap-lg pr-lg">
+<div class="space-y-md">
+<span class="font-label-md text-label-md bg-surface-container-highest text-secondary-fixed-variant px-xs py-1 rounded">GÜVENLİK PROTOKOLÜ</span>
+<h2 class="font-display-lg text-display-lg text-primary leading-tight">Hesabınızı<br/>Güvenceye Alın.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+                        Sisteme ilk girişiniz olduğu için yeni bir şifre belirlemeniz gerekmektedir. Güvenliğiniz için kurumsal standartlara uygun, güçlü bir şifre seçiniz.
+                    </p>
+</div>
+<div class="grid grid-cols-1 gap-md">
+<div class="bg-surface-container-low p-md rounded-xl border border-outline-variant operational-accent flex gap-md items-start shadow-md">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+<div>
+<p class="font-title-lg text-title-lg text-primary">Uçtan Uca Şifreleme</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Şifreniz hiçbir aşamada açık metin olarak saklanmaz veya paylaşılmaz.</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl border border-outline-variant operational-accent flex gap-md items-start shadow-md">
+<span class="material-symbols-outlined text-secondary">monitor_heart</span>
+<div>
+<p class="font-title-lg text-title-lg text-primary">Canlı Takip Güvenliği</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Güçlü bir şifre, lojistik operasyonlarınızın manipüle edilmesini engeller.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Password Form Card -->
+<div class="bg-surface-container-lowest p-lg md:p-xl rounded-xl shadow-lg border border-outline-variant flex flex-col gap-lg">
+<div class="md:hidden mb-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Şifre Oluştur</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Lütfen güvenli bir şifre belirleyin.</p>
+</div>
+<form class="space-y-lg" id="passwordForm">
+<!-- New Password Input -->
+<div class="space-y-xs">
+<label class="block font-body-md text-body-md text-primary font-semibold" for="new_password">Yeni Şifre</label>
+<div class="relative">
+<input class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded custom-focus font-body-md" id="new_password" name="new_password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-outline" onclick="togglePassword('new_password')" type="button">
+<span class="material-symbols-outlined" id="eye_icon_new">visibility</span>
+</button>
+</div>
+</div>
+<!-- Confirm Password Input -->
+<div class="space-y-xs">
+<label class="block font-body-md text-body-md text-primary font-semibold" for="confirm_password">Şifre Tekrar</label>
+<div class="relative">
+<input class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded custom-focus font-body-md" id="confirm_password" name="confirm_password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-outline" onclick="togglePassword('confirm_password')" type="button">
+<span class="material-symbols-outlined" id="eye_icon_confirm">visibility</span>
+</button>
+</div>
+</div>
+<!-- Password Criteria (Operational Style) -->
+<div class="bg-surface-container p-md rounded border border-outline-variant">
+<p class="font-label-md text-label-md text-on-surface-variant mb-xs">ŞİFRE KRİTERLERİ</p>
+<ul class="space-y-xs font-body-md text-body-md" id="criteria_list">
+<li class="flex items-center gap-xs text-on-surface-variant" id="crit_length">
+<span class="material-symbols-outlined text-[18px]">radio_button_unchecked</span>
+                                En az 8 karakter
+                            </li>
+<li class="flex items-center gap-xs text-on-surface-variant" id="crit_upper">
+<span class="material-symbols-outlined text-[18px]">radio_button_unchecked</span>
+                                En az bir büyük harf
+                            </li>
+<li class="flex items-center gap-xs text-on-surface-variant" id="crit_number">
+<span class="material-symbols-outlined text-[18px]">radio_button_unchecked</span>
+                                En az bir rakam
+                            </li>
+<li class="flex items-center gap-xs text-on-surface-variant" id="crit_match">
+<span class="material-symbols-outlined text-[18px]">radio_button_unchecked</span>
+                                Şifreler birbiriyle eşleşiyor
+                            </li>
+</ul>
+</div>
+<div class="pt-md">
+<button class="w-full bg-primary text-on-primary py-md font-body-lg font-bold rounded-lg uppercase tracking-wider hover:bg-primary-container transition-all active:scale-95 shadow-md" type="submit">
+                            ŞİFREYİ KAYDET VE GİRİŞ YAP
+                        </button>
+<p class="text-center font-body-md text-body-md text-on-surface-variant mt-md">
+                            Şifrenizi unutursanız lojistik yöneticinize başvurun.
+                        </p>
+</div>
+</form>
+</div>
+</div>
+</main>
+<!-- Visual Element: Real-time Operational Feel -->
+<div class="fixed bottom-margin-mobile right-margin-mobile flex items-center gap-xs bg-surface-container-high px-md py-xs rounded-full border border-outline-variant shadow-sm pointer-events-none opacity-80">
+<div class="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
+<span class="font-label-md text-label-md text-primary">SİSTEM AKTİF</span>
+</div>
+<script>
+        const newPass = document.getElementById('new_password');
+        const confirmPass = document.getElementById('confirm_password');
+        
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById(id === 'new_password' ? 'eye_icon_new' : 'eye_icon_confirm');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        function updateCriterion(id, isValid) {
+            const el = document.getElementById(id);
+            const icon = el.querySelector('.material-symbols-outlined');
+            if (isValid) {
+                el.classList.replace('text-on-surface-variant', 'text-secondary');
+                icon.textContent = 'check_circle';
+                icon.classList.add('fill-current');
+            } else {
+                el.classList.replace('text-secondary', 'text-on-surface-variant');
+                icon.textContent = 'radio_button_unchecked';
+                icon.classList.remove('fill-current');
+            }
+        }
+
+        function validate() {
+            const val = newPass.value;
+            const confirmVal = confirmPass.value;
+
+            updateCriterion('crit_length', val.length >= 8);
+            updateCriterion('crit_upper', /[A-Z]/.test(val));
+            updateCriterion('crit_number', /[0-9]/.test(val));
+            updateCriterion('crit_match', val === confirmVal && val.length > 0);
+        }
+
+        newPass.addEventListener('input', validate);
+        confirmPass.addEventListener('input', validate);
+
+        document.getElementById('passwordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, logic would go here
+            alert('Şifreniz başarıyla oluşturuldu. Yönlendiriliyorsunuz...');
+        });
+    </script>
+</body></html>
