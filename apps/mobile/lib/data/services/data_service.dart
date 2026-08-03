@@ -72,6 +72,17 @@ class DataService {
     return res.data!.map((e) => TripPassenger.fromJson(e as Map<String, dynamic>)).toList();
   }
 
+  /// Excel/CSV'den ayrıştırılmış personel satırlarını toplu yükler.
+  /// Dönen özet: {created, skipped, errors}. Mock modda hepsi "created" sayılır.
+  Future<Map<String, dynamic>> importUsers(List<Map<String, dynamic>> rows) async {
+    if (Env.useMock) {
+      await _delay();
+      return {'created': rows.length, 'skipped': 0, 'errors': <String>[]};
+    }
+    final res = await _dio.post<Map<String, dynamic>>('/users/import', data: {'users': rows});
+    return res.data!;
+  }
+
   /// Şoför konum gönderir (POST /trips/{id}/locations). Mock modda atlanır.
   Future<void> postLocation(
     String tripId, {

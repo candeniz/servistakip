@@ -40,6 +40,10 @@ dependencies:
   # Tasarım fontları: Hanken Grotesk (UI) + JetBrains Mono (etiket/plaka)
   google_fonts: ^6.2.1
 
+  # Excel/CSV toplu personel yükleme
+  file_picker: ^8.1.4
+  excel: ^4.0.6
+
   cupertino_icons: ^1.0.8
 
 dev_dependencies:

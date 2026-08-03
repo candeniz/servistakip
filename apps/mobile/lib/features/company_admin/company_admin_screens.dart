@@ -358,6 +358,11 @@ class _AdminPeopleScreenState extends State<AdminPeopleScreen> {
       ),
       body: AppScaffold(
         title: 'Personel Yönetimi',
+        action: IconButton(
+          onPressed: () => context.push('/import-personnel'),
+          icon: const Icon(Icons.upload_file, color: AppColors.primary),
+          tooltip: 'Excel ile Toplu Yükle',
+        ),
         children: [
           TextField(
             onChanged: (v) => setState(() => _search = v),

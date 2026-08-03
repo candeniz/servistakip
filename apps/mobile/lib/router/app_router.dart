@@ -18,6 +18,7 @@ import '../features/auth/verify_code_screen.dart';
 import '../features/auth/welcome_screen.dart';
 import '../features/company_admin/announcement_screen.dart';
 import '../features/company_admin/company_admin_screens.dart';
+import '../features/company_admin/import_personnel_screen.dart';
 import '../features/company_admin/new_trip_screen.dart';
 import '../features/company_admin/reports_screen.dart';
 import '../features/company_admin/route_builder_screen.dart';
@@ -105,6 +106,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/users', builder: (_, _) => const UserManagementScreen()),
       GoRoute(path: '/schedule', builder: (_, _) => const WeeklyScheduleScreen()),
       GoRoute(path: '/new-customer', builder: (_, _) => const NewCustomerWizardScreen()),
+      GoRoute(path: '/import-personnel', builder: (_, _) => const ImportPersonnelScreen()),
       GoRoute(path: '/announcement', builder: (_, _) => const AnnouncementScreen()),
       GoRoute(path: '/incident', builder: (_, _) => const IncidentScreen()),
       GoRoute(path: '/trip-summary', builder: (_, _) => const TripSummaryScreen()),
@@ -120,7 +122,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
 /// Konumun kullanıcının rolü için izinli olup olmadığı.
 bool _allowedForRole(String loc, AuthUser user) {
-  const detailPrefixes = ['/trip', '/customer', '/new-trip', '/reports', '/routes', '/route-builder', '/users', '/schedule', '/new-customer', '/announcement', '/incident', '/trip-summary', '/absent', '/permissions'];
+  const detailPrefixes = ['/trip', '/customer', '/new-trip', '/reports', '/routes', '/route-builder', '/users', '/schedule', '/new-customer', '/import-personnel', '/announcement', '/incident', '/trip-summary', '/absent', '/permissions'];
   if (detailPrefixes.any(loc.startsWith)) return true; // paylaşılan detay ekranları
 
   final role = user.role;
