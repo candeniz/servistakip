@@ -64,8 +64,9 @@ async def seed() -> None:
             print("Demo veri zaten mevcut, atlanıyor.")
             return
 
-        # 1) Tenant
+        # 1) Tenant — ID'ler mobil demo sabitleriyle birebir (gerçek mod uyumu)
         tenant = Tenant(
+            id="tenant-atlas",
             name="Atlas Teknoloji",
             company_code=TENANT_CODE,
             primary_color="#1E5EFF",
@@ -79,21 +80,25 @@ async def seed() -> None:
 
         # 2) Kullanıcılar
         super_admin = User(
+            id="user-superadmin",
             tenant_id=None, first_name="Selin", last_name="Kaya",
             email="superadmin@demo.com", role="super_admin",
             password_hash=hash_password(DEMO_PASSWORD), status="active",
         )
         admin = User(
+            id="user-admin",
             tenant_id=tenant.id, first_name="Ahmet", last_name="Demir",
             email="yonetici@demo.com", role="company_admin",
             password_hash=hash_password(DEMO_PASSWORD), status="active",
         )
         driver = User(
+            id="user-driver",
             tenant_id=tenant.id, first_name="Mehmet", last_name="Yılmaz",
             email="sofor@demo.com", role="driver",
             password_hash=hash_password(DEMO_PASSWORD), status="active",
         )
         passenger = User(
+            id="user-passenger",
             tenant_id=tenant.id, first_name="Zeynep", last_name="Arslan",
             email="yolcu@demo.com", role="passenger",
             password_hash=hash_password(DEMO_PASSWORD), status="active",
@@ -103,6 +108,7 @@ async def seed() -> None:
 
         # 3) Araç
         vehicle = Vehicle(
+            id="vehicle-34st2026",
             tenant_id=tenant.id, plate_number="34 ST 2026", brand="Mercedes-Benz",
             model="Sprinter", year=2023, capacity=19, vehicle_type="minibus", status="active",
         )
@@ -111,6 +117,7 @@ async def seed() -> None:
 
         # 4) Güzergâh + duraklar
         route = Route(
+            id="route-avrupa-sabah",
             tenant_id=tenant.id, name="Avrupa Yakası Sabah Güzergâhı", direction="morning",
             start_location="Esenyurt Merkez", end_location="Atlas Plaza",
             estimated_distance=22400, estimated_duration=45, status="active",
@@ -121,6 +128,7 @@ async def seed() -> None:
         stop_rows: list[Stop] = []
         for index, (name, lat, lng, offset) in enumerate(STOPS):
             stop = Stop(
+                id=f"stop-{index + 1}",
                 tenant_id=tenant.id, route_id=route.id, name=name,
                 latitude=lat, longitude=lng, order_index=index,
                 planned_arrival_offset=offset, radius_meters=120, status="active",
@@ -131,6 +139,7 @@ async def seed() -> None:
 
         # 5) Servis tanımı
         definition = ServiceDefinition(
+            id="svc-avrupa-sabah",
             tenant_id=tenant.id, name="Avrupa Yakası Sabah Servisi", route_id=route.id,
             vehicle_id=vehicle.id, driver_id=driver.id, direction="morning",
             start_time="06:30", active_days="1,2,3,4,5", status="active",
@@ -141,6 +150,7 @@ async def seed() -> None:
         # 6) Bugünkü yolculuk (aktif)
         today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         trip = ServiceTrip(
+            id="trip-today-avrupa",
             tenant_id=tenant.id, service_definition_id=definition.id, service_date=today,
             driver_id=driver.id, vehicle_id=vehicle.id,
             current_stop_id=stop_rows[0].id, next_stop_id=stop_rows[1].id,
