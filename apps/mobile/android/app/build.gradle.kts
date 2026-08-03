@@ -16,7 +16,7 @@ val mapsApiKey: String = localProps.getProperty("MAPS_API_KEY") ?: "MAPS_KEY_NOT
 
 android {
     namespace = "com.servistakip.servis_takip"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36  // file_picker/eklentiler 34+ ister
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -29,7 +29,7 @@ android {
         applicationId = "com.servistakip.servis_takip"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = flutter.minSdkVersion  // Firebase + eklenti gereksinimleri
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
