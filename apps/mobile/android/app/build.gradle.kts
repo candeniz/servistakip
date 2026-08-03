@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -6,6 +8,11 @@ plugins {
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// Google Maps API anahtarı gitignore'lu local.properties'ten okunur (repoya girmez).
+val localProps = Properties()
+rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { localProps.load(it) }
+val mapsApiKey: String = localProps.getProperty("MAPS_API_KEY") ?: "MAPS_KEY_NOT_SET"
 
 android {
     namespace = "com.servistakip.servis_takip"
@@ -26,6 +33,8 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // AndroidManifest'teki ${MAPS_API_KEY} bu değerle doldurulur.
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
     }
 
     buildTypes {
